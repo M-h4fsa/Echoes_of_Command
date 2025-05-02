@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #d1bf7c;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eoc.ui.PlaymodeController">
+   <children>
+      <MenuBar blendMode="MULTIPLY" prefHeight="25.0" prefWidth="600.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="STATS">
+            <items>
+              <MenuItem mnemonicParsing="false" text="see statistics" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="History">
+            <items>
+              <MenuItem mnemonicParsing="false" text="see\search" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Course Material">
+            <items>
+              <MenuItem mnemonicParsing="false" text="wwii course" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Button layoutX="526.0" layoutY="360.0" mnemonicParsing="false" style="-fx-background-color: #4c5d45;" text="Go Back" textFill="WHITE" />
+      <Button layoutX="77.0" layoutY="175.0" mnemonicParsing="false" style="-fx-background-color: #fff3c6;" text="Randomised" />
+      <Button layoutX="248.0" layoutY="175.0" mnemonicParsing="false" style="-fx-background-color: #fff3c6;" text="Single Leader" />
+      <Button layoutX="445.0" layoutY="175.0" mnemonicParsing="false" style="-fx-background-color: #fff3c6;" text="Sequential" />
+      <ImageView fitHeight="121.0" fitWidth="155.0" layoutX="231.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true">
+       <image>
+           <Image url="@single.png" />
+       </image>
+      </ImageView>
+      <ImageView fitHeight="121.0" fitWidth="121.0" layoutX="58.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+              <Image url="@rand.png" />
+          </image>
+      </ImageView>
+      <ImageView fitHeight="121.0" fitWidth="121.0" layoutX="421.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+              <Image url="@seq.png" />
+          </image>
+      </ImageView>
+      <Label layoutX="159.0" layoutY="113.0" prefHeight="51.0" prefWidth="281.0" text="Choose playing mode!" textFill="#4c5d45">
+         <font>
+            <Font name="Marlett" size="28.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="85.0" fitWidth="121.0" layoutX="231.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+              <Image url="@logo.png" />
+          </image>
+      </ImageView>
+   </children>
+</AnchorPane>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eoc.ui.WelcomeController">
+
+    <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+        <children>
+            <ImageView fitHeight="400.0" fitWidth="600.0">
+                <image>
+                    <Image url="@bgrnd.png" />
+                </image>
+            </ImageView>
+            <Button fx:id="startButton" layoutX="254.0" layoutY="254.0" onAction="#onStartButtonClick" prefHeight="22.0" prefWidth="92.0" style="-fx-background-color: #fff3c6;" text="Start">
+                <font>
+                    <Font size="14.0" />
+                </font>
+            </Button>
+            <Button blendMode="SRC_ATOP" layoutX="254.0" layoutY="292.0" mnemonicParsing="false" onAction="#onLBButtonClick" prefHeight="25.0" prefWidth="92.0" style="-fx-background-color: #fff3c6;" text="Leaderboard">
+            <font>
+               <Font size="13.0" />
+            </font></Button>
+            <Button blendMode="SRC_ATOP" layoutX="278.0" layoutY="335.0" mnemonicParsing="false" onAction="#onQuitButtonClick" style="-fx-background-color: #4c5d45;" text="Quit" textFill="WHITE">
+            <font>
+               <Font size="14.0" />
+            </font></Button>
+            <Text cache="true" cacheHint="SCALE" fill="WHITE" fontSmoothingType="LCD" layoutX="137.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="10.0" text="Echoes of Command" textAlignment="CENTER" wrappingWidth="326.1367950439453">
+                <font>
+                    <Font name="System Bold" size="45.0" />
+                </font>
+            </Text>
+         <MenuBar blendMode="MULTIPLY" layoutY="1.0" prefHeight="25.0" prefWidth="600.0">
+           <menus>
+             <Menu mnemonicParsing="false" text="Language">
+               <items>
+                 <MenuItem mnemonicParsing="false" text="english" />
+                     <MenuItem mnemonicParsing="false" text="arabic" />
+               </items>
+             </Menu>
+             <Menu mnemonicParsing="false" text="About">
+               <items>
+                 <MenuItem mnemonicParsing="false" text="this game is blalalalalalalala" />
+               </items>
+             </Menu>
+           </menus>
+         </MenuBar>
+         <ImageView blendMode="COLOR_BURN" fitHeight="66.0" fitWidth="71.0" layoutX="529.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
+             <image>
+                 <Image url="@logo.png" />
+             </image>
+         </ImageView>
+        </children>
+    </Pane>
+
+</VBox>
