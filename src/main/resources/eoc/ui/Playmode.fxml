@@ -5,8 +5,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #d1bf7c;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eoc.ui.PlaymodeController">
+<AnchorPane blendMode="DARKEN" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #d1bf7c;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eoc.ui.PlaymodeController">
    <children>
+      <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+              <Image url="@pattern.png" />
+          </image>
+      </ImageView>
       <MenuBar blendMode="MULTIPLY" prefHeight="25.0" prefWidth="600.0">
         <menus>
           <Menu mnemonicParsing="false" text="STATS">
@@ -26,10 +31,22 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Button layoutX="526.0" layoutY="360.0" mnemonicParsing="false" style="-fx-background-color: #4c5d45;" text="Go Back" textFill="WHITE" />
-      <Button layoutX="77.0" layoutY="175.0" mnemonicParsing="false" style="-fx-background-color: #fff3c6;" text="Randomised" />
-      <Button layoutX="248.0" layoutY="175.0" mnemonicParsing="false" style="-fx-background-color: #fff3c6;" text="Single Leader" />
-      <Button layoutX="445.0" layoutY="175.0" mnemonicParsing="false" style="-fx-background-color: #fff3c6;" text="Sequential" />
+      <Button layoutX="526.0" layoutY="360.0" mnemonicParsing="false" style="-fx-background-color: #4c5d45;" text="Back" textFill="WHITE">
+          <font>
+              <Font name="System Bold" size="12.0" />
+          </font></Button>
+      <Button layoutX="77.0" layoutY="175.0" mnemonicParsing="false" style="-fx-background-color: #fff3c6;" text="Randomised">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="248.0" layoutY="175.0" mnemonicParsing="false" style="-fx-background-color: #fff3c6;" text="Single Leader">
+          <font>
+              <Font name="System Bold" size="12.0" />
+          </font></Button>
+      <Button layoutX="445.0" layoutY="175.0" mnemonicParsing="false" style="-fx-background-color: #fff3c6;" text="Sequential">
+          <font>
+              <Font name="System Bold" size="12.0" />
+          </font></Button>
       <ImageView fitHeight="121.0" fitWidth="155.0" layoutX="231.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true">
        <image>
            <Image url="@single.png" />
@@ -45,12 +62,12 @@
               <Image url="@seq.png" />
           </image>
       </ImageView>
-      <Label layoutX="159.0" layoutY="113.0" prefHeight="51.0" prefWidth="281.0" text="Choose playing mode!" textFill="#4c5d45">
+      <Label layoutX="159.0" layoutY="113.0" prefHeight="51.0" prefWidth="281.0" text="Choose playing mode!" textFill="WHITE">
          <font>
-            <Font name="Marlett" size="28.0" />
+            <Font name="Droid Serif Bold Italic" size="25.0" />
          </font>
       </Label>
-      <ImageView fitHeight="85.0" fitWidth="121.0" layoutX="231.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView blendMode="MULTIPLY" fitHeight="85.0" fitWidth="121.0" layoutX="231.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
           <image>
               <Image url="@logo.png" />
           </image>

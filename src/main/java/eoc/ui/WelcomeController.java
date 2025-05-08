@@ -19,24 +19,29 @@ public class WelcomeController {
     @FXML
     protected void onStartButtonClick(javafx.event.ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("username.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Username.fxml"));
             Scene scene = new Scene(loader.load());
 
+            // Create the popup stage
             Stage popupStage = new Stage();
             popupStage.setTitle("Enter Username");
             popupStage.setScene(scene);
-
-
             popupStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
             popupStage.initOwner(((Node) event.getSource()).getScene().getWindow());
-
             popupStage.setResizable(false);
-            popupStage.showAndWait(); // Show as modal pop-up
+
+            // Inject the parent stage into the UsernameController
+            UsernameController controller = loader.getController();
+            controller.setWelcomeStage((Stage) ((Node) event.getSource()).getScene().getWindow());
+            controller.setUsernameStage(popupStage);  // to close it later
+
+            popupStage.showAndWait();
 
         } catch (IOException e) {
             showError("Could not load username.fxml: " + e.getMessage());
         }
     }
+
     @FXML
     protected void onLBButtonClick() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

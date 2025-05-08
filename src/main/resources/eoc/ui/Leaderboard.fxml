@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #fff3c6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eoc.ui.LeaderboardController">
+   <children>
+      <Label layoutX="211.0" layoutY="35.0" prefHeight="17.0" prefWidth="291.0" text="Leaderboard" textFill="#374232">
+         <font>
+            <Font name="Droid Serif Bold Italic" size="27.0" />
+         </font></Label>
+      <TableView blendMode="MULTIPLY" layoutX="33.0" layoutY="111.0" prefHeight="274.0" prefWidth="534.0">
+        <columns>
+          <TableColumn prefWidth="176.71429443359375" text="Single Leader" />
+          <TableColumn prefWidth="177.4285888671875" text="Sequential" />
+            <TableColumn prefWidth="179.142822265625" text="Randomised" />
+        </columns>
+      </TableView>
+      <Label layoutX="33.0" layoutY="93.0" prefHeight="17.0" prefWidth="264.0" text="*Based on latest time played, for each player" textFill="#660707">
+         <font>
+            <Font name="Droid Serif" size="12.0" />
+         </font>
+      </Label>
+      <ImageView blendMode="MULTIPLY" fitHeight="60.0" fitWidth="69.0" layoutX="531.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@logo.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="14.0" layoutY="11.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #4c5d45;" text="Back" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+   </children>
+</AnchorPane>

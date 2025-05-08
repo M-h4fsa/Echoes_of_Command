@@ -10,13 +10,14 @@ import java.io.IOException;
 public class EocGUI extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(EocGUI.class.getResource("Playmode.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        stage.setTitle("welcome window");
+        FXMLLoader fxmlLoader = new FXMLLoader(EocGUI.class.getResource("EndRound.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400); // default size
+        stage.setResizable(false);
+        stage.setTitle("Echoes of Command - Welcome");
         stage.setScene(scene);
         stage.show();
-
     }
+
 
     public static void main(String[] args) {
         launch();
