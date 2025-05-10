@@ -5,17 +5,50 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.jetbrains.annotations.NotNull;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class WelcomeController {
+    @FXML
+    private Button startButton;
+
+    @FXML
+    private Button leaderboardButton;
+
+    @FXML
+    private Button quitButton;
+
+    public void initialize() {
+        setupHoverEffect(startButton, "#e6d9a8", 1.05, 1.05);
+        setupHoverEffect(leaderboardButton, "#e6d9a8", 1.05, 1.05);
+        setupHoverEffect(quitButton, "#3a4219", 1.05, 1.05);
+    }
+
+    private void setupHoverEffect(Button button, String hoverColor, double scaleX, double scaleY) {
+        String originalStyle = button.getStyle();
+        DropShadow shadow = new DropShadow();
+
+        button.setOnMouseEntered((MouseEvent event) -> {
+            button.setStyle(originalStyle + "; -fx-background-color: " + hoverColor + ";");
+            button.setScaleX(scaleX);
+            button.setScaleY(scaleY);
+            button.setEffect(shadow);
+        });
+
+        button.setOnMouseExited((MouseEvent event) -> {
+            button.setStyle(originalStyle);
+            button.setScaleX(1.0);
+            button.setScaleY(1.0);
+            button.setEffect(null);
+        });
+    }
+
     @FXML
     protected void onStartButtonClick(javafx.event.ActionEvent event) {
         try {
@@ -77,6 +110,4 @@ public class WelcomeController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-
 }

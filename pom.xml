@@ -82,18 +82,17 @@
     </dependencies>
 
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/*.json</include>
-                    <include>**/*.fxml</include>
-                    <include>**/*.css</include>
-                    <include>**/*.png</include>
-                    <include>**/*.jpg</include>
-                </includes>
-            </resource>
-        </resources>
+            <resources>
+                <resource>
+                    <directory>src/main/resources</directory>
+                    <includes>
+                        <include>**/*.css</include>
+                        <include>**/*.fxml</include>
+                        <include>**/*.ttf</include>
+                        <include>**/*.png</include>
+                    </includes>
+                </resource>
+            </resources>
 
         <plugins>
             <plugin>

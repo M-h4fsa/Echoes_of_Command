@@ -13,46 +13,47 @@
                 <Image url="@joe.png" />
             </image>
         </ImageView>
-        <FontIcon iconColor="#4c5d45" iconLiteral="fa-question-circle" iconSize="18" layoutX="181.0" layoutY="61.0" />
+        <FontIcon fx:id="stalinIcon" iconColor="#4c5d45" iconLiteral="fa-question-circle" iconSize="18" layoutX="181.0" layoutY="61.0" />
 
         <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="411.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@winston.png" />
             </image>
         </ImageView>
-        <FontIcon iconColor="#4c5d45" iconLiteral="fa-question-circle" iconSize="18" layoutX="403.0" layoutY="61.0" />
+        <FontIcon fx:id="churchillIcon" iconColor="#4c5d45" iconLiteral="fa-question-circle" iconSize="18" layoutX="403.0" layoutY="61.0" />
 
         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="39.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@charles.png" />
             </image>
         </ImageView>
-        <FontIcon iconColor="#4c5d45" iconLiteral="fa-question-circle" iconSize="18" layoutX="181.0" layoutY="258.0" text="" />
+        <FontIcon fx:id="deGaulleIcon" iconColor="#4c5d45" iconLiteral="fa-question-circle" iconSize="18" layoutX="181.0" layoutY="258.0" text="" />
 
         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="411.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@frank.png" />
             </image>
         </ImageView>
-        <FontIcon iconColor="#4c5d45" iconLiteral="fa-question-circle" iconSize="18" layoutX="403.0" layoutY="257.0" />
+        <FontIcon fx:id="rooseveltIcon" iconColor="#4c5d45" iconLiteral="fa-question-circle" iconSize="18" layoutX="403.0" layoutY="257.0" />
 
         <Label layoutX="198.0" layoutY="162.0" prefHeight="57.0" prefWidth="218.0" text="Choose your Leader" textAlignment="CENTER" textFill="#374232">
             <font>
                 <Font name="Droid Serif Bold Italic" size="21.0" />
             </font>
         </Label>
-        <Button layoutX="71.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: #4c5d45;" text="Joseph Stalin" textFill="WHITE" />
-        <Button layoutX="431.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: #4c5d45;" text="Winston Churchill" textFill="WHITE" />
-        <Button layoutX="60.0" layoutY="206.0" mnemonicParsing="false" style="-fx-background-color: #4c5d45;" text="Charles de Gaulle" textFill="WHITE" />
-        <Button layoutX="423.0" layoutY="206.0" mnemonicParsing="false" style="-fx-background-color: #4c5d45;" text="Franklin D. Roosevelt" textFill="WHITE" />
-      <Button layoutX="236.0" layoutY="353.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="127.0" style="-fx-background-color: #4c5d45;" text="Back" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font></Button>
-      <ImageView blendMode="MULTIPLY" fitHeight="74.0" fitWidth="110.0" layoutX="245.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-          <image>
-              <Image url="@logo.png" />
-          </image>
-      </ImageView>
+        <Button fx:id="stalinButton" layoutX="71.0" layoutY="14.0" mnemonicParsing="false" onAction="#JStalinBC" style="-fx-background-color: #4c5d45;" text="Joseph Stalin" textFill="WHITE" />
+        <Button fx:id="churchillButton" layoutX="431.0" layoutY="14.0" mnemonicParsing="false" onAction="#WChurchillBC" style="-fx-background-color: #4c5d45;" text="Winston Churchill" textFill="WHITE" />
+        <Button fx:id="deGaulleButton" layoutX="60.0" layoutY="206.0" mnemonicParsing="false" onAction="#CGaulleBC" style="-fx-background-color: #4c5d45;" text="Charles de Gaulle" textFill="WHITE" />
+        <Button fx:id="rooseveltButton" layoutX="423.0" layoutY="206.0" mnemonicParsing="false" onAction="#FDRooseveltBC" style="-fx-background-color: #4c5d45;" text="Franklin D. Roosevelt" textFill="WHITE" />
+        <Button fx:id="backButton" layoutX="236.0" layoutY="353.0" mnemonicParsing="false" onAction="#onBackButtonClick" prefHeight="25.0" prefWidth="127.0" style="-fx-background-color: #4c5d45;" text="Back" textAlignment="CENTER" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Button>
+        <ImageView blendMode="MULTIPLY" fitHeight="74.0" fitWidth="110.0" layoutX="245.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@logo.png" />
+            </image>
+        </ImageView>
     </children>
 </AnchorPane>

@@ -6,39 +6,40 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eoc.ui.LevelController">
-   <children>
-      <ImageView fitHeight="400.0" fitWidth="610.0" pickOnBounds="true" preserveRatio="true">
-          <image>
-              <Image url="@levelbg.png" />
-          </image>
-      </ImageView>
-      <ImageView fitHeight="201.0" fitWidth="191.0" layoutX="14.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
-          <image>
-              <Image url="@joe.png" />
-          </image>
-      </ImageView>
-      <TextArea blendMode="MULTIPLY" layoutX="211.0" layoutY="100.0" prefHeight="139.0" prefWidth="368.0" promptText="something to write here...." style="-fx-background-color: #aaa084;">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font></TextArea>
-      <ProgressBar blendMode="SOFT_LIGHT" layoutX="379.0" layoutY="14.0" prefWidth="200.0" progress="0.0" />
-      <Label layoutX="306.0" layoutY="14.0" prefHeight="17.0" prefWidth="65.0" text="Progress :" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Button layoutX="220.0" layoutY="255.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="155.0" style="-fx-background-color: #fff3c6;" text="Choice 1" />
-      <Button layoutX="415.0" layoutY="255.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="155.0" style="-fx-background-color: #fff3c6;" text="Choice 2" />
-      <Label layoutX="83.0" layoutY="255.0" prefHeight="17.0" prefWidth="65.0" text="Leader" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Label>
-      <ImageView blendMode="MULTIPLY" fitHeight="50.0" fitWidth="75.0" layoutX="525.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
-          <image>
-              <Image url="@logo.png" />
-          </image>
-      </ImageView>
-      <Button layoutX="14.0" layoutY="362.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" style="-fx-background-color: #4c5d45;" text="Back" textFill="WHITE" />
-   </children>
+    <children>
+        <ImageView fitHeight="400.0" fitWidth="610.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@levelbg.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="201.0" fitWidth="191.0" layoutX="14.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@joe.png" />
+            </image>
+        </ImageView>
+        <TextArea blendMode="MULTIPLY" layoutX="211.0" layoutY="100.0" prefHeight="139.0" prefWidth="368.0" promptText="something to write here...." style="-fx-background-color: #aaa084;">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </TextArea>
+        <ProgressBar blendMode="SOFT_LIGHT" layoutX="379.0" layoutY="14.0" prefWidth="200.0" progress="0.0" />
+        <Label layoutX="306.0" layoutY="14.0" prefHeight="17.0" prefWidth="65.0" text="Progress :" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Button fx:id="choiceOneButton" layoutX="220.0" layoutY="255.0" mnemonicParsing="false" onAction="#onChoiceOneBC" prefHeight="43.0" prefWidth="155.0" style="-fx-background-color: #fff3c6;" text="Choice 1" />
+        <Button fx:id="choiceTwoButton" layoutX="415.0" layoutY="255.0" mnemonicParsing="false" onAction="#onChoiceTwoBC" prefHeight="43.0" prefWidth="155.0" style="-fx-background-color: #fff3c6;" text="Choice 2" />
+        <Label layoutX="83.0" layoutY="255.0" prefHeight="17.0" prefWidth="65.0" text="Leader" textAlignment="CENTER" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <ImageView blendMode="MULTIPLY" fitHeight="50.0" fitWidth="75.0" layoutX="525.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@logo.png" />
+            </image>
+        </ImageView>
+        <Button fx:id="backButton" layoutX="14.0" layoutY="362.0" mnemonicParsing="false" onAction="#onBackButtonClick" prefHeight="25.0" prefWidth="65.0" style="-fx-background-color: #4c5d45;" text="Back" textFill="WHITE" />
+    </children>
 </AnchorPane>

@@ -1,5 +1,4 @@
 package eoc.ui;
-import com.echoesofcommand.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,10 +9,10 @@ import java.io.IOException;
 public class EocGUI extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(EocGUI.class.getResource("EndRound.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(EocGUI.class.getResource("course.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400); // default size
         stage.setResizable(false);
-        stage.setTitle("Echoes of Command - Welcome");
+        stage.setTitle("Echoes of Command");
         stage.setScene(scene);
         stage.show();
     }

@@ -5,7 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
@@ -16,6 +19,11 @@ public class UsernameController {
     @FXML
     private TextField usernameField;
 
+    @FXML
+    private Button submitButton;
+
+    @FXML
+    private Button backButton;
     private Stage welcomeStage;  // reference to close later
     private Stage usernameStage; // popup window
 
@@ -25,6 +33,29 @@ public class UsernameController {
 
     public void setUsernameStage(Stage stage) {
         this.usernameStage = stage;
+    }
+    public void initialize() {
+        setupHoverEffect(submitButton, "#e6d9a8", 1.05, 1.05);
+        setupHoverEffect(backButton, "#3a4219", 1.05, 1.05);
+    }
+
+    private void setupHoverEffect(Button button, String hoverColor, double scaleX, double scaleY) {
+        String originalStyle = button.getStyle();
+        DropShadow shadow = new DropShadow();
+
+        button.setOnMouseEntered((MouseEvent event) -> {
+            button.setStyle(originalStyle + "; -fx-background-color: " + hoverColor + ";");
+            button.setScaleX(scaleX);
+            button.setScaleY(scaleY);
+            button.setEffect(shadow);
+        });
+
+        button.setOnMouseExited((MouseEvent event) -> {
+            button.setStyle(originalStyle);
+            button.setScaleX(1.0);
+            button.setScaleY(1.0);
+            button.setEffect(null);
+        });
     }
 
     @FXML

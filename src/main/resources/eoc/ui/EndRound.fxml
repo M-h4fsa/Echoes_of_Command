@@ -10,11 +10,13 @@
       <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="193.0" text="Round ended!" textFill="#374232">
          <font>
             <Font name="Droid Serif Bold Italic" size="19.0" />
-         </font></Label>
-      <Button layoutX="171.0" layoutY="110.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #4c5d45;" text="Quit" textFill="WHITE">
+         </font>
+      </Label>
+      <Button fx:id="quitButton" layoutX="171.0" layoutY="110.0" mnemonicParsing="false" onAction="#onQuitButtonClick" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #4c5d45;" text="Quit" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
-         </font></Button>
+         </font>
+      </Button>
       <ImageView blendMode="MULTIPLY" fitHeight="61.0" fitWidth="72.0" layoutX="411.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@logo.png" />
