@@ -17,7 +17,7 @@
                 <Font name="Droid Serif Bold Italic" size="28.0" />
             </font>
         </Label>
-        <TextArea blendMode="MULTIPLY" layoutX="15.0" layoutY="208.0" prefHeight="172.0" prefWidth="574.0" promptText="History of played leaders..." style="-fx-background-color: #4c5d45;">
+        <TextArea fx:id="historyTextArea" blendMode="MULTIPLY" layoutX="15.0" layoutY="208.0" prefHeight="172.0" prefWidth="574.0" promptText="History of played leaders..." editable="false" style="-fx-background-color: #4c5d45;" >
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
@@ -32,9 +32,18 @@
                 <Image url="@logo.png" />
             </image>
         </ImageView>
-        <TextFlow layoutX="83.0" layoutY="96.0" prefHeight="93.0" prefWidth="109.0" />
-        <TextFlow layoutX="261.0" layoutY="96.0" prefHeight="93.0" prefWidth="109.0" />
-        <TextFlow layoutX="434.0" layoutY="96.0" prefHeight="93.0" prefWidth="109.0" />
+        <TextFlow fx:id="avgTimeFlow" layoutX="83.0" layoutY="96.0"
+                  prefHeight="93.0" prefWidth="109.0"
+                  textAlignment="CENTER" style="-fx-text-alignment: center;" />
+
+        <TextFlow fx:id="totalLevelsFlow" layoutX="261.0" layoutY="96.0"
+                  prefHeight="93.0" prefWidth="109.0"
+                  textAlignment="CENTER" style="-fx-text-alignment: center;" />
+
+        <TextFlow fx:id="progressFlow" layoutX="434.0" layoutY="96.0"
+                  prefHeight="93.0" prefWidth="109.0"
+                  textAlignment="CENTER" style="-fx-text-alignment: center;" />
+
         <Label layoutX="111.0" layoutY="78.0" text="avg time :">
             <font>
                 <Font name="System Bold" size="14.0" />

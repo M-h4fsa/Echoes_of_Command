@@ -12,11 +12,8 @@
                 <Image url="@levelbg.png" />
             </image>
         </ImageView>
-        <ImageView fitHeight="201.0" fitWidth="191.0" layoutX="14.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@joe.png" />
-            </image>
-        </ImageView>
+        <ImageView fx:id="leaderPortrait" fitHeight="201.0" fitWidth="191.0" layoutX="14.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true" />
+
         <TextArea blendMode="MULTIPLY" layoutX="211.0" layoutY="100.0" prefHeight="139.0" prefWidth="368.0" promptText="something to write here...." style="-fx-background-color: #aaa084;">
             <font>
                 <Font name="System Bold" size="12.0" />

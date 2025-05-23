@@ -12,23 +12,21 @@
                 <Image url="@pattern.png" />
             </image>
         </ImageView>
-        <TableView layoutX="32.0" layoutY="68.0" prefHeight="274.0" prefWidth="537.0" style="-fx-background-color: #fff3c6;">
-            <columns>
-                <TableColumn prefWidth="146.4285545349121" text="Level" />
-                <TableColumn prefWidth="390.1428680419922" text="Content" />
-            </columns>
-        </TableView>
-        <Button fx:id="searchButton" layoutX="457.0" layoutY="32.0" mnemonicParsing="false" onAction="#onSearchButtonClick" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #fff3c6;" text="Search" />
+        <Button fx:id="searchButton" layoutX="457.0" layoutY="32.0" mnemonicParsing="false" onAction="#onSearchButtonClick" prefHeight="25.0" prefWidth="103.0" style="-fx-background-color: #fff3c6;" text="Search" />
         <Button fx:id="backButton" layoutX="32.0" layoutY="363.0" mnemonicParsing="false" onAction="#onBackButtonClick" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: #4c5d45;" text="Back" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Button>
-        <TextField layoutX="32.0" layoutY="32.0" prefHeight="25.0" prefWidth="410.0" />
+        <TextField fx:id="searchField" layoutX="32.0" layoutY="32.0" prefHeight="25.0" prefWidth="410.0" />
         <ImageView blendMode="MULTIPLY" fitHeight="66.0" fitWidth="70.0" layoutX="534.0" layoutY="352.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@logo.png" />
             </image>
         </ImageView>
+        <TextArea fx:id="resultArea" blendMode="MULTIPLY" layoutX="32.0" layoutY="80.0" prefHeight="267.0" prefWidth="531.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></TextArea>
     </children>
 </AnchorPane>

@@ -90,6 +90,8 @@
                         <include>**/*.fxml</include>
                         <include>**/*.ttf</include>
                         <include>**/*.png</include>
+                        <include>**/*.json</include>
+                        <include>**/*.txt</include>
                     </includes>
                 </resource>
             </resources>

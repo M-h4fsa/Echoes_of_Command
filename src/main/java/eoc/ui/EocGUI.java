@@ -9,7 +9,7 @@ import java.io.IOException;
 public class EocGUI extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(EocGUI.class.getResource("course.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(EocGUI.class.getResource("leader.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400); // default size
         stage.setResizable(false);
         stage.setTitle("Echoes of Command");

@@ -6,6 +6,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,13 +30,18 @@ public class CourseController {
         setupHoverEffect(backButton, "#3a4219", 1.05, 1.05);
 
         // Load content from course.txt into TextArea
-        try {
-            Path filePath = Paths.get("src/main/resources/course.txt");
-            String content = Files.readString(filePath);
-            courseTextArea.setText(content);
+        try (InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("course.txt")) {
+            if (input == null) {
+                courseTextArea.setText("Error: course.txt not found in resources.");
+            } else {
+                String content = new String(input.readAllBytes(), StandardCharsets.UTF_8);
+                courseTextArea.setText(content);
+            }
         } catch (IOException e) {
             courseTextArea.setText("Error loading course content: " + e.getMessage());
         }
+
+
     }
 
     private void setupHoverEffect(Button button, String hoverColor, double scaleX, double scaleY) {

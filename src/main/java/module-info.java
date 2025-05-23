@@ -9,6 +9,7 @@ module eoc.ui {
     requires com.google.gson;
     requires java.desktop;
     requires annotations;
+    requires com.fasterxml.jackson.databind;
 
 
     opens eoc.ui to javafx.fxml;

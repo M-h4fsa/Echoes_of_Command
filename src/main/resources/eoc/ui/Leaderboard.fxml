@@ -12,13 +12,6 @@
             <Font name="Droid Serif Bold Italic" size="27.0" />
          </font>
       </Label>
-      <TableView blendMode="MULTIPLY" layoutX="33.0" layoutY="111.0" prefHeight="274.0" prefWidth="534.0">
-         <columns>
-            <TableColumn prefWidth="176.71429443359375" text="Single Leader" />
-            <TableColumn prefWidth="177.4285888671875" text="Sequential" />
-            <TableColumn prefWidth="179.142822265625" text="Randomised" />
-         </columns>
-      </TableView>
       <Label layoutX="33.0" layoutY="93.0" prefHeight="17.0" prefWidth="264.0" text="*Based on latest time played, for each player" textFill="#660707">
          <font>
             <Font name="Droid Serif" size="12.0" />
@@ -34,5 +27,10 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
+      <TextArea fx:id="leaderboardTextArea" blendMode="MULTIPLY" editable="false" layoutX="39.0" layoutY="123.0" prefHeight="248.0" prefWidth="525.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></TextArea>
+
    </children>
 </AnchorPane>
