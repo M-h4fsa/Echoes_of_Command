@@ -11,9 +11,9 @@ module eoc.ui {
     requires annotations;
     requires com.fasterxml.jackson.databind;
 
+    exports eoc.ui.model;
 
+    opens eoc.ui.model to com.fasterxml.jackson.databind;
     opens eoc.ui to javafx.fxml;
     exports eoc.ui;
-    opens com.echoesofcommand to com.google.gson, javafx.fxml;
-    exports com.echoesofcommand;
 }

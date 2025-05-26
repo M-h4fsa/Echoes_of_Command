@@ -22,8 +22,16 @@
             <Image url="@logo.png" />
          </image>
       </ImageView>
-      <TextFlow layoutX="307.0" layoutY="38.0" prefHeight="69.0" prefWidth="83.0" />
-      <TextFlow layoutX="197.0" layoutY="38.0" prefHeight="69.0" prefWidth="83.0" />
+      <Label fx:id="scoreLabel" layoutX="307.0" layoutY="38.0" prefHeight="69.0" prefWidth="83.0" text="Score: 0 / 0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="timeLabel" layoutX="197.0" layoutY="38.0" prefHeight="69.0" prefWidth="83.0" text="N/A">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
       <Label layoutX="209.0" layoutY="17.0" text="Time spent :">
          <font>
             <Font name="System Bold" />

@@ -1,38 +1,48 @@
 package eoc.ui;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
+import javafx.scene.Node;
+
+import java.io.IOException;
 
 public class EndRoundController {
+
+    @FXML private Label scoreLabel;
+    @FXML private Label timeLabel;
+    @FXML private javafx.scene.control.Button quitButton;
+
+    public void setScore(String score) {
+        scoreLabel.setText(score);
+    }
+
     @FXML
-    private Button quitButton;
+    public void onQuitButtonClick(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Playmode.fxml"));
+            Scene scene = new Scene(loader.load());
 
-    public void initialize() {
-        setupHoverEffect(quitButton, "#3a4219", 1.05, 1.05);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            System.err.println("❌ Failed to load Playmode.fxml: " + e.getMessage());
+            showErrorAlert("Failed to return to play mode selection. Please try again.");
+        }
     }
 
-    private void setupHoverEffect(Button button, String hoverColor, double scaleX, double scaleY) {
-        String originalStyle = button.getStyle();
-        DropShadow shadow = new DropShadow();
-
-        button.setOnMouseEntered((MouseEvent event) -> {
-            button.setStyle(originalStyle + "; -fx-background-color: " + hoverColor + ";");
-            button.setScaleX(scaleX);
-            button.setScaleY(scaleY);
-            button.setEffect(shadow);
+    private void showErrorAlert(String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
         });
-
-        button.setOnMouseExited((MouseEvent event) -> {
-            button.setStyle(originalStyle);
-            button.setScaleX(1.0);
-            button.setScaleY(1.0);
-            button.setEffect(null);
-        });
-    }
-
-    public void onQuitButtonClick() {
-        // Handle quit button click
     }
 }

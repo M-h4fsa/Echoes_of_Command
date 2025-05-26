@@ -14,19 +14,19 @@
         </ImageView>
         <ImageView fx:id="leaderPortrait" fitHeight="201.0" fitWidth="191.0" layoutX="14.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true" />
 
-        <TextArea blendMode="MULTIPLY" layoutX="211.0" layoutY="100.0" prefHeight="139.0" prefWidth="368.0" promptText="something to write here...." style="-fx-background-color: #aaa084;">
+        <TextArea fx:id="descriptionArea" blendMode="MULTIPLY" wrapText="true" editable="false" layoutX="211.0" layoutY="100.0" prefHeight="139.0" prefWidth="368.0" promptText="something to write here...." style="-fx-background-color: #aaa084;">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </TextArea>
-        <ProgressBar blendMode="SOFT_LIGHT" layoutX="379.0" layoutY="14.0" prefWidth="200.0" progress="0.0" />
+        <ProgressBar fx:id="progressBar" blendMode="SOFT_LIGHT" layoutX="379.0" layoutY="14.0" prefWidth="200.0" progress="0.0" />
         <Label layoutX="306.0" layoutY="14.0" prefHeight="17.0" prefWidth="65.0" text="Progress :" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Button fx:id="choiceOneButton" layoutX="220.0" layoutY="255.0" mnemonicParsing="false" onAction="#onChoiceOneBC" prefHeight="43.0" prefWidth="155.0" style="-fx-background-color: #fff3c6;" text="Choice 1" />
-        <Button fx:id="choiceTwoButton" layoutX="415.0" layoutY="255.0" mnemonicParsing="false" onAction="#onChoiceTwoBC" prefHeight="43.0" prefWidth="155.0" style="-fx-background-color: #fff3c6;" text="Choice 2" />
+        <Button fx:id="choiceOneButton" layoutX="220.0" layoutY="255.0" wrapText="true" mnemonicParsing="false" onAction="#onChoiceOneBC" prefHeight="88.0" prefWidth="155.0" style="-fx-background-color: #fff3c6;" text="Choice 1" />
+        <Button fx:id="choiceTwoButton" layoutX="415.0" layoutY="255.0" wrapText="true" mnemonicParsing="false" onAction="#onChoiceTwoBC" prefHeight="88.0" prefWidth="155.0" style="-fx-background-color: #fff3c6;" text="Choice 2" />
         <Label layoutX="83.0" layoutY="255.0" prefHeight="17.0" prefWidth="65.0" text="Leader" textAlignment="CENTER" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="14.0" />

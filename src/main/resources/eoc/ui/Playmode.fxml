@@ -31,22 +31,22 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <Button fx:id="backButton" layoutX="526.0" layoutY="360.0" mnemonicParsing="false" onAction="#onBackButtonClick" style="-fx-background-color: #4c5d45;" text="Back" textFill="WHITE">
+        <Button fx:id="backButton" layoutX="526.0" layoutY="360.0" mnemonicParsing="false" onMouseClicked="#onBackButtonClick" style="-fx-background-color: #4c5d45;" text="Back" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Button>
-        <Button fx:id="randomButton" layoutX="77.0" layoutY="175.0" mnemonicParsing="false" onAction="#onRandBC" style="-fx-background-color: #fff3c6;" text="Randomised">
+        <Button fx:id="randomButton" layoutX="77.0" layoutY="175.0" mnemonicParsing="false" onMouseClicked="#onRandomButtonClick" style="-fx-background-color: #fff3c6;" text="Randomised">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Button>
-        <Button fx:id="singleButton" layoutX="248.0" layoutY="175.0" mnemonicParsing="false" onAction="#onSingleBC" style="-fx-background-color: #fff3c6;" text="Single Leader">
+        <Button fx:id="singleButton" layoutX="248.0" layoutY="175.0" mnemonicParsing="false" onMouseClicked="#onSingleButtonClick" style="-fx-background-color: #fff3c6;" text="Single Leader">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Button>
-        <Button fx:id="sequentialButton" layoutX="445.0" layoutY="175.0" mnemonicParsing="false" onAction="#onSeqBC" style="-fx-background-color: #fff3c6;" text="Sequential">
+        <Button fx:id="sequentialButton" layoutX="445.0" layoutY="175.0" mnemonicParsing="false" onMouseClicked="#onSequentialButtonClick" style="-fx-background-color: #fff3c6;" text="Sequential">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
