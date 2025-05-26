@@ -29,7 +29,7 @@ public class ArchiveController {
     @FXML
     private TextArea resultArea;
 
-    private final File archiveFile = new File("C:\\Users\\DELL\\Desktop\\Echoes_of_Command\\Echoes_of_Command\\archive.json");
+    private final File archiveFile = new File("archive.json");
     private List<ArchiveEntry> allEntries;
 
     public void initialize() {

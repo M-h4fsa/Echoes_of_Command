@@ -13,11 +13,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Modality;
 import javafx.fxml.FXMLLoader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import javafx.animation.PauseTransition;
-import javafx.util.Duration;
+import javafx.scene.media.AudioClip;
+import javafx.util.Duration; // For PauseTransition
+import java.time.Instant; // For timer
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,9 +40,11 @@ public class LevelController {
     private int currentIndex = 0;
     private int correctCount = 0;
     private String mode;
+    private Instant startTime; // Timer start
 
     public void initializeGame(String mode, String leaderName) {
         this.mode = mode;
+        this.startTime = Instant.now(); // Start timer
         loadHistory();
 
         if (allLeaders == null || allLeaders.isEmpty()) {
@@ -199,9 +204,9 @@ public class LevelController {
         // Update progress bar immediately
         double progress = (double) correctCount / currentLevels.size();
         progressBar.setProgress(progress);
-        System.out.println("Updated progress: correctCount=" + correctCount + ", totalLevels=" + currentLevels.size() + ", progress=" + progress); // Debug
+        System.out.println("Progress: correctCount=" + correctCount + "/" + currentLevels.size() + ", progress=" + progress); // Debug
 
-        currentIndex++; // Increment to move to next level
+        currentIndex++;
         System.out.println("Advancing to next level, new index: " + currentIndex); // Debug
 
         PauseTransition pause = new PauseTransition(Duration.seconds(1));
@@ -210,32 +215,75 @@ public class LevelController {
     }
 
     @FXML
-    public void onChoiceOneBC(ActionEvent event) {
+    private void onChoiceOneBC(ActionEvent event) {
         handleChoice(0, choiceOneButton);
     }
 
     @FXML
-    public void onChoiceTwoBC(ActionEvent event) {
+    private void onChoiceTwoBC(ActionEvent event) {
         handleChoice(1, choiceTwoButton);
     }
 
-    private void goToEndScreen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/EndRound.fxml"));
-            Scene scene = new Scene(loader.load());
-            EndRoundController controller = loader.getController();
-            controller.setScore("Score: " + correctCount + " / " + currentLevels.size());
+    private String getElapsedTime() {
+        java.time.Duration duration = java.time.Duration.between(startTime, Instant.now());
+        long seconds = duration.getSeconds();
+        long minutes = seconds / 60;
+        seconds %= 60;
+        return String.format("%02d:%02d", minutes, seconds);
+    }
 
-            Stage stage = (Stage) descriptionArea.getScene().getWindow();
-            stage.setScene(scene);
-        } catch (IOException e) {
-            System.err.println("❌ Failed to load EndRound.fxml: " + e.getMessage());
-            showErrorAlert("Failed to load end screen. Please try again.");
+    private void goToEndScreen() {
+        // Play sound effect for end of round with enhanced debugging
+        AudioClip endSound = null;
+        try {
+            String soundPath = getClass().getResource("/eoc/ui/endround.wav").toExternalForm();
+            if (soundPath == null) {
+                System.err.println("❌ Sound file not found at /eoc/ui/endround.wav");
+            } else {
+                System.out.println("✅ Sound file path: " + soundPath);
+                endSound = new AudioClip(soundPath);
+                if (endSound != null) {
+                    System.out.println("✅ AudioClip created successfully");
+                    endSound.play();
+                    System.out.println("✅ Sound play initiated");
+                } else {
+                    System.err.println("❌ Failed to create AudioClip");
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("❌ Failed to play end round sound: " + e.getMessage());
+            e.printStackTrace();
         }
+
+        Platform.runLater(() -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/EndRound.fxml"));
+                Scene scene = new Scene(loader.load());
+                EndRoundController controller = loader.getController();
+                controller.setScore("Score: " + correctCount + " / " + currentLevels.size());
+                controller.setTime("Time: " + getElapsedTime());
+
+                // Pass the main stage to the controller
+                Stage mainStage = (Stage) descriptionArea.getScene().getWindow();
+                controller.setMainStage(mainStage);
+
+                // Create a modal dialog
+                Stage dialogStage = new Stage();
+                dialogStage.initModality(Modality.APPLICATION_MODAL);
+                dialogStage.initOwner(mainStage);
+                dialogStage.setTitle("Round Ended");
+                dialogStage.setScene(scene);
+                dialogStage.setResizable(false);
+                dialogStage.showAndWait();
+            } catch (IOException e) {
+                System.err.println("❌ Failed to load EndRound.fxml: " + e.getMessage());
+                showErrorAlert("Failed to load end screen. Please try again.");
+            }
+        });
     }
 
     @FXML
-    public void onBackButtonClick(ActionEvent event) {
+    private void onBackButtonClick(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Playmode.fxml"));
             Scene scene = new Scene(loader.load());
@@ -243,8 +291,8 @@ public class LevelController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException e) {
-            System.err.println("❌ Failed to load Playmode.fxml: " + e.getMessage());
-            showErrorAlert("Failed to return to play mode selection. Please try again.");
+            System.err.println("❌ Failed to load Playmode: " + e.getMessage());
+            showErrorAlert("Failed to return to play mode. Try again.");
         }
     }
 

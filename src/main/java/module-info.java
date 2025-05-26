@@ -10,6 +10,7 @@ module eoc.ui {
     requires java.desktop;
     requires annotations;
     requires com.fasterxml.jackson.databind;
+    requires javafx.media;
 
     exports eoc.ui.model;
 

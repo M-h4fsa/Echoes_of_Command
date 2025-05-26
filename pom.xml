@@ -91,12 +91,11 @@
                 <resource>
                     <directory>src/main/resources</directory>
                     <includes>
-                        <include>**/*.css</include>
                         <include>**/*.fxml</include>
-                        <include>**/*.ttf</include>
                         <include>**/*.png</include>
                         <include>**/*.json</include>
                         <include>**/*.txt</include>
+                        <include>**/*.wav</include>
                     </includes>
                 </resource>
             </resources>

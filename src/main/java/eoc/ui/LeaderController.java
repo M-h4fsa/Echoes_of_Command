@@ -2,6 +2,7 @@ package eoc.ui;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -162,26 +163,26 @@ public class LeaderController {
     }
 
     @FXML
-    public void JStalinBC(MouseEvent event) {
+    public void JStalinBC(ActionEvent event) {
         launchGame(event, "Joseph Stalin");
     }
 
     @FXML
-    public void WChurchillBC(MouseEvent event) {
+    public void WChurchillBC(ActionEvent event) {
         launchGame(event, "Winston Churchill");
     }
 
     @FXML
-    public void CGaulleBC(MouseEvent event) {
+    public void CGaulleBC(ActionEvent event) {
         launchGame(event, "Charles de Gaulle");
     }
 
     @FXML
-    public void FDRooseveltBC(MouseEvent event) {
+    public void FDRooseveltBC(ActionEvent event) {
         launchGame(event, "Franklin D. Roosevelt");
     }
 
-    private void launchGame(MouseEvent event, String leaderName) {
+    private void launchGame(ActionEvent event, String leaderName) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Level.fxml"));
             Parent root = loader.load();
@@ -198,7 +199,7 @@ public class LeaderController {
     }
 
     @FXML
-    public void onBackButtonClick(MouseEvent event) {
+    public void onBackButtonClick(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Playmode.fxml"));
             Parent root = loader.load();
