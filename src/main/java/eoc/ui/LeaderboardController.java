@@ -141,20 +141,9 @@ public class LeaderboardController {
 
     @FXML
     public void onBackButtonClick() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Playmode.fxml"));
-            Scene scene = new Scene(loader.load());
-            PlaymodeController controller = loader.getController();
-            if (username != null) {
-                controller.setUsername(username); // Pass username back
-            }
-
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(scene);
-        } catch (IOException e) {
-            System.err.println("❌ Failed to load Playmode.fxml: " + e.getMessage());
-            showErrorAlert("Failed to return to play mode. Try again.");
-        }
+        // Close the modal stage and return to Welcome.fxml
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        stage.close();
     }
 
     private void showErrorAlert(String message) {

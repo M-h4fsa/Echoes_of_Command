@@ -29,21 +29,17 @@ import java.util.HashMap;
 
 public class UsernameController {
 
-    @FXML
-    private TextField usernameField;
+    @FXML private TextField usernameField;
+    @FXML private Button submitButton;
+    @FXML private Button backButton;
 
-    @FXML
-    private Button submitButton;
-
-    @FXML
-    private Button backButton;
-    private Stage welcomeStage;  // reference to close later
-    private Stage usernameStage; // popup window
+    private Stage welcomeStage;
+    private Stage usernameStage;
     private static final String PLAYERS_JSON_PATH = "players.json";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
             .ofPattern("dd-MM-yyyy HH:mm:ss")
             .withZone(ZoneId.systemDefault());
-    private static final java.nio.file.Path PLAYERS_FILE_PATH = Paths.get("C:/Users/DELL/Desktop/Echoes_of_Command/Echoes_of_Command", PLAYERS_JSON_PATH);
+    private static final java.nio.file.Path PLAYERS_FILE_PATH = Paths.get("Echoes_of_Command", PLAYERS_JSON_PATH);
 
     public void setWelcomeStage(Stage stage) {
         this.welcomeStage = stage;
@@ -53,9 +49,20 @@ public class UsernameController {
         this.usernameStage = stage;
     }
 
+    public void setWelcomeStageUsername(String username) {
+        usernameField.setText(username);
+    }
+
     public void initialize() {
         setupHoverEffect(submitButton, "#e6d9a8", 1.05, 1.05);
         setupHoverEffect(backButton, "#3a4219", 1.05, 1.05);
+
+        // Try to create directory if it doesn't exist
+        try {
+            Files.createDirectories(PLAYERS_FILE_PATH.getParent());
+        } catch (IOException e) {
+            System.err.println("❌ Failed to create directory: " + e.getMessage());
+        }
     }
 
     private void setupHoverEffect(Button button, String hoverColor, double scaleX, double scaleY) {
@@ -79,44 +86,63 @@ public class UsernameController {
 
     @FXML
     private void handleSubmit(ActionEvent event) throws IOException {
-        String username = usernameField.getText();
-        if (username == null || username.trim().isEmpty()) {
+        onSubmitButtonClick();
+    }
+
+    @FXML
+    public void onSubmitButtonClick() {
+        String username = usernameField.getText().trim();
+        if (username.isEmpty()) {
             showAlert("Please enter a username.");
             return;
         }
 
-        // Load existing players from players.json
+        // Load existing players
         List<Map<String, Object>> players = loadPlayers();
         String currentTime = Instant.now().toString();
         String lastLogin = null;
 
-        // Check if the user already exists
+        // Check if user exists
         for (Map<String, Object> player : players) {
             if (player.get("username").equals(username)) {
                 lastLogin = (String) player.get("lastLogin");
-                player.put("lastLogin", currentTime); // Update last login time
+                player.put("lastLogin", currentTime);
                 break;
             }
         }
 
-        // If user doesn't exist, add them with default stats
+        // Add new user if doesn't exist
         if (lastLogin == null) {
-            Map<String, Object> newPlayer = new HashMap<>();
-            newPlayer.put("username", username);
-            newPlayer.put("lastLogin", currentTime);
-            newPlayer.put("bestScoreRandom", 0);
-            newPlayer.put("bestTimeRandom", "00:00");
-            newPlayer.put("bestScoreSequential", 0);
-            newPlayer.put("bestTimeSequential", "00:00");
-            newPlayer.put("bestScoreSingle", 0);
-            newPlayer.put("bestTimeSingle", "00:00");
+            Map<String, Object> newPlayer = createNewPlayer(username, currentTime);
             players.add(newPlayer);
         }
 
-        // Save updated players list back to players.json
+        // Save updated players
         savePlayers(players);
 
-        // Format welcome message
+        // Show welcome message
+        showWelcomeMessage(username, lastLogin);
+
+        // Proceed to playmode
+        navigateToPlaymode(username);
+    }
+
+    private Map<String, Object> createNewPlayer(String username, String currentTime) {
+        Map<String, Object> newPlayer = new HashMap<>();
+        newPlayer.put("username", username);
+        newPlayer.put("lastLogin", currentTime);
+        newPlayer.put("bestScoreRandom", 0);
+        newPlayer.put("bestTimeRandom", "00:00");
+        newPlayer.put("bestScoreSequential", 0);
+        newPlayer.put("bestTimeSequential", "00:00");
+        newPlayer.put("bestScoreSingle", 0);
+        newPlayer.put("bestTimeSingle", "00:00");
+        newPlayer.put("totalLevelsPlayed", 0);
+        newPlayer.put("totalCorrectChoices", 0);
+        return newPlayer;
+    }
+
+    private void showWelcomeMessage(String username, String lastLogin) {
         String welcomeMessage;
         if (lastLogin != null) {
             Instant lastLoginInstant = Instant.parse(lastLogin);
@@ -126,31 +152,34 @@ public class UsernameController {
             welcomeMessage = "Welcome commander " + username + "! You're new!";
         }
 
-        // Show welcome message
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Welcome");
         alert.setHeaderText(null);
         alert.setContentText(welcomeMessage);
-        // Apply background color #eadcc7 to the alert
-        String css = "-fx-background-color: #eadcc7;";
-        alert.getDialogPane().setStyle(css);
+        alert.getDialogPane().setStyle("-fx-background-color: #eadcc7;");
         alert.showAndWait();
+    }
 
-        // Load Playmode scene and pass username
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Playmode.fxml"));
-        Scene playmodeScene = new Scene(loader.load());
-        PlaymodeController controller = loader.getController();
-        controller.setUsername(username);
+    private void navigateToPlaymode(String username) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Playmode.fxml"));
+            Stage stage = new Stage(); // Create new stage
+            stage.setScene(new Scene(loader.load()));
 
-        // Show in a new stage or reuse welcomeStage
-        Stage playStage = new Stage();
-        playStage.setTitle("Play Mode");
-        playStage.setScene(playmodeScene);
-        playStage.show();
+            PlaymodeController controller = loader.getController();
+            controller.setUsername(username); // Set username before showing
 
-        // Close both previous windows
-        if (usernameStage != null) usernameStage.close();
-        if (welcomeStage != null) welcomeStage.close();
+            stage.setTitle("Play Mode");
+            stage.show();
+
+            // Close previous windows
+            if (usernameStage != null) usernameStage.close();
+            if (welcomeStage != null) welcomeStage.close();
+
+        } catch (IOException e) {
+            System.err.println("❌ Failed to load Playmode.fxml: " + e.getMessage());
+            showAlert("Failed to proceed to game. Please try again.");
+        }
     }
 
     @FXML
@@ -163,31 +192,22 @@ public class UsernameController {
     private List<Map<String, Object>> loadPlayers() {
         ObjectMapper mapper = new ObjectMapper();
         List<Map<String, Object>> players = new ArrayList<>();
+
         try {
-            // Try to read from the save location first
             if (Files.exists(PLAYERS_FILE_PATH)) {
                 try (InputStream input = Files.newInputStream(PLAYERS_FILE_PATH)) {
                     players = mapper.readValue(input, new TypeReference<List<Map<String, Object>>>() {});
-                    System.out.println("Loaded players from " + PLAYERS_FILE_PATH + ": " + players);
                 }
             } else {
-                // If file doesn't exist in save location, check resources as a fallback
                 try (InputStream input = getClass().getClassLoader().getResourceAsStream(PLAYERS_JSON_PATH)) {
                     if (input != null) {
                         players = mapper.readValue(input, new TypeReference<List<Map<String, Object>>>() {});
-                        System.out.println("Loaded players from resources: " + players);
-                        // Save to the correct location to sync
-                        savePlayers(players);
-                    } else {
-                        System.out.println("players.json not found in resources or save location, starting with empty list");
-                        // Create an empty file in the save location
-                        savePlayers(players);
+                        savePlayers(players); // Save to filesystem
                     }
                 }
             }
         } catch (IOException e) {
             System.err.println("❌ Failed to load players.json: " + e.getMessage());
-            e.printStackTrace();
         }
         return players;
     }
@@ -195,17 +215,11 @@ public class UsernameController {
     private void savePlayers(List<Map<String, Object>> players) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            // Save to the specified directory
-            java.nio.file.Path dir = Paths.get("C:/Users/DELL/Desktop/Echoes_of_Command/Echoes_of_Command");
-            Files.createDirectories(dir); // Ensure directory exists
-            java.nio.file.Path path = dir.resolve(PLAYERS_JSON_PATH);
-            try (OutputStream output = Files.newOutputStream(path)) {
-                mapper.writeValue(output, players);
-                System.out.println("Saved players to " + path);
+            try (OutputStream output = Files.newOutputStream(PLAYERS_FILE_PATH)) {
+                mapper.writerWithDefaultPrettyPrinter().writeValue(output, players);
             }
         } catch (IOException e) {
             System.err.println("❌ Failed to save players.json: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -214,9 +228,7 @@ public class UsernameController {
         alert.setTitle("Username Confirmation");
         alert.setHeaderText(null);
         alert.setContentText(message);
-        // Apply background color #eadcc7 to the alert
-        String css = "-fx-background-color: #eadcc7;";
-        alert.getDialogPane().setStyle(css);
+        alert.getDialogPane().setStyle("-fx-background-color: #eadcc7;");
         alert.showAndWait();
     }
 }

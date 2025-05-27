@@ -1,17 +1,19 @@
 package eoc.ui;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.io.IOException;
 import java.io.File;
 
@@ -24,6 +26,13 @@ public class CourseController {
 
     @FXML
     private TextArea courseTextArea;
+
+    private String username; // Store username
+
+    public void setUsername(String username) {
+        this.username = username;
+        System.out.println("CourseController: Username set to " + username);
+    }
 
     public void initialize() {
         setupHoverEffect(downloadButton, "#e6d9a8", 1.05, 1.05);
@@ -40,8 +49,6 @@ public class CourseController {
         } catch (IOException e) {
             courseTextArea.setText("Error loading course content: " + e.getMessage());
         }
-
-
     }
 
     private void setupHoverEffect(Button button, String hoverColor, double scaleX, double scaleY) {
@@ -86,6 +93,19 @@ public class CourseController {
 
     @FXML
     public void onBackButtonClick() {
-        // Handle back button click
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Playmode.fxml"));
+            Parent root = loader.load();
+            PlaymodeController controller = loader.getController();
+            if (username != null) {
+                controller.setUsername(username); // Pass username back
+            }
+
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("❌ Failed to load Playmode.fxml: " + e.getMessage());
+        }
     }
 }

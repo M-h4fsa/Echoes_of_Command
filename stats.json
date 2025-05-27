@@ -20,4 +20,15 @@
   "bestScoreSequential" : 0,
   "bestScoreRandom" : 0,
   "leadersPlayed" : [ ]
+}, {
+  "username" : "moussa",
+  "totalLevelsPlayed" : 50,
+  "totalCorrectChoices" : 3,
+  "bestTimeSingle" : "00:16",
+  "bestTimeSequential" : "00:00",
+  "bestTimeRandom" : "00:03",
+  "bestScoreSingle" : 5,
+  "bestScoreSequential" : 0,
+  "bestScoreRandom" : 1,
+  "leadersPlayed" : [ "Joseph Stalin" ]
 } ]

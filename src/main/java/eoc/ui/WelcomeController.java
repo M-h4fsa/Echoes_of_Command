@@ -24,6 +24,13 @@ public class WelcomeController {
     @FXML
     private Button quitButton;
 
+    private String username; // Store username
+
+    public void setUsername(String username) {
+        this.username = username;
+        System.out.println("WelcomeController: Username set to " + username);
+    }
+
     public void initialize() {
         setupHoverEffect(startButton, "#e6d9a8", 1.05, 1.05);
         setupHoverEffect(leaderboardButton, "#e6d9a8", 1.05, 1.05);
@@ -71,19 +78,27 @@ public class WelcomeController {
             popupStage.showAndWait();
 
         } catch (IOException e) {
-            showError("Could not load username.fxml: " + e.getMessage());
+            showError("Could not load Username.fxml: " + e.getMessage());
         }
     }
 
     @FXML
-    protected void onLBButtonClick() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Leaderboard");
-        alert.setHeaderText(null);
-        alert.setContentText("Welcome to leaderboard table!");
-        String css = "-fx-background-color: #eadcc7;";
-        alert.getDialogPane().setStyle(css);
-        alert.showAndWait();
+    protected void onLBButtonClick(javafx.event.ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Leaderboard.fxml"));
+            Scene scene = new Scene(loader.load());
+            LeaderboardController controller = loader.getController();
+            // Username not set at this stage, but can be added later if needed
+            Stage stage = new Stage();
+            stage.setTitle("Leaderboard");
+            stage.setScene(scene);
+            stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage.initOwner(((Node) event.getSource()).getScene().getWindow());
+            stage.setResizable(false);
+            stage.showAndWait();
+        } catch (IOException e) {
+            showError("Could not load Leaderboard.fxml: " + e.getMessage());
+        }
     }
 
     @FXML
