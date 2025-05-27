@@ -31,7 +31,7 @@ public class WelcomeController {
     }
 
     private void setupHoverEffect(Button button, String hoverColor, double scaleX, double scaleY) {
-        String originalStyle = button.getStyle();
+        String originalStyle = button.getStyle() != null ? button.getStyle() : "";
         DropShadow shadow = new DropShadow();
 
         button.setOnMouseEntered((MouseEvent event) -> {
@@ -81,20 +81,23 @@ public class WelcomeController {
         alert.setTitle("Leaderboard");
         alert.setHeaderText(null);
         alert.setContentText("Welcome to leaderboard table!");
+        String css = "-fx-background-color: #eadcc7;";
+        alert.getDialogPane().setStyle(css);
         alert.showAndWait();
     }
+
     @FXML
     private void onQuitButtonClick() {
         // Create custom buttons
         ButtonType yesButton = new ButtonType("Yes");
         ButtonType stayButton = new ButtonType("I'd rather stay");
 
-
         Alert confirmExit = new Alert(Alert.AlertType.CONFIRMATION,
                 "Are you sure you want to quit?", yesButton, stayButton);
-
         confirmExit.setTitle("Exit Game");
         confirmExit.setHeaderText("We're sad to see you go :(");
+        String css = "-fx-background-color: #eadcc7;";
+        confirmExit.getDialogPane().setStyle(css);
 
         // Show dialog and handle result
         confirmExit.showAndWait().ifPresent(response -> {
@@ -103,11 +106,14 @@ public class WelcomeController {
             }
         });
     }
+
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText("Navigation Error");
         alert.setContentText(message);
+        String css = "-fx-background-color: #eadcc7;";
+        alert.getDialogPane().setStyle(css);
         alert.showAndWait();
     }
 }

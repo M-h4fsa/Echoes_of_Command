@@ -70,6 +70,8 @@ public class EndRoundController {
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText(message);
+            String css = "-fx-background-color: #eadcc7;";
+            alert.getDialogPane().setStyle(css);
             alert.showAndWait();
         });
     }

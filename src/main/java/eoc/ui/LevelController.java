@@ -1,5 +1,8 @@
 package eoc.ui;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import eoc.ui.model.Leader;
 import eoc.ui.model.Choice;
 import eoc.ui.model.Level;
@@ -10,21 +13,22 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
 import javafx.fxml.FXMLLoader;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 import javafx.animation.PauseTransition;
 import javafx.scene.media.AudioClip;
-import javafx.util.Duration; // For PauseTransition
-import java.time.Instant; // For timer
-
+import java.time.Duration;
+import java.time.Instant;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class LevelController {
 
@@ -40,11 +44,18 @@ public class LevelController {
     private int currentIndex = 0;
     private int correctCount = 0;
     private String mode;
-    private Instant startTime; // Timer start
+    private String username;
+    private Instant startTime;
+    private List<Map<String, Object>> archives;
+    private static final String ARCHIVE_JSON_PATH = "archive.json";
+    private static final Path ARCHIVE_FILE_PATH = Paths.get("Echoes_of_Command", ARCHIVE_JSON_PATH);
+    private static final Path PLAYERS_FILE_PATH = Paths.get("Echoes_of_Command", "players.json");
 
-    public void initializeGame(String mode, String leaderName) {
+    public void initializeGame(String mode, String leaderName, String username) {
         this.mode = mode;
-        this.startTime = Instant.now(); // Start timer
+        this.username = username != null ? username : "Unknown";
+        this.startTime = Instant.now();
+        this.archives = new ArrayList<>();
         loadHistory();
 
         if (allLeaders == null || allLeaders.isEmpty()) {
@@ -54,7 +65,7 @@ public class LevelController {
 
         if (mode.equals("SINGLE")) {
             this.currentLeader = findLeaderByName(leaderName);
-            if (currentLeader == null) {
+            if (this.currentLeader == null) {
                 showErrorAlert("Selected leader not found: " + leaderName);
                 return;
             }
@@ -73,9 +84,8 @@ public class LevelController {
             return;
         }
 
-        // Initialize progress bar
         progressBar.setProgress(0.0);
-        System.out.println("Initialized game with " + currentLevels.size() + " levels, correctCount: " + correctCount);
+        System.out.println("Initialized game with " + currentLevels.size() + " levels, correctCount: " + correctCount + ", username: " + username);
 
         showLevel();
     }
@@ -105,6 +115,14 @@ public class LevelController {
 
     private void showLevel() {
         if (currentIndex >= currentLevels.size()) {
+            try {
+                saveArchives();
+            } catch (Exception e) {
+                System.err.println("❌ Failed to save archives: " + e.getMessage());
+                e.printStackTrace();
+                showErrorAlert("Error saving game data. Proceeding to end screen.");
+            }
+            updatePlayerStats();
             goToEndScreen();
             return;
         }
@@ -116,10 +134,9 @@ public class LevelController {
             return;
         }
 
-        // Format description with newlines for wrapping
         String formattedDescription = wrapText(level.getDescription(), 50);
         descriptionArea.setText(formattedDescription);
-        System.out.println("Displaying level " + currentIndex + ": " + formattedDescription); // Debug
+        System.out.println("Displaying level " + currentIndex + ": " + formattedDescription);
 
         Choice choice1 = level.getChoices().get(0);
         Choice choice2 = level.getChoices().get(1);
@@ -189,7 +206,20 @@ public class LevelController {
         Choice choice = level.getChoices().get(choiceIndex);
         boolean correct = choice.isHistorical();
 
-        System.out.println("Choice " + choiceIndex + " selected: " + choice.getText() + ", isHistorical: " + correct); // Debug
+        System.out.println("Choice " + choiceIndex + " selected: " + choice.getText() + ", isHistorical: " + correct);
+
+        Leader effectiveLeader = (mode.equals("SINGLE")) ? currentLeader : findLeaderOf(level);
+        String leaderName = effectiveLeader != null ? effectiveLeader.getName() : "Unknown";
+        Map<String, Object> archive = new HashMap<>();
+        archive.put("username", username);
+        archive.put("leader", leaderName);
+        archive.put("levelNumber", level.getNumber());
+        archive.put("description", level.getDescription());
+        archive.put("historicalChoice", level.getChoices().stream().filter(Choice::isHistorical).findFirst().map(Choice::getText).orElse(""));
+        archive.put("summary", level.getSummary());
+        archive.put("playerChoice", choice.getText());
+        archive.put("isCorrect", correct);
+        archives.add(archive);
 
         if (correct) {
             clickedButton.setStyle("-fx-background-color: green;");
@@ -201,15 +231,14 @@ public class LevelController {
         choiceOneButton.setDisable(true);
         choiceTwoButton.setDisable(true);
 
-        // Update progress bar immediately
         double progress = (double) correctCount / currentLevels.size();
         progressBar.setProgress(progress);
-        System.out.println("Progress: correctCount=" + correctCount + "/" + currentLevels.size() + ", progress=" + progress); // Debug
+        System.out.println("Progress: correctCount=" + correctCount + "/" + currentLevels.size() + ", progress=" + progress);
 
         currentIndex++;
-        System.out.println("Advancing to next level, new index: " + currentIndex); // Debug
+        System.out.println("Advancing to next level, new index: " + currentIndex);
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        PauseTransition pause = new PauseTransition(javafx.util.Duration.seconds(1));
         pause.setOnFinished(event -> showLevel());
         pause.play();
     }
@@ -225,15 +254,201 @@ public class LevelController {
     }
 
     private String getElapsedTime() {
-        java.time.Duration duration = java.time.Duration.between(startTime, Instant.now());
+        Duration duration = Duration.between(startTime, Instant.now());
         long seconds = duration.getSeconds();
         long minutes = seconds / 60;
         seconds %= 60;
         return String.format("%02d:%02d", minutes, seconds);
     }
 
+    private void saveArchives() {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Map<String, Object>> allArchives = new ArrayList<>();
+
+        System.out.println("Attempting to load archives from: " + ARCHIVE_FILE_PATH.toAbsolutePath());
+
+        try {
+            if (Files.exists(ARCHIVE_FILE_PATH)) {
+                try (InputStream input = Files.newInputStream(ARCHIVE_FILE_PATH)) {
+                    allArchives = mapper.readValue(input, new TypeReference<List<Map<String, Object>>>() {});
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("❌ Failed to load archive.json: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        List<Map<String, Object>> otherPlayersArchives = allArchives.stream()
+                .filter(entry -> {
+                    Object usernameObj = entry.get("username");
+                    if (usernameObj == null || usernameObj.toString().isEmpty()) {
+                        System.err.println("⚠️ Skipping invalid archive entry: " + entry);
+                        return false;
+                    }
+                    return !usernameObj.equals(username);
+                })
+                .collect(Collectors.toList());
+
+        for (Map<String, Object> archive : archives) {
+            if (archive.get("username") != null && !archive.get("username").toString().isEmpty()) {
+                otherPlayersArchives.add(archive);
+            } else {
+                System.err.println("⚠️ Skipping invalid new archive entry: " + archive);
+            }
+        }
+
+        try {
+            Path dir = ARCHIVE_FILE_PATH.getParent();
+            if (dir != null) {
+                Files.createDirectories(dir);
+            }
+            try (OutputStream output = Files.newOutputStream(ARCHIVE_FILE_PATH)) {
+                mapper.writeValue(output, otherPlayersArchives);
+                System.out.println("Saved archives to " + ARCHIVE_FILE_PATH + " for user " + username + ": " + archives.size() + " new entries");
+            }
+        } catch (IOException e) {
+            System.err.println("❌ Failed to save archive.json: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void loadArchives() {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Map<String, Object>> allArchives = new ArrayList<>();
+        try {
+            if (Files.exists(ARCHIVE_FILE_PATH)) {
+                try (InputStream input = Files.newInputStream(ARCHIVE_FILE_PATH)) {
+                    allArchives = mapper.readValue(input, new TypeReference<List<Map<String, Object>>>() {});
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("❌ Failed to load archive.json: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        this.archives = allArchives.stream()
+                .filter(entry -> {
+                    Object usernameObj = entry.get("username");
+                    if (usernameObj == null || usernameObj.toString().isEmpty()) {
+                        System.err.println("⚠️ Skipping invalid archive entry: " + entry);
+                        return false;
+                    }
+                    return usernameObj.equals(username);
+                })
+                .collect(Collectors.toList());
+        System.out.println("Loaded " + this.archives.size() + " archive entries for user " + username);
+    }
+
+    private void updatePlayerStats() {
+        ObjectMapper mapper = new ObjectMapper();
+        List<PlayerStats> players = loadPlayers();
+        String elapsedTime = getElapsedTime();
+        int score = correctCount;
+
+        PlayerStats currentPlayer = players.stream()
+                .filter(p -> p.username != null && p.username.equals(username))
+                .findFirst()
+                .orElseGet(() -> {
+                    PlayerStats newPlayer = new PlayerStats();
+                    newPlayer.username = username;
+                    players.add(newPlayer);
+                    return newPlayer;
+                });
+
+        String scoreKey = switch (mode) {
+            case "RANDOM" -> "bestScoreRandom";
+            case "SEQUENTIAL" -> "bestScoreSequential";
+            case "SINGLE" -> "bestScoreSingle";
+            default -> throw new IllegalStateException("Unknown mode: " + mode);
+        };
+        String timeKey = switch (mode) {
+            case "RANDOM" -> "bestTimeRandom";
+            case "SEQUENTIAL" -> "bestTimeSequential";
+            case "SINGLE" -> "bestTimeSingle";
+            default -> throw new IllegalStateException("Unknown mode: " + mode);
+        };
+
+        // Update best score and time for the current mode
+        int currentBestScore = switch (scoreKey) {
+            case "bestScoreSingle" -> currentPlayer.bestScoreSingle;
+            case "bestScoreSequential" -> currentPlayer.bestScoreSequential;
+            case "bestScoreRandom" -> currentPlayer.bestScoreRandom;
+            default -> 0;
+        };
+        String currentBestTime = switch (timeKey) {
+            case "bestTimeSingle" -> currentPlayer.bestTimeSingle != null ? currentPlayer.bestTimeSingle : "99:99";
+            case "bestTimeSequential" -> currentPlayer.bestTimeSequential != null ? currentPlayer.bestTimeSequential : "99:99";
+            case "bestTimeRandom" -> currentPlayer.bestTimeRandom != null ? currentPlayer.bestTimeRandom : "99:99";
+            default -> "99:99";
+        };
+
+        if (score > currentBestScore) {
+            switch (scoreKey) {
+                case "bestScoreSingle" -> currentPlayer.bestScoreSingle = score;
+                case "bestScoreSequential" -> currentPlayer.bestScoreSequential = score;
+                case "bestScoreRandom" -> currentPlayer.bestScoreRandom = score;
+            }
+            switch (timeKey) {
+                case "bestTimeSingle" -> currentPlayer.bestTimeSingle = elapsedTime;
+                case "bestTimeSequential" -> currentPlayer.bestTimeSequential = elapsedTime;
+                case "bestTimeRandom" -> currentPlayer.bestTimeRandom = elapsedTime;
+            }
+        } else if (score == currentBestScore) {
+            if (compareTimes(elapsedTime, currentBestTime) < 0) {
+                switch (timeKey) {
+                    case "bestTimeSingle" -> currentPlayer.bestTimeSingle = elapsedTime;
+                    case "bestTimeSequential" -> currentPlayer.bestTimeSequential = elapsedTime;
+                    case "bestTimeRandom" -> currentPlayer.bestTimeRandom = elapsedTime;
+                }
+            }
+        }
+
+        // Update total levels and correct choices
+        currentPlayer.totalLevelsPlayed += currentLevels.size();
+        currentPlayer.totalCorrectChoices += correctCount;
+
+        try {
+            Path dir = PLAYERS_FILE_PATH.getParent();
+            if (dir != null) {
+                Files.createDirectories(dir);
+            }
+            try (OutputStream output = Files.newOutputStream(PLAYERS_FILE_PATH)) {
+                mapper.writeValue(output, players);
+                System.out.println("Updated player stats for " + username + " in " + PLAYERS_FILE_PATH);
+            }
+        } catch (IOException e) {
+            System.err.println("❌ Failed to update players.json: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private List<PlayerStats> loadPlayers() {
+        ObjectMapper mapper = new ObjectMapper();
+        List<PlayerStats> players = new ArrayList<>();
+        try {
+            if (Files.exists(PLAYERS_FILE_PATH)) {
+                try (InputStream input = Files.newInputStream(PLAYERS_FILE_PATH)) {
+                    players = mapper.readValue(input, new TypeReference<List<PlayerStats>>() {});
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("❌ Failed to load players.json: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return players;
+    }
+
+    private int compareTimes(String time1, String time2) {
+        String[] parts1 = time1.split(":");
+        String[] parts2 = time2.split(":");
+        int minutes1 = Integer.parseInt(parts1[0]);
+        int seconds1 = Integer.parseInt(parts1[1]);
+        int minutes2 = Integer.parseInt(parts2[0]);
+        int seconds2 = Integer.parseInt(parts2[1]);
+        return (minutes1 * 60 + seconds1) - (minutes2 * 60 + seconds2);
+    }
+
     private void goToEndScreen() {
-        // Play sound effect for end of round with enhanced debugging
         AudioClip endSound = null;
         try {
             String soundPath = getClass().getResource("/eoc/ui/endround.wav").toExternalForm();
@@ -263,11 +478,9 @@ public class LevelController {
                 controller.setScore("Score: " + correctCount + " / " + currentLevels.size());
                 controller.setTime("Time: " + getElapsedTime());
 
-                // Pass the main stage to the controller
                 Stage mainStage = (Stage) descriptionArea.getScene().getWindow();
                 controller.setMainStage(mainStage);
 
-                // Create a modal dialog
                 Stage dialogStage = new Stage();
                 dialogStage.initModality(Modality.APPLICATION_MODAL);
                 dialogStage.initOwner(mainStage);
@@ -285,8 +498,12 @@ public class LevelController {
     @FXML
     private void onBackButtonClick(ActionEvent event) {
         try {
+            saveArchives();
+            updatePlayerStats();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Playmode.fxml"));
             Scene scene = new Scene(loader.load());
+            PlaymodeController controller = loader.getController();
+            controller.setUsername(username);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -302,7 +519,24 @@ public class LevelController {
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText(message);
+            String css = "-fx-background-color: #eadcc7;";
+            alert.getDialogPane().setStyle(css);
             alert.showAndWait();
         });
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class PlayerStats {
+        public String username;
+        public int totalLevelsPlayed;
+        public int totalCorrectChoices;
+        public String bestTimeSingle;
+        public String bestTimeSequential;
+        public String bestTimeRandom;
+        public int bestScoreSingle;
+        public int bestScoreSequential;
+        public int bestScoreRandom;
+
+        public PlayerStats() {}
     }
 }

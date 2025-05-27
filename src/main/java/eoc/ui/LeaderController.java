@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -48,11 +49,15 @@ public class LeaderController {
     @FXML private Label rooseveltDescriptionLabel;
 
     private final Map<String, String> leaderBackstories = new HashMap<>();
-
     private String selectedMode = "SINGLE"; // default
+    private String username; // Store username
 
     public void setSelectedMode(String mode) {
         this.selectedMode = mode;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void initialize() {
@@ -187,7 +192,7 @@ public class LeaderController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Level.fxml"));
             Parent root = loader.load();
             LevelController controller = loader.getController();
-            controller.initializeGame(selectedMode, leaderName);
+            controller.initializeGame(selectedMode, leaderName, username); // Pass username
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -203,6 +208,8 @@ public class LeaderController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Playmode.fxml"));
             Parent root = loader.load();
+            PlaymodeController controller = loader.getController();
+            controller.setUsername(username); // Pass username back
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -213,10 +220,12 @@ public class LeaderController {
     }
 
     private void showErrorAlert(String message) {
-        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
+        String css = "-fx-background-color: #eadcc7;";
+        alert.getDialogPane().setStyle(css);
         alert.showAndWait();
     }
 }

@@ -2,72 +2,94 @@ package eoc.ui;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-
-import java.io.File;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ArchiveController {
-    @FXML
-    private Button searchButton;
+    @FXML private Button searchButton;
+    @FXML private Button backButton;
+    @FXML private TextField searchField;
+    @FXML private TextArea resultArea;
 
-    @FXML
-    private Button backButton;
+    private static final String ARCHIVE_JSON_PATH = "archive.json";
+    private static final Path ARCHIVE_FILE_PATH = Paths.get("Echoes_of_Command", ARCHIVE_JSON_PATH);
+    private List<ArchiveEntry> archiveEntries;
+    private String username; // Store username for navigation
 
-    @FXML
-    private TextField searchField;
-
-    @FXML
-    private TextArea resultArea;
-
-    private final File archiveFile = new File("archive.json");
-    private List<ArchiveEntry> allEntries;
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public void initialize() {
-        setupHoverEffect(searchButton, "#e6d9a8", 1.05, 1.05);
-        setupHoverEffect(backButton, "#3a4219", 1.05, 1.05);
+        if (username == null) {
+            System.err.println("⚠️ Username not set in ArchiveController");
+            resultArea.setText("Error: Username not set.");
+            return;
+        }
+        setupHoverEffects();
         loadArchiveData();
     }
 
     private void loadArchiveData() {
-        if (!archiveFile.exists()) {
-            resultArea.setText("Archive data not found.");
+        if (!Files.exists(ARCHIVE_FILE_PATH)) {
+            resultArea.setText("Archive data not found at " + ARCHIVE_FILE_PATH);
             return;
         }
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            allEntries = mapper.readValue(archiveFile, new TypeReference<>() {});
-            allEntries.sort(Comparator.comparingInt(entry -> entry.levelNumber));
-            displayEntries(allEntries);
+            archiveEntries = mapper.readValue(Files.readAllBytes(ARCHIVE_FILE_PATH), new TypeReference<List<ArchiveEntry>>() {});
+            archiveEntries.sort(Comparator.comparingInt(entry -> entry.levelNumber));
+            displayPlayerEntries();
 
         } catch (IOException e) {
+            System.err.println("❌ Error loading archive.json: " + e.getMessage());
             resultArea.setText("Error loading archive: " + e.getMessage());
+        }
+    }
+
+    private void displayPlayerEntries() {
+        if (archiveEntries == null) return;
+
+        List<ArchiveEntry> playerEntries = archiveEntries.stream()
+                .filter(entry -> entry.username != null && entry.username.equals(username))
+                .collect(Collectors.toList());
+
+        if (playerEntries.isEmpty()) {
+            resultArea.setText("No archive entries found for " + username);
+        } else {
+            displayEntries(playerEntries);
         }
     }
 
     private void displayEntries(List<ArchiveEntry> entries) {
         StringBuilder display = new StringBuilder();
-
-        for (ArchiveEntry e : entries) {
-            display.append("Level ").append(e.levelNumber).append(": ").append(e.description).append("\n")
-                    .append("Leader: ").append(e.leader).append("\n")
-                    .append("Player's Choice: ").append(e.playerChoice)
-                    .append(" (").append(e.isCorrect ? "Correct" : "Incorrect").append(")\n")
-                    .append("Historical Outcome: ").append(e.historicalChoice).append("\n")
-                    .append("Summary: ").append(e.summary).append("\n")
+        for (ArchiveEntry entry : entries) {
+            display.append("Level ").append(entry.levelNumber).append(": ").append(entry.description).append("\n")
+                    .append("Leader: ").append(entry.leader).append("\n")
+                    .append("Player's Choice: ").append(entry.playerChoice)
+                    .append(" (").append(entry.isCorrect ? "Correct" : "Incorrect").append(")\n")
+                    .append("Historical Outcome: ").append(entry.historicalChoice).append("\n")
+                    .append("Summary: ").append(entry.summary).append("\n")
                     .append("--------------------------------------------------\n");
         }
-
         resultArea.setText(display.toString());
     }
 
@@ -82,21 +104,22 @@ public class ArchiveController {
     }
 
     private void filterAndDisplay() {
-        if (allEntries == null) return;
+        if (archiveEntries == null) return;
 
         String keyword = searchField.getText().trim().toLowerCase();
 
         if (keyword.isEmpty()) {
-            displayEntries(allEntries);
+            displayPlayerEntries();
             return;
         }
 
-        List<ArchiveEntry> filtered = allEntries.stream()
-                .filter(e ->
-                        e.leader.toLowerCase().contains(keyword) ||
-                                e.description.toLowerCase().contains(keyword) ||
-                                e.historicalChoice.toLowerCase().contains(keyword) ||
-                                e.playerChoice.toLowerCase().contains(keyword)
+        List<ArchiveEntry> filtered = archiveEntries.stream()
+                .filter(entry -> entry.username != null && entry.username.equals(username))
+                .filter(entry ->
+                        entry.leader.toLowerCase().contains(keyword) ||
+                                entry.description.toLowerCase().contains(keyword) ||
+                                entry.historicalChoice.toLowerCase().contains(keyword) ||
+                                entry.playerChoice.toLowerCase().contains(keyword)
                 )
                 .collect(Collectors.toList());
 
@@ -109,7 +132,25 @@ public class ArchiveController {
 
     @FXML
     public void onBackButtonClick() {
-        // Handle back navigation
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Playmode.fxml"));
+            Scene scene = new Scene(loader.load());
+            PlaymodeController controller = loader.getController();
+            if (username != null) {
+                controller.setUsername(username); // Pass username back
+            }
+
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            System.err.println("❌ Failed to load Playmode.fxml: " + e.getMessage());
+            showErrorAlert("Failed to return to play mode. Try again.");
+        }
+    }
+
+    private void setupHoverEffects() {
+        setupHoverEffect(searchButton, "#e6d9a8", 1.05, 1.05);
+        setupHoverEffect(backButton, "#3a4219", 1.05, 1.05);
     }
 
     private void setupHoverEffect(Button button, String hoverColor, double scaleX, double scaleY) {
@@ -131,7 +172,20 @@ public class ArchiveController {
         });
     }
 
+    private void showErrorAlert(String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            String css = "-fx-background-color: #eadcc7;";
+            alert.getDialogPane().setStyle(css);
+            alert.showAndWait();
+        });
+    }
+
     public static class ArchiveEntry {
+        public String username;
         public String leader;
         public int levelNumber;
         public String description;

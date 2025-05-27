@@ -1,7 +1,23 @@
-{
-  "username" : "user",
+[ {
+  "username" : null,
   "totalLevelsPlayed" : 0,
   "totalCorrectChoices" : 0,
-  "totalTimeMillis" : 0,
+  "bestTimeSingle" : null,
+  "bestTimeSequential" : null,
+  "bestTimeRandom" : null,
+  "bestScoreSingle" : 0,
+  "bestScoreSequential" : 0,
+  "bestScoreRandom" : 0,
   "leadersPlayed" : [ ]
-}
+}, {
+  "username" : null,
+  "totalLevelsPlayed" : 0,
+  "totalCorrectChoices" : 0,
+  "bestTimeSingle" : null,
+  "bestTimeSequential" : null,
+  "bestTimeRandom" : null,
+  "bestScoreSingle" : 0,
+  "bestScoreSequential" : 0,
+  "bestScoreRandom" : 0,
+  "leadersPlayed" : [ ]
+} ]

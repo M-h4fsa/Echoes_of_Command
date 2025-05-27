@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -17,6 +18,11 @@ public class PlaymodeController {
     @FXML private Button sequentialButton;
     @FXML private Button singleButton;
     @FXML private Button backButton;
+    private String username; // Store username
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public void initialize() {
         setupHoverEffect(randomButton, "#e6d9a8", 1.05, 1.05);
@@ -61,6 +67,7 @@ public class PlaymodeController {
             Parent root = loader.load();
             LeaderController controller = loader.getController();
             controller.setSelectedMode("SINGLE");
+            controller.setUsername(username); // Pass username
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -90,7 +97,7 @@ public class PlaymodeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Level.fxml"));
             Parent root = loader.load();
             LevelController controller = loader.getController();
-            controller.initializeGame(mode, leaderName);
+            controller.initializeGame(mode, leaderName, username); // Pass username
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -102,10 +109,12 @@ public class PlaymodeController {
     }
 
     private void showErrorAlert(String message) {
-        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
+        String css = "-fx-background-color: #eadcc7;";
+        alert.getDialogPane().setStyle(css);
         alert.showAndWait();
     }
 }

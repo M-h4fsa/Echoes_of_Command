@@ -1,1 +1,23 @@
-[{"lastLogin":"2025-05-26T21:59:21.584101300Z","username":"user"},{"lastLogin":"2025-05-26T22:00:38.857738800Z","username":"saliha"},{"lastLogin":"2025-05-26T22:00:58.878158300Z","username":"user1"}]
+[ {
+  "username" : "moussa",
+  "totalLevelsPlayed" : 0,
+  "totalCorrectChoices" : 0,
+  "bestTimeSingle" : "00:16",
+  "bestTimeSequential" : "00:00",
+  "bestTimeRandom" : "00:00",
+  "bestScoreSingle" : 5,
+  "bestScoreSequential" : 0,
+  "bestScoreRandom" : 0,
+  "leadersPlayed" : [ ]
+}, {
+  "username" : "anothermoussa",
+  "totalLevelsPlayed" : 10,
+  "totalCorrectChoices" : 4,
+  "bestTimeSingle" : "00:15",
+  "bestTimeSequential" : "00:00",
+  "bestTimeRandom" : "00:00",
+  "bestScoreSingle" : 4,
+  "bestScoreSequential" : 0,
+  "bestScoreRandom" : 0,
+  "leadersPlayed" : [ ]
+} ]

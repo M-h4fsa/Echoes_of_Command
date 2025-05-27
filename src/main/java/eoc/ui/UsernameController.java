@@ -59,7 +59,7 @@ public class UsernameController {
     }
 
     private void setupHoverEffect(Button button, String hoverColor, double scaleX, double scaleY) {
-        String originalStyle = button.getStyle();
+        String originalStyle = button.getStyle() != null ? button.getStyle() : "";
         DropShadow shadow = new DropShadow();
 
         button.setOnMouseEntered((MouseEvent event) -> {
@@ -86,24 +86,30 @@ public class UsernameController {
         }
 
         // Load existing players from players.json
-        List<Map<String, String>> players = loadPlayers();
+        List<Map<String, Object>> players = loadPlayers();
         String currentTime = Instant.now().toString();
         String lastLogin = null;
 
         // Check if the user already exists
-        for (Map<String, String> player : players) {
+        for (Map<String, Object> player : players) {
             if (player.get("username").equals(username)) {
-                lastLogin = player.get("lastLogin");
+                lastLogin = (String) player.get("lastLogin");
                 player.put("lastLogin", currentTime); // Update last login time
                 break;
             }
         }
 
-        // If user doesn't exist, add them
+        // If user doesn't exist, add them with default stats
         if (lastLogin == null) {
-            Map<String, String> newPlayer = new HashMap<>();
+            Map<String, Object> newPlayer = new HashMap<>();
             newPlayer.put("username", username);
             newPlayer.put("lastLogin", currentTime);
+            newPlayer.put("bestScoreRandom", 0);
+            newPlayer.put("bestTimeRandom", "00:00");
+            newPlayer.put("bestScoreSequential", 0);
+            newPlayer.put("bestTimeSequential", "00:00");
+            newPlayer.put("bestScoreSingle", 0);
+            newPlayer.put("bestTimeSingle", "00:00");
             players.add(newPlayer);
         }
 
@@ -125,11 +131,16 @@ public class UsernameController {
         alert.setTitle("Welcome");
         alert.setHeaderText(null);
         alert.setContentText(welcomeMessage);
+        // Apply background color #eadcc7 to the alert
+        String css = "-fx-background-color: #eadcc7;";
+        alert.getDialogPane().setStyle(css);
         alert.showAndWait();
 
-        // Load Playmode scene
+        // Load Playmode scene and pass username
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Playmode.fxml"));
         Scene playmodeScene = new Scene(loader.load());
+        PlaymodeController controller = loader.getController();
+        controller.setUsername(username);
 
         // Show in a new stage or reuse welcomeStage
         Stage playStage = new Stage();
@@ -149,21 +160,21 @@ public class UsernameController {
         }
     }
 
-    private List<Map<String, String>> loadPlayers() {
+    private List<Map<String, Object>> loadPlayers() {
         ObjectMapper mapper = new ObjectMapper();
-        List<Map<String, String>> players = new ArrayList<>();
+        List<Map<String, Object>> players = new ArrayList<>();
         try {
             // Try to read from the save location first
             if (Files.exists(PLAYERS_FILE_PATH)) {
                 try (InputStream input = Files.newInputStream(PLAYERS_FILE_PATH)) {
-                    players = mapper.readValue(input, new TypeReference<List<Map<String, String>>>() {});
+                    players = mapper.readValue(input, new TypeReference<List<Map<String, Object>>>() {});
                     System.out.println("Loaded players from " + PLAYERS_FILE_PATH + ": " + players);
                 }
             } else {
                 // If file doesn't exist in save location, check resources as a fallback
                 try (InputStream input = getClass().getClassLoader().getResourceAsStream(PLAYERS_JSON_PATH)) {
                     if (input != null) {
-                        players = mapper.readValue(input, new TypeReference<List<Map<String, String>>>() {});
+                        players = mapper.readValue(input, new TypeReference<List<Map<String, Object>>>() {});
                         System.out.println("Loaded players from resources: " + players);
                         // Save to the correct location to sync
                         savePlayers(players);
@@ -181,12 +192,12 @@ public class UsernameController {
         return players;
     }
 
-    private void savePlayers(List<Map<String, String>> players) {
+    private void savePlayers(List<Map<String, Object>> players) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             // Save to the specified directory
             java.nio.file.Path dir = Paths.get("C:/Users/DELL/Desktop/Echoes_of_Command/Echoes_of_Command");
-            Files.createDirectories(dir); // Create directory if it doesn't exist
+            Files.createDirectories(dir); // Ensure directory exists
             java.nio.file.Path path = dir.resolve(PLAYERS_JSON_PATH);
             try (OutputStream output = Files.newOutputStream(path)) {
                 mapper.writeValue(output, players);
@@ -203,6 +214,9 @@ public class UsernameController {
         alert.setTitle("Username Confirmation");
         alert.setHeaderText(null);
         alert.setContentText(message);
+        // Apply background color #eadcc7 to the alert
+        String css = "-fx-background-color: #eadcc7;";
+        alert.getDialogPane().setStyle(css);
         alert.showAndWait();
     }
 }
