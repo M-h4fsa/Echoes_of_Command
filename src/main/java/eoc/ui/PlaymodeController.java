@@ -27,59 +27,44 @@ public class PlaymodeController {
     private String username;
 
     public void setUsername(String username) {
-        this.username = username != null ? username.toLowerCase() : "unknown"; // Ensure lowercase
+        this.username = username != null ? username.toLowerCase() : "unknown";
         System.out.println("PlaymodeController: Username set to: " + this.username);
-
-        // Safe stage access for user data
-        if (backButton != null && backButton.getScene() != null) {
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            if (stage != null) {
-                stage.setUserData(this.username);
-            }
-        }
     }
 
     @FXML
     public void initialize() {
-        // Setup hover effects for buttons
         setupHoverEffect(randomButton, "#e6d9a8", 1.05, 1.05);
         setupHoverEffect(sequentialButton, "#e6d9a8", 1.05, 1.05);
         setupHoverEffect(singleButton, "#e6d9a8", 1.05, 1.05);
         setupHoverEffect(backButton, "#3a4219", 1.05, 1.05);
 
         // Bind MenuItem actions
-        if (statsButton != null && !statsButton.getItems().isEmpty()) {
-            statsButton.getItems().get(0).setOnAction(event -> onStatsMenuItemClick());
-        } else {
-            System.err.println("Warning: StatsButton or its MenuItem is not properly initialized");
-        }
+        bindMenuItem(statsButton, this::onStatsMenuItemClick);
+        bindMenuItem(archiveButton, this::onArchiveMenuItemClick);
+        bindMenuItem(courseButton, this::onCourseMenuItemClick);
+    }
 
-        if (archiveButton != null && !archiveButton.getItems().isEmpty()) {
-            archiveButton.getItems().get(0).setOnAction(event -> onArchiveMenuItemClick());
+    private void bindMenuItem(Menu menu, Runnable action) {
+        if (menu != null && !menu.getItems().isEmpty()) {
+            menu.getItems().get(0).setOnAction(event -> action.run());
         } else {
-            System.err.println("Warning: ArchiveButton or its MenuItem is not properly initialized");
-        }
-
-        if (courseButton != null && !courseButton.getItems().isEmpty()) {
-            courseButton.getItems().get(0).setOnAction(event -> onCourseMenuItemClick());
-        } else {
-            System.err.println("Warning: CourseButton or its MenuItem is not properly initialized");
+            System.err.println("⚠️ Menu or its MenuItem is not initialized: " + (menu != null ? menu.getText() : "null"));
         }
     }
 
     private void setupHoverEffect(Button button, String hoverColor, double scaleX, double scaleY) {
-        if (button == null) return; // Safety check
+        if (button == null) return;
         String originalStyle = button.getStyle() != null ? button.getStyle() : "";
         DropShadow shadow = new DropShadow();
 
-        button.setOnMouseEntered((MouseEvent event) -> {
+        button.setOnMouseEntered(e -> {
             button.setStyle(originalStyle + "; -fx-background-color: " + hoverColor + ";");
             button.setScaleX(scaleX);
             button.setScaleY(scaleY);
             button.setEffect(shadow);
         });
 
-        button.setOnMouseExited((MouseEvent event) -> {
+        button.setOnMouseExited(e -> {
             button.setStyle(originalStyle);
             button.setScaleX(1.0);
             button.setScaleY(1.0);
@@ -99,89 +84,29 @@ public class PlaymodeController {
 
     @FXML
     public void onSingleButtonClick(MouseEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Leader.fxml"));
-            Parent root = loader.load();
-            LeaderController controller = loader.getController();
-            controller.setUsername(username); // Pass username
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-            System.out.println("Navigated to Leader selection for SINGLE mode, username: " + username);
-        } catch (IOException e) {
-            System.err.println("❌ Failed to load Leader.fxml: " + e.getMessage());
-            showErrorAlert("Failed to load leader selection. Please try again.");
-        }
+        navigateTo(event, "/eoc/ui/Leader.fxml", controller -> ((LeaderController) controller).setUsername(username));
+        System.out.println("Navigated to Leader selection for SINGLE mode, username=" + username);
     }
 
     @FXML
     public void onBackButtonClick(MouseEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Welcome.fxml"));
-            Parent root = loader.load();
-            WelcomeController controller = loader.getController();
-            controller.setUsername(username); // Pass username
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-            System.out.println("Returned to Welcome screen, username: " + username);
-        } catch (IOException e) {
-            System.err.println("❌ Failed to load Welcome.fxml: " + e.getMessage());
-            showErrorAlert("Failed to return to welcome screen. Please try again.");
-        }
+        navigateTo(event, "/eoc/ui/Welcome.fxml", controller -> ((WelcomeController) controller).setUsername(username));
+        System.out.println("Returned to Welcome screen, username=" + username);
     }
 
     public void onStatsMenuItemClick() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Stats.fxml"));
-            Parent root = loader.load();
-            StatsController controller = loader.getController();
-            controller.setUsername(username); // Pass username
-
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-            System.out.println("Navigated to Stats screen, username: " + username);
-        } catch (IOException e) {
-            System.err.println("❌ Failed to load Stats.fxml: " + e.getMessage());
-            showErrorAlert("Failed to load stats. Please try again.");
-        }
+        navigateTo(backButton, "/eoc/ui/Stats.fxml", controller -> ((StatsController) controller).setUsername(username));
+        System.out.println("Navigated to Stats screen, username=" + username);
     }
 
     public void onArchiveMenuItemClick() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Archive.fxml"));
-            Parent root = loader.load();
-            ArchiveController controller = loader.getController();
-            controller.setUsername(username); // Pass username
-
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-            System.out.println("Navigated to Archive screen, username: " + username);
-        } catch (IOException e) {
-            System.err.println("❌ Failed to load Archive.fxml: " + e.getMessage());
-            showErrorAlert("Failed to load archive. Please try again.");
-        }
+        navigateTo(backButton, "/eoc/ui/Archive.fxml", controller -> ((ArchiveController) controller).setUsername(username));
+        System.out.println("Navigated to Archive screen, username=" + username);
     }
 
     public void onCourseMenuItemClick() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Course.fxml"));
-            Parent root = loader.load();
-            CourseController controller = loader.getController();
-            controller.setUsername(username); // Pass username
-
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-            System.out.println("Navigated to Course screen, username: " + username);
-        } catch (IOException e) {
-            System.err.println("❌ Failed to load Course.fxml: " + e.getMessage());
-            showErrorAlert("Failed to load course. Please try again.");
-        }
+        navigateTo(backButton, "/eoc/ui/Course.fxml", controller -> ((CourseController) controller).setUsername(username));
+        System.out.println("Navigated to Course screen, username=" + username);
     }
 
     private void launchGame(MouseEvent event, String mode, String leaderName) {
@@ -189,7 +114,7 @@ public class PlaymodeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Level.fxml"));
             Parent root = loader.load();
             LevelController controller = loader.getController();
-            controller.initializeGame(mode, leaderName, username); // Pass username
+            controller.initializeGame(mode, leaderName, username);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -197,7 +122,38 @@ public class PlaymodeController {
             System.out.println("Launched game: mode=" + mode + ", leader=" + leaderName + ", username=" + username);
         } catch (IOException e) {
             System.err.println("❌ Failed to load Level.fxml: " + e.getMessage());
-            showErrorAlert("Failed to start game. Please try again.");
+            showErrorAlert("Failed to start game.");
+        }
+    }
+
+    private void navigateTo(MouseEvent event, String fxmlPath, java.util.function.Consumer<Object> setUsername) {
+        try {
+            Node source = (Node) event.getSource();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Scene scene = new Scene(loader.load());
+            setUsername.accept(loader.getController());
+
+            Stage stage = (Stage) source.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("❌ Failed to load " + fxmlPath + ": " + e.getMessage());
+            showErrorAlert("Failed to navigate to " + fxmlPath);
+        }
+    }
+
+    private void navigateTo(Node node, String fxmlPath, java.util.function.Consumer<Object> setUsername) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Scene scene = new Scene(loader.load());
+            setUsername.accept(loader.getController());
+
+            Stage stage = (Stage) node.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("❌ Failed to load " + fxmlPath + ": " + e.getMessage());
+            showErrorAlert("Failed to navigate to " + fxmlPath);
         }
     }
 

@@ -57,6 +57,8 @@ public class LevelController {
         this.username = username != null ? username.toLowerCase() : "unknown"; // Ensure lowercase
         this.startTime = Instant.now();
         this.archives = new ArrayList<>();
+        this.correctCount = 0; // Reset correct count
+        this.currentIndex = 0; // Reset index
         loadHistory();
 
         System.out.println("Initializing game: mode=" + mode + ", leader=" + leaderName + ", username=" + this.username);
@@ -80,6 +82,9 @@ public class LevelController {
             this.currentLevels = new ArrayList<>();
             for (Leader l : allLeaders) currentLevels.addAll(l.getLevels());
             Collections.shuffle(currentLevels);
+        } else {
+            showErrorAlert("Invalid mode: " + mode);
+            return;
         }
 
         if (currentLevels.isEmpty()) {
@@ -88,7 +93,7 @@ public class LevelController {
         }
 
         progressBar.setProgress(0.0);
-        System.out.println("Initialized game with " + currentLevels.size() + " levels, correctCount: " + correctCount + ", username: " + this.username);
+        System.out.println("Initialized game with " + currentLevels.size() + " levels, username: " + this.username);
 
         showLevel();
     }
@@ -103,9 +108,6 @@ public class LevelController {
             }
             allLeaders = mapper.readValue(input, new TypeReference<List<Leader>>() {});
             System.out.println("Loaded " + allLeaders.size() + " leaders");
-            for (Leader leader : allLeaders) {
-                System.out.println("Leader: " + leader.getName() + ", Levels: " + leader.getLevels().size());
-            }
         } catch (IOException e) {
             System.err.println("❌ Failed to load history.json: " + e.getMessage());
             showErrorAlert("Failed to load game data.");
@@ -122,9 +124,9 @@ public class LevelController {
                 saveArchives();
                 updatePlayerStats();
                 updateStats();
+                System.out.println("Game ended: mode=" + mode + ", username=" + username + ", score=" + correctCount);
             } catch (Exception e) {
                 System.err.println("❌ Failed to save data: " + e.getMessage());
-                e.printStackTrace();
                 showErrorAlert("Error saving game data. Proceeding to end screen.");
             }
             goToEndScreen();
@@ -138,9 +140,8 @@ public class LevelController {
             return;
         }
 
-        String formattedDescription = wrapText(level.getDescription(), 50);
-        descriptionArea.setText(formattedDescription);
-        System.out.println("Displaying level " + currentIndex + ": " + formattedDescription);
+        descriptionArea.setText(wrapText(level.getDescription(), 50));
+        System.out.println("Displaying level " + currentIndex + " for mode=" + mode + ", username=" + username);
 
         Choice choice1 = level.getChoices().get(0);
         Choice choice2 = level.getChoices().get(1);
@@ -193,7 +194,7 @@ public class LevelController {
             try {
                 leaderPortrait.setImage(new Image(getClass().getResource(path).toExternalForm()));
             } catch (Exception e) {
-                System.err.println("❌ Failed to load image: " + path + " - " + e.getMessage());
+                System.err.println("❌ Failed to load image: " + path);
             }
         }
     }
@@ -210,12 +211,12 @@ public class LevelController {
         Choice choice = level.getChoices().get(choiceIndex);
         boolean correct = choice.isHistorical();
 
-        System.out.println("Choice " + choiceIndex + " selected: " + choice.getText() + ", isHistorical: " + correct + ", username: " + username);
+        System.out.println("Choice " + choiceIndex + " selected: " + choice.getText() + ", isHistorical: " + correct + ", username: " + username + ", mode: " + mode);
 
         Leader effectiveLeader = (mode.equals("SINGLE")) ? currentLeader : findLeaderOf(level);
         String leaderName = effectiveLeader != null ? effectiveLeader.getName() : "Unknown";
         Map<String, Object> archive = new HashMap<>();
-        archive.put("username", username); // Use lowercase username
+        archive.put("username", username);
         archive.put("leader", leaderName);
         archive.put("levelNumber", level.getNumber());
         archive.put("description", level.getDescription());
@@ -237,11 +238,9 @@ public class LevelController {
 
         double progress = (double) correctCount / currentLevels.size();
         progressBar.setProgress(progress);
-        System.out.println("Progress: correctCount=" + correctCount + "/" + currentLevels.size() + ", progress=" + progress);
+        System.out.println("Progress: correctCount=" + correctCount + "/" + currentLevels.size() + ", mode=" + mode);
 
         currentIndex++;
-        System.out.println("Advancing to next level, new index: " + currentIndex);
-
         PauseTransition pause = new PauseTransition(javafx.util.Duration.seconds(1));
         pause.setOnFinished(event -> showLevel());
         pause.play();
@@ -269,21 +268,21 @@ public class LevelController {
         ObjectMapper mapper = new ObjectMapper();
         List<Map<String, Object>> allArchives = new ArrayList<>();
 
-        System.out.println("Saving archives for username: " + username + ", current session entries: " + archives.size());
+        System.out.println("Saving archives: username=" + username + ", mode=" + mode + ", new entries=" + archives.size());
 
+        // Load existing archives
         try {
             if (Files.exists(ARCHIVE_FILE_PATH)) {
                 try (InputStream input = Files.newInputStream(ARCHIVE_FILE_PATH)) {
                     allArchives = mapper.readValue(input, new TypeReference<List<Map<String, Object>>>() {});
-                    System.out.println("Loaded " + allArchives.size() + " existing archive entries from " + ARCHIVE_FILE_PATH);
+                    System.out.println("Loaded " + allArchives.size() + " existing archive entries");
                 }
             }
         } catch (IOException e) {
             System.err.println("❌ Failed to load archive.json: " + e.getMessage());
-            e.printStackTrace();
         }
 
-        // Add new archives, avoiding duplicates based on username, leader, and levelNumber
+        // Add new archives, avoiding duplicates
         Set<String> existingKeys = allArchives.stream()
                 .filter(entry -> entry.get("username") != null && entry.get("leader") != null && entry.get("levelNumber") != null)
                 .map(entry -> String.format("%s:%s:%d",
@@ -304,23 +303,22 @@ public class LevelController {
             if (!existingKeys.contains(key)) {
                 allArchives.add(archive);
                 existingKeys.add(key);
+                System.out.println("Added archive entry: " + key);
             } else {
-                System.out.println("Skipping duplicate archive entry for key: " + key);
+                System.out.println("Skipped duplicate archive entry: " + key);
             }
         }
 
+        // Save updated archives
         try {
             Path dir = ARCHIVE_FILE_PATH.getParent();
-            if (dir != null) {
-                Files.createDirectories(dir);
-            }
+            if (dir != null) Files.createDirectories(dir);
             try (OutputStream output = Files.newOutputStream(ARCHIVE_FILE_PATH)) {
                 mapper.writerWithDefaultPrettyPrinter().writeValue(output, allArchives);
-                System.out.println("Saved " + allArchives.size() + " total archive entries to " + ARCHIVE_FILE_PATH);
+                System.out.println("Saved " + allArchives.size() + " total archive entries");
             }
         } catch (IOException e) {
             System.err.println("❌ Failed to save archive.json: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -330,16 +328,16 @@ public class LevelController {
         String elapsedTime = getElapsedTime();
         int score = correctCount;
 
-        System.out.println("Updating player stats for username: " + username + ", mode: " + mode + ", score: " + score + ", time: " + elapsedTime);
+        System.out.println("Updating player stats: username=" + username + ", mode=" + mode + ", score=" + score + ", time=" + elapsedTime);
 
         PlayerStats currentPlayer = players.stream()
                 .filter(p -> p.username != null && p.username.toLowerCase().equals(username))
                 .findFirst()
                 .orElseGet(() -> {
                     PlayerStats newPlayer = new PlayerStats();
-                    newPlayer.username = username; // Store in lowercase
+                    newPlayer.username = username;
                     players.add(newPlayer);
-                    System.out.println("Created new player entry for username: " + username);
+                    System.out.println("Created new player entry for username=" + username);
                     return newPlayer;
                 });
 
@@ -347,16 +345,27 @@ public class LevelController {
             case "RANDOM" -> "bestScoreRandom";
             case "SEQUENTIAL" -> "bestScoreSequential";
             case "SINGLE" -> "bestScoreSingle";
-            default -> throw new IllegalStateException("Unknown mode: " + mode);
+            default -> {
+                System.err.println("❌ Invalid mode: " + mode);
+                yield null;
+            }
         };
         String timeKey = switch (mode) {
             case "RANDOM" -> "bestTimeRandom";
             case "SEQUENTIAL" -> "bestTimeSequential";
             case "SINGLE" -> "bestTimeSingle";
-            default -> throw new IllegalStateException("Unknown mode: " + mode);
+            default -> {
+                System.err.println("❌ Invalid mode: " + mode);
+                yield null;
+            }
         };
 
-        // Update best score and time for the current mode
+        if (scoreKey == null || timeKey == null) {
+            System.err.println("❌ Skipping player stats update due to invalid mode: " + mode);
+            return;
+        }
+
+        // Update best score and time
         int currentBestScore = switch (scoreKey) {
             case "bestScoreSingle" -> currentPlayer.bestScoreSingle;
             case "bestScoreSequential" -> currentPlayer.bestScoreSequential;
@@ -370,6 +379,7 @@ public class LevelController {
             default -> "99:99";
         };
 
+        boolean updated = false;
         if (score > currentBestScore) {
             switch (scoreKey) {
                 case "bestScoreSingle" -> currentPlayer.bestScoreSingle = score;
@@ -381,30 +391,31 @@ public class LevelController {
                 case "bestTimeSequential" -> currentPlayer.bestTimeSequential = elapsedTime;
                 case "bestTimeRandom" -> currentPlayer.bestTimeRandom = elapsedTime;
             }
+            updated = true;
             System.out.println("Updated " + scoreKey + "=" + score + ", " + timeKey + "=" + elapsedTime);
-        } else if (score == currentBestScore) {
-            if (compareTimes(elapsedTime, currentBestTime) < 0) {
-                switch (timeKey) {
-                    case "bestTimeSingle" -> currentPlayer.bestTimeSingle = elapsedTime;
-                    case "bestTimeSequential" -> currentPlayer.bestTimeSequential = elapsedTime;
-                    case "bestTimeRandom" -> currentPlayer.bestTimeRandom = elapsedTime;
-                }
-                System.out.println("Updated " + timeKey + "=" + elapsedTime + " (same score, better time)");
+        } else if (score == currentBestScore && compareTimes(elapsedTime, currentBestTime) < 0) {
+            switch (timeKey) {
+                case "bestTimeSingle" -> currentPlayer.bestTimeSingle = elapsedTime;
+                case "bestTimeSequential" -> currentPlayer.bestTimeSequential = elapsedTime;
+                case "bestTimeRandom" -> currentPlayer.bestTimeRandom = elapsedTime;
             }
+            updated = true;
+            System.out.println("Updated " + timeKey + "=" + elapsedTime + " (same score, better time)");
         }
 
-        try {
-            Path dir = PLAYERS_FILE_PATH.getParent();
-            if (dir != null) {
-                Files.createDirectories(dir);
+        if (updated) {
+            try {
+                Path dir = PLAYERS_FILE_PATH.getParent();
+                if (dir != null) Files.createDirectories(dir);
+                try (OutputStream output = Files.newOutputStream(PLAYERS_FILE_PATH)) {
+                    mapper.writerWithDefaultPrettyPrinter().writeValue(output, players);
+                    System.out.println("Saved player stats for username=" + username + ", mode=" + mode);
+                }
+            } catch (IOException e) {
+                System.err.println("❌ Failed to save players.json: " + e.getMessage());
             }
-            try (OutputStream output = Files.newOutputStream(PLAYERS_FILE_PATH)) {
-                mapper.writerWithDefaultPrettyPrinter().writeValue(output, players);
-                System.out.println("Updated player stats for " + username + " in " + PLAYERS_FILE_PATH);
-            }
-        } catch (IOException e) {
-            System.err.println("❌ Failed to update players.json: " + e.getMessage());
-            e.printStackTrace();
+        } else {
+            System.out.println("No update needed for username=" + username + ", mode=" + mode);
         }
     }
 
@@ -414,20 +425,18 @@ public class LevelController {
         Duration duration = Duration.between(startTime, Instant.now());
         double elapsedTimeSeconds = duration.toMillis() / 1000.0;
 
+        System.out.println("Updating stats: username=" + username + ", mode=" + mode + ", levels=" + currentLevels.size() + ", correct=" + correctCount);
+
         StatsData currentStats = stats.stream()
                 .filter(s -> s.username != null && s.username.toLowerCase().equals(username))
                 .findFirst()
                 .orElseGet(() -> {
                     StatsData newStats = new StatsData();
-                    newStats.username = username; // Store in lowercase
-                    newStats.totalLevelsPlayed = 0;
-                    newStats.totalCorrectChoices = 0;
-                    newStats.averageTime = 0.0;
+                    newStats.username = username;
                     stats.add(newStats);
                     return newStats;
                 });
 
-        // Update stats
         int previousLevels = currentStats.totalLevelsPlayed;
         double previousTotalTime = currentStats.averageTime * previousLevels;
         currentStats.totalLevelsPlayed += currentLevels.size();
@@ -438,16 +447,13 @@ public class LevelController {
 
         try {
             Path dir = STATS_FILE_PATH.getParent();
-            if (dir != null) {
-                Files.createDirectories(dir);
-            }
+            if (dir != null) Files.createDirectories(dir);
             try (OutputStream output = Files.newOutputStream(STATS_FILE_PATH)) {
                 mapper.writerWithDefaultPrettyPrinter().writeValue(output, stats);
-                System.out.println("Updated stats for " + username + " in " + STATS_FILE_PATH);
+                System.out.println("Saved stats for username=" + username);
             }
         } catch (IOException e) {
-            System.err.println("❌ Failed to update stats.json: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("❌ Failed to save stats.json: " + e.getMessage());
         }
     }
 
@@ -462,7 +468,6 @@ public class LevelController {
             }
         } catch (IOException e) {
             System.err.println("❌ Failed to load stats.json: " + e.getMessage());
-            e.printStackTrace();
         }
         return stats;
     }
@@ -478,41 +483,34 @@ public class LevelController {
             }
         } catch (IOException e) {
             System.err.println("❌ Failed to load players.json: " + e.getMessage());
-            e.printStackTrace();
         }
         return players;
     }
 
     private int compareTimes(String time1, String time2) {
-        String[] parts1 = time1.split(":");
-        String[] parts2 = time2.split(":");
-        int minutes1 = Integer.parseInt(parts1[0]);
-        int seconds1 = Integer.parseInt(parts1[1]);
-        int minutes2 = Integer.parseInt(parts2[0]);
-        int seconds2 = Integer.parseInt(parts2[1]);
-        return (minutes1 * 60 + seconds1) - (minutes2 * 60 + seconds2);
+        try {
+            String[] parts1 = time1.split(":");
+            String[] parts2 = time2.split(":");
+            int minutes1 = Integer.parseInt(parts1[0]);
+            int seconds1 = Integer.parseInt(parts1[1]);
+            int minutes2 = Integer.parseInt(parts2[0]);
+            int seconds2 = Integer.parseInt(parts2[1]);
+            return (minutes1 * 60 + seconds1) - (minutes2 * 60 + seconds2);
+        } catch (Exception e) {
+            System.err.println("⚠️ Failed to compare times: " + time1 + " vs " + time2);
+            return 0;
+        }
     }
 
     private void goToEndScreen() {
-        AudioClip endSound = null;
         try {
             String soundPath = getClass().getResource("/eoc/ui/endround.wav").toExternalForm();
-            if (soundPath == null) {
-                System.err.println("❌ Sound file not found at /eoc/ui/endround.wav");
-            } else {
-                System.out.println("✅ Sound file path: " + soundPath);
-                endSound = new AudioClip(soundPath);
-                if (endSound != null) {
-                    System.out.println("✅ AudioClip created successfully");
-                    endSound.play();
-                    System.out.println("✅ Sound play initiated");
-                } else {
-                    System.err.println("❌ Failed to create AudioClip");
-                }
+            if (soundPath != null) {
+                AudioClip endSound = new AudioClip(soundPath);
+                endSound.play();
             }
         } catch (Exception e) {
-            System.err.println("❌ Failed to play end round sound: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("❌ Failed to play end round sound");
         }
 
         Platform.runLater(() -> {
@@ -535,7 +533,7 @@ public class LevelController {
                 dialogStage.showAndWait();
             } catch (IOException e) {
                 System.err.println("❌ Failed to load EndRound.fxml: " + e.getMessage());
-                showErrorAlert("Failed to load end screen. Please try again.");
+                showErrorAlert("Failed to load end screen.");
             }
         });
     }
@@ -549,13 +547,14 @@ public class LevelController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Playmode.fxml"));
             Scene scene = new Scene(loader.load());
             PlaymodeController controller = loader.getController();
-            controller.setUsername(username); // Pass lowercase username
+            controller.setUsername(username);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
+            System.out.println("Returned to Playmode, username=" + username);
         } catch (IOException e) {
-            System.err.println("❌ Failed to load Playmode: " + e.getMessage());
-            showErrorAlert("Failed to return to play mode. Try again.");
+            System.err.println("❌ Failed to load Playmode.fxml: " + e.getMessage());
+            showErrorAlert("Failed to return to play mode.");
         }
     }
 
@@ -565,8 +564,7 @@ public class LevelController {
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText(message);
-            String css = "-fx-background-color: #eadcc7;";
-            alert.getDialogPane().setStyle(css);
+            alert.getDialogPane().setStyle("-fx-background-color: #eadcc7;");
             alert.showAndWait();
         });
     }
@@ -581,8 +579,6 @@ public class LevelController {
         public int bestScoreSingle;
         public int bestScoreSequential;
         public int bestScoreRandom;
-
-        public PlayerStats() {}
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -591,7 +587,5 @@ public class LevelController {
         public int totalLevelsPlayed;
         public int totalCorrectChoices;
         public double averageTime;
-
-        public StatsData() {}
     }
 }
