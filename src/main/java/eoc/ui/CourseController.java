@@ -38,10 +38,11 @@ public class CourseController {
         setupHoverEffect(downloadButton, "#e6d9a8", 1.05, 1.05);
         setupHoverEffect(backButton, "#3a4219", 1.05, 1.05);
 
-        // Load content from course.txt into TextArea
-        try (InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("course.txt")) {
+        // Load content from language-specific course file into TextArea
+        String courseFilePath = LanguageManager.getInstance().getCourseFilePath();
+        try (InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(courseFilePath)) {
             if (input == null) {
-                courseTextArea.setText("Error: course.txt not found in resources.");
+                courseTextArea.setText("Error: " + courseFilePath + " not found in resources.");
             } else {
                 String content = new String(input.readAllBytes(), StandardCharsets.UTF_8);
                 courseTextArea.setText(content);

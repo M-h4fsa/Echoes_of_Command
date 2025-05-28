@@ -448,4 +448,643 @@
   "playerChoice" : "Keep all decisions to myself—I must remain in control.",
   "username" : "unknown",
   "isCorrect" : false
+}, {
+  "historicalChoice" : "Order Free French forces into the city—France must free itself!",
+  "summary" : "De Gaulle ordered Free French forces to liberate Paris, ensuring a symbolic victory for France.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 7,
+  "description" : "Liberation of Paris 1944: Paris is about to be liberated, but the Allies hesitate. Who enters first?",
+  "playerChoice" : "Let the Americans liberate Paris—it’s too risky.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "The USSR must control Eastern Europe—we have sacrificed the most!",
+  "summary" : "Stalin insisted on Soviet control over Eastern Europe, shaping the post-war landscape. Hint: Is victory lost at the negotiation table?",
+  "leader" : "Joseph Stalin",
+  "levelNumber" : 10,
+  "description" : "Yalta Conference 1945: The war is ending, but the world is changing. Churchill and Roosevelt want a say in Europe's future. What is your stance?",
+  "playerChoice" : "We will work together—divide Europe fairly.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Take control—France will not be ruled by foreigners!",
+  "summary" : "De Gaulle took control, establishing a provisional government to lead France post-liberation. Hint: France is free, but is it truly independent?",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 8,
+  "description" : "De Gaulle’s Provisional Government 1944-1946: Liberation is not enough. You must govern. How do you secure power?",
+  "playerChoice" : "Step back—let the Allies guide France’s future.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "I will not be a powerless leader—I step down!",
+  "summary" : "De Gaulle stepped down in 1946, unwilling to lead a weak government. Hint: To lead, but not to obey. A man of principle, or a man alone?",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 10,
+  "description" : "The end? 1946: France moves toward a new republic, but it is weak. Do you stay in power?",
+  "playerChoice" : "I will not be a powerless leader—I step down!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "No surrender! Hold the city at any cost!",
+  "summary" : "Stalin ordered Leningrad to hold at all costs, leading to a prolonged and brutal siege but ultimately preserving Soviet morale.",
+  "leader" : "Joseph Stalin",
+  "levelNumber" : 3,
+  "description" : "Siege of Leningrad 1941-1944: Leningrad is surrounded. Millions of civilians are trapped. The winter is deadly. Your people look to you. What is your order?",
+  "playerChoice" : "Evacuate and spare lives—Leningrad is lost.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Storm the city—raise the Soviet flag over the Reichstag!",
+  "summary" : "Stalin ordered the Red Army to storm Berlin, raising the Soviet flag over the Reichstag in a symbolic victory. Hint: A race to the Reichstag, but...",
+  "leader" : "Joseph Stalin",
+  "levelNumber" : 9,
+  "description" : "Berlin's fate 1945: The Red Army is at the doorstep of Berlin. The Western Allies are close. Who gets there first is critical. What do you command?",
+  "playerChoice" : "Storm the city—raise the Soviet flag over the Reichstag!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "Build an army, gain recognition, and prove them wrong!",
+  "summary" : "De Gaulle built the Free French Forces, gaining recognition through persistent leadership and military action.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 2,
+  "description" : "Free French Forces 1940-1945: You lead in exile. Many doubt your legitimacy. How do you rally support?",
+  "playerChoice" : "Build an army, gain recognition, and prove them wrong!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "A date which will live in infamy—we declare war!",
+  "summary" : "Roosevelt declared war on Japan, marking the U.S. entry into WWII after Pearl Harbor.",
+  "leader" : "Franklin D. Roosevelt",
+  "levelNumber" : 2,
+  "description" : "Pearl Harbor 1941: Japan has struck. Thousands are dead. The nation demands action. What do you say?",
+  "playerChoice" : "A date which will live in infamy—we declare war!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "We shall be the arsenal of democracy—send the aid!",
+  "summary" : "Roosevelt pushed through the Lend-Lease Act, providing critical support to Britain and the Allies.",
+  "leader" : "Franklin D. Roosevelt",
+  "levelNumber" : 1,
+  "description" : "Lend-Lease Act 1941: Britain is on the brink, pleading for support. Congress is hesitant. What do you do?",
+  "playerChoice" : "America stays neutral; this is not our war.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Never in the field of human conflict has so much been owed by so many to so few.",
+  "summary" : "Churchill praised the RAF with his famous speech, boosting morale during the Battle of Britain.",
+  "leader" : "Winston Churchill",
+  "levelNumber" : 3,
+  "description" : "The Battle of Britain 1940: The Luftwaffe is hammering London and your cities. Morale is at stake. How do you respond?",
+  "playerChoice" : "London is lost; we must retreat north.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "I promise nothing but blood, toil, tears, and sweat!",
+  "summary" : "Churchill delivered his famous 'blood, toil, tears, and sweat' speech, rallying Britain to fight on.",
+  "leader" : "Winston Churchill",
+  "levelNumber" : 1,
+  "description" : "May 1940 - A Nation in Peril: You have just taken office as Prime Minister. Britain stands alone against Hitler's might. Your people look to you for guidance. What will your first speech declare?",
+  "playerChoice" : "We must seek peace negotiations before it's too late.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Broadcast a call to arms—France must resist!",
+  "summary" : "De Gaulle broadcasted a call to arms, rallying the French to resist and forming the Free French Forces.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 1,
+  "description" : "The Fall of France 1940: Paris is lost. The government surrenders. But you refuse to give in. What do you do?",
+  "playerChoice" : "Broadcast a call to arms—France must resist!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "We go! Operation Overlord begins at dawn!",
+  "summary" : "Churchill approved Operation Overlord, launching D-Day and opening a crucial second front. Hint: A decision long in the making—failure at Gallipoli still lingers in memory.",
+  "leader" : "Winston Churchill",
+  "levelNumber" : 9,
+  "description" : "D-Day Landings 1944: The largest invasion in history is upon us. The plan is set. Do you proceed?",
+  "playerChoice" : "Delay the invasion—it’s too risky!",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Yes! If we strike now, Mussolini will fall.",
+  "summary" : "Churchill approved the invasion of Italy, leading to Mussolini’s fall and a new front in Europe.",
+  "leader" : "Winston Churchill",
+  "levelNumber" : 7,
+  "description" : "The Invasion of Italy 1943: Italy is the soft underbelly of Europe. The decision is yours. Do we invade?",
+  "playerChoice" : "Yes! If we strike now, Mussolini will fall.",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "Lend us your weapons and support—freedom must endure!",
+  "summary" : "Churchill proposed the Atlantic Charter, securing American support through the Lend-Lease program.",
+  "leader" : "Winston Churchill",
+  "levelNumber" : 5,
+  "description" : "The Atlantic Charter 1941: You meet with Roosevelt, but America hesitates to join the war. What do you propose?",
+  "playerChoice" : "Lend us your weapons and support—freedom must endure!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "Let them come—our defenses will break them, then we strike!",
+  "summary" : "Stalin opted for a defensive strategy at Kursk, allowing the Germans to exhaust themselves before launching a counteroffensive.",
+  "leader" : "Joseph Stalin",
+  "levelNumber" : 6,
+  "description" : "Kursk Tank battle 1943: Hitler's forces launch an all-out tank offensive at Kursk. Your commanders propose different plans. What is your strategy?",
+  "playerChoice" : "Let them come—our defenses will break them, then we strike!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "I stay in Moscow. If I run, the nation falls!",
+  "summary" : "Stalin chose to stay in Moscow, boosting morale and leading to a successful defense of the capital.",
+  "leader" : "Joseph Stalin",
+  "levelNumber" : 4,
+  "description" : "Moscow is in your hands 1941-1942: The enemy is at the gates of Moscow. Your capital is under threat. Some advise you to flee. What do you decide?",
+  "playerChoice" : "I stay in Moscow. If I run, the nation falls!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "Make France heard, even if we must stand alone!",
+  "summary" : "De Gaulle ensured France’s voice was heard, refusing to be sidelined at Yalta. Hint: A table of giants, but one chair remains empty. Who speaks for France?",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 9,
+  "description" : "The Yalta Conference 1945: The great powers shape the post-war world. But you are not invited. What do you do?",
+  "playerChoice" : "Accept our place—we are a small nation now.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "We must prevent Soviet domination of Eastern Europe!",
+  "summary" : "Churchill sought to limit Soviet influence in Eastern Europe, foreseeing the Cold War. Hint: The war is ending, but the world order is shifting. Who truly holds the power?",
+  "leader" : "Winston Churchill",
+  "levelNumber" : 10,
+  "description" : "The Yalta Conference 1945: Victory nears, but the Soviets grow powerful. What do you demand?",
+  "playerChoice" : "Let Stalin have what he wants—we need peace at any cost.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Burn the land, destroy the resources—let them starve!",
+  "summary" : "Stalin ordered the scorched-earth policy, destroying resources to hinder the German advance.",
+  "leader" : "Joseph Stalin",
+  "levelNumber" : 2,
+  "description" : "Scorched Earth policy 1941-1942: The Germans advance deeper into Soviet territory. We can retreat, but we cannot leave anything behind. How do we slow the enemy?",
+  "playerChoice" : "Burn the land, destroy the resources—let them starve!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "We need Soviet support, but we must ensure democracy in Europe.",
+  "summary" : "Roosevelt sought a balance, ensuring Soviet cooperation while advocating for democracy. Hint: One war is ending, another is on the horizon. Who can be trusted?",
+  "leader" : "Franklin D. Roosevelt",
+  "levelNumber" : 9,
+  "description" : "The Yalta Conference 1945: Post-war plans are forming. Stalin is making demands. What is your stance?",
+  "playerChoice" : "Give Stalin everything—peace is the priority.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Yes, we must explore every option to end this war.",
+  "summary" : "Roosevelt funded the Manhattan Project, leading to the development of the atomic bomb.",
+  "leader" : "Franklin D. Roosevelt",
+  "levelNumber" : 4,
+  "description" : "The Manhattan Project 1942-1945: A secret weapon is being developed. Do you fund its continuation?",
+  "playerChoice" : "No, such a weapon is too dangerous to unleash.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "I demand recognition! France must speak for itself!",
+  "summary" : "De Gaulle demanded recognition, ensuring France’s voice was heard despite Allied resistance.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 3,
+  "description" : "Tension with Churchill and Roosevelt 1940-1944: The Allies favor other French leaders. They exclude you from decisions. How do you respond?",
+  "playerChoice" : "Stay silent—don’t risk losing their support.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "We back General Montgomery—El Alamein will be their grave!",
+  "summary" : "Churchill supported Montgomery, leading to a decisive victory at El Alamein.",
+  "leader" : "Winston Churchill",
+  "levelNumber" : 6,
+  "description" : "The North African Front 1942: The Axis controls North Africa. The tides must turn. What is your move?",
+  "playerChoice" : "We back General Montgomery—El Alamein will be their grave!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "Then we shall fight them on all fronts!",
+  "summary" : "Roosevelt committed to fighting on all fronts, engaging both Germany and Japan.",
+  "leader" : "Franklin D. Roosevelt",
+  "levelNumber" : 3,
+  "description" : "War on Germany 1941: Germany and Italy declare war on the US. How do you respond?",
+  "playerChoice" : "Then we shall fight them on all fronts!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "Sabotage their supply lines—turn the land against them!",
+  "summary" : "Stalin supported partisan warfare, ordering sabotage that disrupted German supply lines and morale.",
+  "leader" : "Joseph Stalin",
+  "levelNumber" : 7,
+  "description" : "Soviet Partisan warfare 1941-1945: Behind enemy lines, Soviet partisans fight in forests and towns. What orders do you give?",
+  "playerChoice" : "Stay hidden—avoid all contact until reinforcements arrive.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Yes! We must eliminate any future threats!",
+  "summary" : "Roosevelt agreed to demand unconditional surrender, setting a firm Allied stance.",
+  "leader" : "Franklin D. Roosevelt",
+  "levelNumber" : 5,
+  "description" : "The Casablanca Conference 1943: Churchill suggests 'unconditional surrender' for the Axis. Do you agree?",
+  "playerChoice" : "Yes! We must eliminate any future threats!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "We must open Western Europe, but strategically!",
+  "summary" : "Churchill agreed to a strategic second front in Western Europe, balancing Allied demands. Hint: A second front in the West... A necessary sacrifice or a dangerous diversion?",
+  "leader" : "Winston Churchill",
+  "levelNumber" : 8,
+  "description" : "The Tehran Conference 1943: Stalin and Roosevelt pressure you for a second front. How do you respond?",
+  "playerChoice" : "We must open Western Europe, but strategically!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "Negotiate, but remind them—we are the real France!",
+  "summary" : "De Gaulle negotiated with the Allies, asserting the Free French’s role in North Africa.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 5,
+  "description" : "Invasion of North Africa 1942: The Americans land in North Africa but ignore you. What is your next move?",
+  "playerChoice" : "Negotiate, but remind them—we are the real France!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "Yes, the war isn't over—I must lead!",
+  "summary" : "Roosevelt ran for a fourth term, leading the U.S. through the war’s final stages. Hint: No president had ever served this long. A wartime leader is hard to replace.",
+  "leader" : "Franklin D. Roosevelt",
+  "levelNumber" : 8,
+  "description" : "Fourth Term 1944: You run for an unprecedented fourth term. Do you continue?",
+  "playerChoice" : "No, my health is failing—it's time to step down.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "We commit—Europe will be liberated!",
+  "summary" : "Roosevelt committed to opening a second front, aligning with Stalin’s demands.",
+  "leader" : "Franklin D. Roosevelt",
+  "levelNumber" : 7,
+  "description" : "The Tehran Conference 1943: Stalin demands a second front immediately. How do you reply?",
+  "playerChoice" : "We commit—Europe will be liberated!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "We hold our ground and mobilize immediately!",
+  "summary" : "Stalin initially hesitated, believing the invasion was misinformation, but mobilization was the historical response that began the Soviet defense.",
+  "leader" : "Joseph Stalin",
+  "levelNumber" : 1,
+  "description" : "Operation Barbarossa 1941: The Germans have launched a surprise invasion. Cities burn, and chaos spreads. Reports flood in, but your generals hesitate, waiting for your command. How do you respond?",
+  "playerChoice" : "We hold our ground and mobilize immediately!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "We will launch every vessel we have—no man left behind!",
+  "summary" : "Churchill ordered the Dunkirk evacuation, saving over 300,000 soldiers with a massive civilian and military effort.",
+  "leader" : "Winston Churchill",
+  "levelNumber" : 2,
+  "description" : "Dunkirk Evacuation 1940: Hundreds of thousands of British soldiers are trapped in France. The German advance is relentless. What is your command?",
+  "playerChoice" : "We will launch every vessel we have—no man left behind!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "It's time—give the order!",
+  "summary" : "Roosevelt approved D-Day, leading to the successful invasion of Normandy.",
+  "leader" : "Franklin D. Roosevelt",
+  "levelNumber" : 6,
+  "description" : "D-Day Planning 1944: The invasion of France is crucial. Do you approve the operation?",
+  "playerChoice" : "It's too risky—we need another strategy.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Supply them, organize them—turn France into a battlefield!",
+  "summary" : "De Gaulle supported the French Resistance, providing supplies and coordination to fight the occupation.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 6,
+  "description" : "French Resistance 1940-1945: Inside occupied France, resistance fighters risk their lives. What support do you provide?",
+  "playerChoice" : "Supply them, organize them—turn France into a battlefield!",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "We will endure! Strength and resilience shall prevail!",
+  "summary" : "Churchill chose to endure the Blitz, showing resilience and maintaining British defiance.",
+  "leader" : "Winston Churchill",
+  "levelNumber" : 4,
+  "description" : "The Blitz 1940-1941: The Germans bomb your cities night after night. The people suffer. What is your strategy?",
+  "playerChoice" : "Evacuate London; the city cannot be defended.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Prepare Truman for the challenges ahead.",
+  "summary" : "Roosevelt prepared Truman for leadership before his death in April 1945. Hint: A sudden change at the helm... but the war waits for no one.",
+  "leader" : "Franklin D. Roosevelt",
+  "levelNumber" : 10,
+  "description" : "Is it really the end? 1945: You are gravely ill. The future of the war is out of your hands. What do you do?",
+  "playerChoice" : "Prepare Truman for the challenges ahead.",
+  "username" : "john",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "Open a Western Front now! The Red Army cannot fight alone!",
+  "summary" : "Stalin demanded a second front, pressuring the Allies to act. Hint: The West hesitated, but the Red Army bled. A demand had to be made.",
+  "leader" : "Joseph Stalin",
+  "levelNumber" : 8,
+  "description" : "Tehran Conference 1943: You sit with Churchill and Roosevelt. The West delays opening a second front. You need them to act. What do you demand?",
+  "playerChoice" : "No rush—we will handle Germany ourselves.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Encircle them! Cut off their supplies and starve them!",
+  "summary" : "Stalin approved Operation Uranus, encircling the Germans at Stalingrad, leading to a major turning point in the war.",
+  "leader" : "Joseph Stalin",
+  "levelNumber" : 5,
+  "description" : "Stalingrad counteroffensive 1942-1943: The battle for Stalingrad is brutal. The German army is overextended. How do you strike?",
+  "playerChoice" : "Charge forward—we must push them out immediately!",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Hold the line! Show them what Free France can do!",
+  "summary" : "De Gaulle ordered his forces to hold Bir Hakeim, proving the Free French’s valor and boosting their reputation.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 4,
+  "description" : "Battle of Bir Hakeim 1942: Your Free French forces hold a key desert position. The enemy advances. What do you order?",
+  "playerChoice" : "Retreat—better to fight another day.",
+  "username" : "john",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Broadcast a call to arms—France must resist!",
+  "summary" : "De Gaulle broadcasted a call to arms, rallying the French to resist and forming the Free French Forces.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 1,
+  "description" : "The Fall of France 1940: Paris is lost. The government surrenders. But you refuse to give in. What do you do?",
+  "playerChoice" : "Broadcast a call to arms—France must resist!",
+  "username" : "unknown",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "Build an army, gain recognition, and prove them wrong!",
+  "summary" : "De Gaulle built the Free French Forces, gaining recognition through persistent leadership and military action.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 2,
+  "description" : "Free French Forces 1940-1945: You lead in exile. Many doubt your legitimacy. How do you rally support?",
+  "playerChoice" : "Build an army, gain recognition, and prove them wrong!",
+  "username" : "unknown",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "I demand recognition! France must speak for itself!",
+  "summary" : "De Gaulle demanded recognition, ensuring France’s voice was heard despite Allied resistance.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 3,
+  "description" : "Tension with Churchill and Roosevelt 1940-1944: The Allies favor other French leaders. They exclude you from decisions. How do you respond?",
+  "playerChoice" : "Stay silent—don’t risk losing their support.",
+  "username" : "unknown",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Hold the line! Show them what Free France can do!",
+  "summary" : "De Gaulle ordered his forces to hold Bir Hakeim, proving the Free French’s valor and boosting their reputation.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 4,
+  "description" : "Battle of Bir Hakeim 1942: Your Free French forces hold a key desert position. The enemy advances. What do you order?",
+  "playerChoice" : "Retreat—better to fight another day.",
+  "username" : "unknown",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Negotiate, but remind them—we are the real France!",
+  "summary" : "De Gaulle negotiated with the Allies, asserting the Free French’s role in North Africa.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 5,
+  "description" : "Invasion of North Africa 1942: The Americans land in North Africa but ignore you. What is your next move?",
+  "playerChoice" : "Negotiate, but remind them—we are the real France!",
+  "username" : "unknown",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "Supply them, organize them—turn France into a battlefield!",
+  "summary" : "De Gaulle supported the French Resistance, providing supplies and coordination to fight the occupation.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 6,
+  "description" : "French Resistance 1940-1945: Inside occupied France, resistance fighters risk their lives. What support do you provide?",
+  "playerChoice" : "Supply them, organize them—turn France into a battlefield!",
+  "username" : "unknown",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "Order Free French forces into the city—France must free itself!",
+  "summary" : "De Gaulle ordered Free French forces to liberate Paris, ensuring a symbolic victory for France.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 7,
+  "description" : "Liberation of Paris 1944: Paris is about to be liberated, but the Allies hesitate. Who enters first?",
+  "playerChoice" : "Let the Americans liberate Paris—it’s too risky.",
+  "username" : "unknown",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Take control—France will not be ruled by foreigners!",
+  "summary" : "De Gaulle took control, establishing a provisional government to lead France post-liberation. Hint: France is free, but is it truly independent?",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 8,
+  "description" : "De Gaulle’s Provisional Government 1944-1946: Liberation is not enough. You must govern. How do you secure power?",
+  "playerChoice" : "Step back—let the Allies guide France’s future.",
+  "username" : "unknown",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "Make France heard, even if we must stand alone!",
+  "summary" : "De Gaulle ensured France’s voice was heard, refusing to be sidelined at Yalta. Hint: A table of giants, but one chair remains empty. Who speaks for France?",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 9,
+  "description" : "The Yalta Conference 1945: The great powers shape the post-war world. But you are not invited. What do you do?",
+  "playerChoice" : "Accept our place—we are a small nation now.",
+  "username" : "unknown",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "I will not be a powerless leader—I step down!",
+  "summary" : "De Gaulle stepped down in 1946, unwilling to lead a weak government. Hint: To lead, but not to obey. A man of principle, or a man alone?",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 10,
+  "description" : "The end? 1946: France moves toward a new republic, but it is weak. Do you stay in power?",
+  "playerChoice" : "I will not be a powerless leader—I step down!",
+  "username" : "unknown",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "أذع نداءً لحمل السلاح—يجب أن تقاوم فرنسا!",
+  "summary" : "أذاع ديغول نداءً لحمل السلاح، محشدًا الفرنسيين للمقاومة وتشكيل قوات فرنسا الحرة.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 1,
+  "description" : "سقوط فرنسا 1940: باريس ضائعة. الحكومة تستسلم. لكنك ترفض الاستسلام. ماذا تفعل؟",
+  "playerChoice" : "أذع نداءً لحمل السلاح—يجب أن تقاوم فرنسا!",
+  "username" : "qwerty",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "ابنِ جيشًا، اكتسب الاعتراف، وأثبت خطأهم!",
+  "summary" : "بنى ديغول قوات فرنسا الحرة، مكتسبًا الاعتراف من خلال القيادة المستمرة والعمل العسكري.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 2,
+  "description" : "قوات فرنسا الحرة 1940-1945: أنت تقود في المنفى. الكثيرون يشككون في شرعيتك. كيف تحشد الدعم؟",
+  "playerChoice" : "انتظر حتى تنقلب الحرب—ثم طالب بالقيادة.",
+  "username" : "qwerty",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "أطالب بالاعتراف! يجب أن تتحدث فرنسا عن نفسها!",
+  "summary" : "طالب ديغول بالاعتراف، مؤكدًا سماع صوت فرنسا على الرغم من مقاومة الحلفاء.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 3,
+  "description" : "التوتر مع تشرشل وروزفلت 1940-1944: يفضل الحلفاء قادة فرنسيين آخرين. يستبعدونك من القرارات. كيف ترد؟",
+  "playerChoice" : "أطالب بالاعتراف! يجب أن تتحدث فرنسا عن نفسها!",
+  "username" : "qwerty",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "اثبتوا على الخط! أروهم ما تستطيع فرنسا الحرة فعله!",
+  "summary" : "أمر ديغول قواته بالصمود في بئر حكيم، مثبتًا شجاعة فرنسا الحرة ومعززًا سمعتها.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 4,
+  "description" : "معركة بئر حكيم 1942: قوات فرنسا الحرة التابعة لك تسيطر على موقع صحراوي رئيسي. العدو يتقدم. ماذا تأمر؟",
+  "playerChoice" : "اثبتوا على الخط! أروهم ما تستطيع فرنسا الحرة فعله!",
+  "username" : "qwerty",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "تفاوض، لكن ذكرهم—نحن فرنسا الحقيقية!",
+  "summary" : "تفاوض ديغول مع الحلفاء، مؤكدًا دور فرنسا الحرة في شمال أفريقيا.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 5,
+  "description" : "غزو شمال أفريقيا 1942: ينزل الأمريكيون في شمال أفريقيا لكنهم يتجاهلونك. ما هي خطوتك التالية؟",
+  "playerChoice" : "ابق بعيدًا—دعهم يتعاملون مع الأمر بدوننا.",
+  "username" : "qwerty",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "زودهم، نظمهم—حول فرنسا إلى ساحة معركة!",
+  "summary" : "دعم ديغول المقاومة الفرنسية، مقدمًا الإمدادات والتنسيق لمحاربة الاحتلال.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 6,
+  "description" : "المقاومة الفرنسية 1940-1945: داخل فرنسا المحتلة، يخاطر مقاتلو المقاومة بحياتهم. ما الدعم الذي تقدمه؟",
+  "playerChoice" : "زودهم، نظمهم—حول فرنسا إلى ساحة معركة!",
+  "username" : "qwerty",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "أمر قوات فرنسا الحرة بدخول المدينة—يجب أن تحرر فرنسا نفسها!",
+  "summary" : "أمر ديغول قوات فرنسا الحرة بتحرير باريس، مؤمنًا انتصارًا رمزيًا لفرنسا.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 7,
+  "description" : "تحرير باريس 1944: باريس على وشك التحرير، لكن الحلفاء يترددون. من يدخل أولاً؟",
+  "playerChoice" : "أمر قوات فرنسا الحرة بدخول المدينة—يجب أن تحرر فرنسا نفسها!",
+  "username" : "qwerty",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "سيطر—لن يحكم الأجانب فرنسا!",
+  "summary" : "سيطر ديغول، مؤسسًا حكومة مؤقتة لقيادة فرنسا بعد التحرير. تلميح: فرنسا حرة، لكن هل هي مستقلة حقًا؟",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 8,
+  "description" : "حكومة ديغول المؤقتة 1944-1946: التحرير ليس كافيًا. يجب أن تحكم. كيف تؤمن السلطة؟",
+  "playerChoice" : "تراجع—دع الحلفاء يوجهون مستقبل فرنسا.",
+  "username" : "qwerty",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "اجعل صوت فرنسا مسموعًا، حتى لو اضطررنا للوقوف بمفردنا!",
+  "summary" : "ضمن ديغول سماع صوت فرنسا، رافضًا التهميش في يالطا. تلميح: طاولة من العمالقة، لكن كرسيًا واحدًا لا يزال فارغًا. من يتحدث باسم فرنسا؟",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 9,
+  "description" : "مؤتمر يالطا 1945: القوى العظمى تشكل عالم ما بعد الحرب. لكنك لست مدعوًا. ماذا تفعل؟",
+  "playerChoice" : "اقبل مكاننا—نحن أمة صغيرة الآن.",
+  "username" : "qwerty",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "لن أكون قائدًا بلا سلطة—أتنحى!",
+  "summary" : "تنحى ديغول عام 1946، غير راغب في قيادة حكومة ضعيفة. تلميح: أن تقود، ولكن لا تطيع. رجل مبادئ، أم رجل وحيد؟",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 10,
+  "description" : "النهاية؟ 1946: تتجه فرنسا نحو جمهورية جديدة، لكنها ضعيفة. هل تبقى في السلطة؟",
+  "playerChoice" : "لن أكون قائدًا بلا سلطة—أتنحى!",
+  "username" : "qwerty",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "I promise nothing but blood, toil, tears, and sweat!",
+  "summary" : "Churchill delivered his famous 'blood, toil, tears, and sweat' speech, rallying Britain to fight on.",
+  "leader" : "Winston Churchill",
+  "levelNumber" : 1,
+  "description" : "May 1940 - A Nation in Peril: You have just taken office as Prime Minister. Britain stands alone against Hitler's might. Your people look to you for guidance. What will your first speech declare?",
+  "playerChoice" : "We must seek peace negotiations before it's too late.",
+  "username" : "uuu",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "أذع نداءً لحمل السلاح—يجب أن تقاوم فرنسا!",
+  "summary" : "أذاع ديغول نداءً لحمل السلاح، محشدًا الفرنسيين للمقاومة وتشكيل قوات فرنسا الحرة.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 1,
+  "description" : "سقوط فرنسا 1940: باريس ضائعة. الحكومة تستسلم. لكنك ترفض الاستسلام. ماذا تفعل؟",
+  "playerChoice" : "أذع نداءً لحمل السلاح—يجب أن تقاوم فرنسا!",
+  "username" : "uuu",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "ابنِ جيشًا، اكتسب الاعتراف، وأثبت خطأهم!",
+  "summary" : "بنى ديغول قوات فرنسا الحرة، مكتسبًا الاعتراف من خلال القيادة المستمرة والعمل العسكري.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 2,
+  "description" : "قوات فرنسا الحرة 1940-1945: أنت تقود في المنفى. الكثيرون يشككون في شرعيتك. كيف تحشد الدعم؟",
+  "playerChoice" : "ابنِ جيشًا، اكتسب الاعتراف، وأثبت خطأهم!",
+  "username" : "uuu",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "أطالب بالاعتراف! يجب أن تتحدث فرنسا عن نفسها!",
+  "summary" : "طالب ديغول بالاعتراف، مؤكدًا سماع صوت فرنسا على الرغم من مقاومة الحلفاء.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 3,
+  "description" : "التوتر مع تشرشل وروزفلت 1940-1944: يفضل الحلفاء قادة فرنسيين آخرين. يستبعدونك من القرارات. كيف ترد؟",
+  "playerChoice" : "ابق صامتًا—لا تخاطر بفقدان دعمهم.",
+  "username" : "uuu",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "اثبتوا على الخط! أروهم ما تستطيع فرنسا الحرة فعله!",
+  "summary" : "أمر ديغول قواته بالصمود في بئر حكيم، مثبتًا شجاعة فرنسا الحرة ومعززًا سمعتها.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 4,
+  "description" : "معركة بئر حكيم 1942: قوات فرنسا الحرة التابعة لك تسيطر على موقع صحراوي رئيسي. العدو يتقدم. ماذا تأمر؟",
+  "playerChoice" : "انسحب—من الأفضل القتال في يوم آخر.",
+  "username" : "uuu",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "تفاوض، لكن ذكرهم—نحن فرنسا الحقيقية!",
+  "summary" : "تفاوض ديغول مع الحلفاء، مؤكدًا دور فرنسا الحرة في شمال أفريقيا.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 5,
+  "description" : "غزو شمال أفريقيا 1942: ينزل الأمريكيون في شمال أفريقيا لكنهم يتجاهلونك. ما هي خطوتك التالية؟",
+  "playerChoice" : "تفاوض، لكن ذكرهم—نحن فرنسا الحقيقية!",
+  "username" : "uuu",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "زودهم، نظمهم—حول فرنسا إلى ساحة معركة!",
+  "summary" : "دعم ديغول المقاومة الفرنسية، مقدمًا الإمدادات والتنسيق لمحاربة الاحتلال.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 6,
+  "description" : "المقاومة الفرنسية 1940-1945: داخل فرنسا المحتلة، يخاطر مقاتلو المقاومة بحياتهم. ما الدعم الذي تقدمه؟",
+  "playerChoice" : "زودهم، نظمهم—حول فرنسا إلى ساحة معركة!",
+  "username" : "uuu",
+  "isCorrect" : true
+}, {
+  "historicalChoice" : "أمر قوات فرنسا الحرة بدخول المدينة—يجب أن تحرر فرنسا نفسها!",
+  "summary" : "أمر ديغول قوات فرنسا الحرة بتحرير باريس، مؤمنًا انتصارًا رمزيًا لفرنسا.",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 7,
+  "description" : "تحرير باريس 1944: باريس على وشك التحرير، لكن الحلفاء يترددون. من يدخل أولاً؟",
+  "playerChoice" : "دع الأمريكيين يحررون باريس—الأمر محفوف بالمخاطر.",
+  "username" : "uuu",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "سيطر—لن يحكم الأجانب فرنسا!",
+  "summary" : "سيطر ديغول، مؤسسًا حكومة مؤقتة لقيادة فرنسا بعد التحرير. تلميح: فرنسا حرة، لكن هل هي مستقلة حقًا؟",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 8,
+  "description" : "حكومة ديغول المؤقتة 1944-1946: التحرير ليس كافيًا. يجب أن تحكم. كيف تؤمن السلطة؟",
+  "playerChoice" : "تراجع—دع الحلفاء يوجهون مستقبل فرنسا.",
+  "username" : "uuu",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "اجعل صوت فرنسا مسموعًا، حتى لو اضطررنا للوقوف بمفردنا!",
+  "summary" : "ضمن ديغول سماع صوت فرنسا، رافضًا التهميش في يالطا. تلميح: طاولة من العمالقة، لكن كرسيًا واحدًا لا يزال فارغًا. من يتحدث باسم فرنسا؟",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 9,
+  "description" : "مؤتمر يالطا 1945: القوى العظمى تشكل عالم ما بعد الحرب. لكنك لست مدعوًا. ماذا تفعل؟",
+  "playerChoice" : "اقبل مكاننا—نحن أمة صغيرة الآن.",
+  "username" : "uuu",
+  "isCorrect" : false
+}, {
+  "historicalChoice" : "لن أكون قائدًا بلا سلطة—أتنحى!",
+  "summary" : "تنحى ديغول عام 1946، غير راغب في قيادة حكومة ضعيفة. تلميح: أن تقود، ولكن لا تطيع. رجل مبادئ، أم رجل وحيد؟",
+  "leader" : "Charles de Gaulle",
+  "levelNumber" : 10,
+  "description" : "النهاية؟ 1946: تتجه فرنسا نحو جمهورية جديدة، لكنها ضعيفة. هل تبقى في السلطة؟",
+  "playerChoice" : "لن أكون قائدًا بلا سلطة—أتنحى!",
+  "username" : "uuu",
+  "isCorrect" : true
 } ]

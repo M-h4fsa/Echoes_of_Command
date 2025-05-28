@@ -2,6 +2,7 @@ package eoc.ui;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -62,11 +63,7 @@ public class LeaderController {
 
     public void initialize() {
         loadLeaderBackstories();
-
-        stalinDescriptionLabel.setText(leaderBackstories.getOrDefault("Joseph Stalin", "No backstory available."));
-        churchillDescriptionLabel.setText(leaderBackstories.getOrDefault("Winston Churchill", "No backstory available."));
-        deGaulleDescriptionLabel.setText(leaderBackstories.getOrDefault("Charles de Gaulle", "No backstory available."));
-        rooseveltDescriptionLabel.setText(leaderBackstories.getOrDefault("Franklin D. Roosevelt", "No backstory available."));
+        updateBackstoryLabels();
 
         setupButtonHoverEffect(stalinButton, "#3a4219", 1.05, 1.05);
         setupButtonHoverEffect(churchillButton, "#3a4219", 1.05, 1.05);
@@ -78,6 +75,32 @@ public class LeaderController {
         setupIconHover(deGaulleIcon, deGaulleDescriptionPane);
         setupIconHoverLeft(churchillIcon, churchillDescriptionPane);
         setupIconHoverLeft(rooseveltIcon, rooseveltDescriptionPane);
+
+        // Listen for language changes
+        LanguageManager.getInstance().addLanguageChangeListener(this::onLanguageChanged);
+    }
+
+    private void onLanguageChanged(String newLanguage) {
+        Platform.runLater(() -> {
+            loadLeaderBackstories();
+            updateBackstoryLabels();
+        });
+    }
+
+    private void updateBackstoryLabels() {
+        boolean isArabic = LanguageManager.getInstance().getCurrentLanguage().equals("Arabic");
+        String fallback = isArabic ? "لا توجد سيرة ذاتية متاحة." : "No backstory available.";
+
+        stalinDescriptionLabel.setText(leaderBackstories.getOrDefault("Joseph Stalin", fallback));
+        churchillDescriptionLabel.setText(leaderBackstories.getOrDefault("Winston Churchill", fallback));
+        deGaulleDescriptionLabel.setText(leaderBackstories.getOrDefault("Charles de Gaulle", fallback));
+        rooseveltDescriptionLabel.setText(leaderBackstories.getOrDefault("Franklin D. Roosevelt", fallback));
+
+        // Set text alignment based on language
+        stalinDescriptionLabel.setStyle(isArabic ? "-fx-text-alignment: right;" : "-fx-text-alignment: left;");
+        churchillDescriptionLabel.setStyle(isArabic ? "-fx-text-alignment: right;" : "-fx-text-alignment: left;");
+        deGaulleDescriptionLabel.setStyle(isArabic ? "-fx-text-alignment: right;" : "-fx-text-alignment: left;");
+        rooseveltDescriptionLabel.setStyle(isArabic ? "-fx-text-alignment: right;" : "-fx-text-alignment: left;");
     }
 
     private void setupButtonHoverEffect(Button button, String hoverColor, double scaleX, double scaleY) {
@@ -105,7 +128,14 @@ public class LeaderController {
             icon.setIconColor(javafx.scene.paint.Color.web("#6a7b63"));
             icon.setScaleX(1.05);
             icon.setScaleY(1.05);
+
+            Label label = (Label) descriptionPane.getChildren().get(0);
+            label.setPrefWidth(220);
+            descriptionPane.setPrefWidth(240);
+            descriptionPane.setPrefHeight(50);
+
             descriptionPane.setVisible(true);
+            descriptionPane.toFront();
         });
         icon.setOnMouseExited(event -> {
             icon.setIconColor(javafx.scene.paint.Color.web("#4c5d45"));
@@ -119,17 +149,20 @@ public class LeaderController {
         icon.setCursor(javafx.scene.Cursor.HAND);
         icon.setOnMouseEntered(event -> {
             icon.setIconColor(javafx.scene.paint.Color.web("#6a7b63"));
-            icon.setScaleX(2);
-            icon.setScaleY(2);
+            icon.setScaleX(1.3);
+            icon.setScaleY(1.3);
 
             Label label = (Label) descriptionPane.getChildren().get(0);
             label.setWrapText(true);
+            label.setPrefWidth(220);
             label.applyCss();
             label.layout();
 
             double requiredHeight = label.prefHeight(label.getWidth());
-            descriptionPane.setPrefHeight(requiredHeight + 20);
+            descriptionPane.setPrefWidth(240);
+            descriptionPane.setPrefHeight(Math.min(requiredHeight + 25, 250));
             descriptionPane.setVisible(true);
+            descriptionPane.toFront();
 
             double iconX = icon.getLayoutX();
             double iconY = icon.getLayoutY();
@@ -149,9 +182,12 @@ public class LeaderController {
     }
 
     private void loadLeaderBackstories() {
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream("history.json")) {
+        leaderBackstories.clear();
+        String historyFilePath = LanguageManager.getInstance().getHistoryFilePath();
+        System.out.println("LeaderController: Loading backstories from " + historyFilePath);
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream(historyFilePath)) {
             if (input == null) {
-                System.err.println("❌ history.json not found in resources.");
+                System.err.println("❌ " + historyFilePath + " not found in resources.");
                 return;
             }
 
@@ -160,8 +196,11 @@ public class LeaderController {
             for (Map<String, Object> leader : leaders) {
                 String name = (String) leader.get("name");
                 String backstory = (String) leader.get("backstory");
-                leaderBackstories.put(name, backstory);
+                if (name != null && backstory != null) {
+                    leaderBackstories.put(name, backstory);
+                }
             }
+            System.out.println("✅ Loaded " + leaderBackstories.size() + " backstories from " + historyFilePath);
         } catch (Exception e) {
             System.err.println("❌ Failed to load leader backstories: " + e.getMessage());
         }

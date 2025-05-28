@@ -1,11 +1,26 @@
 [ {
   "username" : "candace",
-  "totalLevelsPlayed" : 50,
+  "totalLevelsPlayed" : 60,
   "totalCorrectChoices" : 29,
-  "averageTime" : 1.6067600000000002
+  "averageTime" : 1.4160666666666668
 }, {
   "username" : "unknown",
+  "totalLevelsPlayed" : 20,
+  "totalCorrectChoices" : 10,
+  "averageTime" : 1.6127499999999997
+}, {
+  "username" : "john",
+  "totalLevelsPlayed" : 50,
+  "totalCorrectChoices" : 25,
+  "averageTime" : 1.90522
+}, {
+  "username" : "qwerty",
   "totalLevelsPlayed" : 10,
+  "totalCorrectChoices" : 6,
+  "averageTime" : 1.7363
+}, {
+  "username" : "uuu",
+  "totalLevelsPlayed" : 30,
   "totalCorrectChoices" : 5,
-  "averageTime" : 1.6140999999999999
+  "averageTime" : 0.7510333333333333
 } ]

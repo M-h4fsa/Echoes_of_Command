@@ -37,8 +37,8 @@
                 <menus>
                     <Menu mnemonicParsing="false" text="Language">
                         <items>
-                            <MenuItem fx:id="englishMenuItem" mnemonicParsing="false" text="english" />
-                            <MenuItem fx:id="arabicMenuItem" mnemonicParsing="false" text="arabic" />
+                            <MenuItem fx:id="englishMenuItem" mnemonicParsing="false" text="English" onAction="#onEnglishMenuItemClick" />
+                            <MenuItem fx:id="arabicMenuItem" mnemonicParsing="false" text="Arabic" onAction="#onArabicMenuItemClick" />
                         </items>
                     </Menu>
                     <Menu mnemonicParsing="false" text="About">

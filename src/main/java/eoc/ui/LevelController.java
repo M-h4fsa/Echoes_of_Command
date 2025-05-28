@@ -100,16 +100,17 @@ public class LevelController {
 
     private void loadHistory() {
         ObjectMapper mapper = new ObjectMapper();
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream("history.json")) {
+        String historyFilePath = LanguageManager.getInstance().getHistoryFilePath();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream(historyFilePath)) {
             if (input == null) {
-                System.err.println("❌ history.json not found in resources.");
+                System.err.println("❌ " + historyFilePath + " not found in resources.");
                 showErrorAlert("Failed to load game data.");
                 return;
             }
             allLeaders = mapper.readValue(input, new TypeReference<List<Leader>>() {});
-            System.out.println("Loaded " + allLeaders.size() + " leaders");
+            System.out.println("Loaded " + allLeaders.size() + " leaders from " + historyFilePath);
         } catch (IOException e) {
-            System.err.println("❌ Failed to load history.json: " + e.getMessage());
+            System.err.println("❌ Failed to load " + historyFilePath + ": " + e.getMessage());
             showErrorAlert("Failed to load game data.");
         }
     }
