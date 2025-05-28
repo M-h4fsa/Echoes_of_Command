@@ -1,0 +1,19 @@
+[ {
+  "username" : "candace",
+  "lastLogin" : "2025-05-28T20:42:13.186123100Z",
+  "bestTimeSingle" : "00:15",
+  "bestTimeSequential" : null,
+  "bestTimeRandom" : "01:04",
+  "bestScoreSingle" : 5,
+  "bestScoreSequential" : 0,
+  "bestScoreRandom" : 24
+}, {
+  "username" : "unknown",
+  "lastLogin" : null,
+  "bestTimeSingle" : "00:16",
+  "bestTimeSequential" : null,
+  "bestTimeRandom" : null,
+  "bestScoreSingle" : 5,
+  "bestScoreSequential" : 0,
+  "bestScoreRandom" : 0
+} ]

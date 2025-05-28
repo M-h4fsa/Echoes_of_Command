@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -36,10 +37,10 @@ public class UsernameController {
     private Stage welcomeStage;
     private Stage usernameStage;
     private static final String PLAYERS_JSON_PATH = "players.json";
+    private static final java.nio.file.Path PLAYERS_FILE_PATH = Paths.get("Echoes_of_Command", PLAYERS_JSON_PATH);
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
             .ofPattern("dd-MM-yyyy HH:mm:ss")
             .withZone(ZoneId.systemDefault());
-    private static final java.nio.file.Path PLAYERS_FILE_PATH = Paths.get("Echoes_of_Command", PLAYERS_JSON_PATH);
 
     public void setWelcomeStage(Stage stage) {
         this.welcomeStage = stage;
@@ -91,20 +92,24 @@ public class UsernameController {
 
     @FXML
     public void onSubmitButtonClick() {
-        String username = usernameField.getText().trim();
-        if (username.isEmpty()) {
+        String usernameInput = usernameField.getText().trim();
+        if (usernameInput.isEmpty()) {
             showAlert("Please enter a username.");
             return;
         }
+
+        // Convert username to lowercase for case-insensitive handling
+        String username = usernameInput.toLowerCase();
 
         // Load existing players
         List<Map<String, Object>> players = loadPlayers();
         String currentTime = Instant.now().toString();
         String lastLogin = null;
 
-        // Check if user exists
+        // Check if user exists (case-insensitive)
         for (Map<String, Object> player : players) {
-            if (player.get("username").equals(username)) {
+            String storedUsername = ((String) player.get("username")).toLowerCase();
+            if (storedUsername.equals(username)) {
                 lastLogin = (String) player.get("lastLogin");
                 player.put("lastLogin", currentTime);
                 break;
@@ -113,8 +118,13 @@ public class UsernameController {
 
         // Add new user if doesn't exist
         if (lastLogin == null) {
-            Map<String, Object> newPlayer = createNewPlayer(username, currentTime);
+            Map<String, Object> newPlayer = new HashMap<>();
+            newPlayer.put("username", username); // Store in lowercase
+            newPlayer.put("lastLogin", currentTime);
             players.add(newPlayer);
+
+            // Initialize stats for new user in stats.json
+            initializeUserStats(username);
         }
 
         // Save updated players
@@ -127,19 +137,41 @@ public class UsernameController {
         navigateToPlaymode(username);
     }
 
-    private Map<String, Object> createNewPlayer(String username, String currentTime) {
-        Map<String, Object> newPlayer = new HashMap<>();
-        newPlayer.put("username", username);
-        newPlayer.put("lastLogin", currentTime);
-        newPlayer.put("bestScoreRandom", 0);
-        newPlayer.put("bestTimeRandom", "00:00");
-        newPlayer.put("bestScoreSequential", 0);
-        newPlayer.put("bestTimeSequential", "00:00");
-        newPlayer.put("bestScoreSingle", 0);
-        newPlayer.put("bestTimeSingle", "00:00");
-        newPlayer.put("totalLevelsPlayed", 0);
-        newPlayer.put("totalCorrectChoices", 0);
-        return newPlayer;
+    private void initializeUserStats(String username) {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Map<String, Object>> stats = loadStats();
+        Map<String, Object> newStats = new HashMap<>();
+        newStats.put("username", username); // Store in lowercase
+        newStats.put("totalLevelsPlayed", 0);
+        newStats.put("totalCorrectChoices", 0);
+        newStats.put("averageTime", 0.0);
+        stats.add(newStats);
+
+        try {
+            Path statsPath = Paths.get("Echoes_of_Command", "stats.json");
+            Files.createDirectories(statsPath.getParent());
+            try (OutputStream output = Files.newOutputStream(statsPath)) {
+                mapper.writerWithDefaultPrettyPrinter().writeValue(output, stats);
+            }
+        } catch (IOException e) {
+            System.err.println("❌ Failed to initialize stats.json: " + e.getMessage());
+        }
+    }
+
+    private List<Map<String, Object>> loadStats() {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Map<String, Object>> stats = new ArrayList<>();
+        Path statsPath = Paths.get("Echoes_of_Command", "stats.json");
+        try {
+            if (Files.exists(statsPath)) {
+                try (InputStream input = Files.newInputStream(statsPath)) {
+                    stats = mapper.readValue(input, new TypeReference<List<Map<String, Object>>>() {});
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("❌ Failed to load stats.json: " + e.getMessage());
+        }
+        return stats;
     }
 
     private void showWelcomeMessage(String username, String lastLogin) {
@@ -167,7 +199,7 @@ public class UsernameController {
             stage.setScene(new Scene(loader.load()));
 
             PlaymodeController controller = loader.getController();
-            controller.setUsername(username); // Set username before showing
+            controller.setUsername(username); // Pass lowercase username
 
             stage.setTitle("Play Mode");
             stage.show();
@@ -199,10 +231,11 @@ public class UsernameController {
                     players = mapper.readValue(input, new TypeReference<List<Map<String, Object>>>() {});
                 }
             } else {
+                // Try loading from resources as a fallback
                 try (InputStream input = getClass().getClassLoader().getResourceAsStream(PLAYERS_JSON_PATH)) {
                     if (input != null) {
                         players = mapper.readValue(input, new TypeReference<List<Map<String, Object>>>() {});
-                        savePlayers(players); // Save to filesystem
+                        savePlayers(players); // Save to filesystem for persistence
                     }
                 }
             }
@@ -215,6 +248,7 @@ public class UsernameController {
     private void savePlayers(List<Map<String, Object>> players) {
         ObjectMapper mapper = new ObjectMapper();
         try {
+            Files.createDirectories(PLAYERS_FILE_PATH.getParent());
             try (OutputStream output = Files.newOutputStream(PLAYERS_FILE_PATH)) {
                 mapper.writerWithDefaultPrettyPrinter().writeValue(output, players);
             }

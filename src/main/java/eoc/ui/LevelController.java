@@ -50,13 +50,16 @@ public class LevelController {
     private static final String ARCHIVE_JSON_PATH = "archive.json";
     private static final Path ARCHIVE_FILE_PATH = Paths.get("Echoes_of_Command", ARCHIVE_JSON_PATH);
     private static final Path PLAYERS_FILE_PATH = Paths.get("Echoes_of_Command", "players.json");
+    private static final Path STATS_FILE_PATH = Paths.get("Echoes_of_Command", "stats.json");
 
     public void initializeGame(String mode, String leaderName, String username) {
         this.mode = mode;
-        this.username = username != null ? username : "Unknown";
+        this.username = username != null ? username.toLowerCase() : "unknown"; // Ensure lowercase
         this.startTime = Instant.now();
         this.archives = new ArrayList<>();
         loadHistory();
+
+        System.out.println("Initializing game: mode=" + mode + ", leader=" + leaderName + ", username=" + this.username);
 
         if (allLeaders == null || allLeaders.isEmpty()) {
             showErrorAlert("No leaders loaded. Cannot start game.");
@@ -85,7 +88,7 @@ public class LevelController {
         }
 
         progressBar.setProgress(0.0);
-        System.out.println("Initialized game with " + currentLevels.size() + " levels, correctCount: " + correctCount + ", username: " + username);
+        System.out.println("Initialized game with " + currentLevels.size() + " levels, correctCount: " + correctCount + ", username: " + this.username);
 
         showLevel();
     }
@@ -117,12 +120,13 @@ public class LevelController {
         if (currentIndex >= currentLevels.size()) {
             try {
                 saveArchives();
+                updatePlayerStats();
+                updateStats();
             } catch (Exception e) {
-                System.err.println("❌ Failed to save archives: " + e.getMessage());
+                System.err.println("❌ Failed to save data: " + e.getMessage());
                 e.printStackTrace();
                 showErrorAlert("Error saving game data. Proceeding to end screen.");
             }
-            updatePlayerStats();
             goToEndScreen();
             return;
         }
@@ -206,12 +210,12 @@ public class LevelController {
         Choice choice = level.getChoices().get(choiceIndex);
         boolean correct = choice.isHistorical();
 
-        System.out.println("Choice " + choiceIndex + " selected: " + choice.getText() + ", isHistorical: " + correct);
+        System.out.println("Choice " + choiceIndex + " selected: " + choice.getText() + ", isHistorical: " + correct + ", username: " + username);
 
         Leader effectiveLeader = (mode.equals("SINGLE")) ? currentLeader : findLeaderOf(level);
         String leaderName = effectiveLeader != null ? effectiveLeader.getName() : "Unknown";
         Map<String, Object> archive = new HashMap<>();
-        archive.put("username", username);
+        archive.put("username", username); // Use lowercase username
         archive.put("leader", leaderName);
         archive.put("levelNumber", level.getNumber());
         archive.put("description", level.getDescription());
@@ -265,12 +269,13 @@ public class LevelController {
         ObjectMapper mapper = new ObjectMapper();
         List<Map<String, Object>> allArchives = new ArrayList<>();
 
-        System.out.println("Attempting to load archives from: " + ARCHIVE_FILE_PATH.toAbsolutePath());
+        System.out.println("Saving archives for username: " + username + ", current session entries: " + archives.size());
 
         try {
             if (Files.exists(ARCHIVE_FILE_PATH)) {
                 try (InputStream input = Files.newInputStream(ARCHIVE_FILE_PATH)) {
                     allArchives = mapper.readValue(input, new TypeReference<List<Map<String, Object>>>() {});
+                    System.out.println("Loaded " + allArchives.size() + " existing archive entries from " + ARCHIVE_FILE_PATH);
                 }
             }
         } catch (IOException e) {
@@ -278,22 +283,29 @@ public class LevelController {
             e.printStackTrace();
         }
 
-        List<Map<String, Object>> otherPlayersArchives = allArchives.stream()
-                .filter(entry -> {
-                    Object usernameObj = entry.get("username");
-                    if (usernameObj == null || usernameObj.toString().isEmpty()) {
-                        System.err.println("⚠️ Skipping invalid archive entry: " + entry);
-                        return false;
-                    }
-                    return !usernameObj.equals(username);
-                })
-                .collect(Collectors.toList());
+        // Add new archives, avoiding duplicates based on username, leader, and levelNumber
+        Set<String> existingKeys = allArchives.stream()
+                .filter(entry -> entry.get("username") != null && entry.get("leader") != null && entry.get("levelNumber") != null)
+                .map(entry -> String.format("%s:%s:%d",
+                        entry.get("username").toString().toLowerCase(),
+                        entry.get("leader").toString(),
+                        ((Number) entry.get("levelNumber")).intValue()))
+                .collect(Collectors.toSet());
 
         for (Map<String, Object> archive : archives) {
-            if (archive.get("username") != null && !archive.get("username").toString().isEmpty()) {
-                otherPlayersArchives.add(archive);
+            if (archive.get("username") == null || archive.get("leader") == null || archive.get("levelNumber") == null) {
+                System.err.println("⚠️ Skipping invalid archive entry: " + archive);
+                continue;
+            }
+            String key = String.format("%s:%s:%d",
+                    archive.get("username").toString().toLowerCase(),
+                    archive.get("leader").toString(),
+                    ((Number) archive.get("levelNumber")).intValue());
+            if (!existingKeys.contains(key)) {
+                allArchives.add(archive);
+                existingKeys.add(key);
             } else {
-                System.err.println("⚠️ Skipping invalid new archive entry: " + archive);
+                System.out.println("Skipping duplicate archive entry for key: " + key);
             }
         }
 
@@ -303,40 +315,13 @@ public class LevelController {
                 Files.createDirectories(dir);
             }
             try (OutputStream output = Files.newOutputStream(ARCHIVE_FILE_PATH)) {
-                mapper.writeValue(output, otherPlayersArchives);
-                System.out.println("Saved archives to " + ARCHIVE_FILE_PATH + " for user " + username + ": " + archives.size() + " new entries");
+                mapper.writerWithDefaultPrettyPrinter().writeValue(output, allArchives);
+                System.out.println("Saved " + allArchives.size() + " total archive entries to " + ARCHIVE_FILE_PATH);
             }
         } catch (IOException e) {
             System.err.println("❌ Failed to save archive.json: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    private void loadArchives() {
-        ObjectMapper mapper = new ObjectMapper();
-        List<Map<String, Object>> allArchives = new ArrayList<>();
-        try {
-            if (Files.exists(ARCHIVE_FILE_PATH)) {
-                try (InputStream input = Files.newInputStream(ARCHIVE_FILE_PATH)) {
-                    allArchives = mapper.readValue(input, new TypeReference<List<Map<String, Object>>>() {});
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("❌ Failed to load archive.json: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        this.archives = allArchives.stream()
-                .filter(entry -> {
-                    Object usernameObj = entry.get("username");
-                    if (usernameObj == null || usernameObj.toString().isEmpty()) {
-                        System.err.println("⚠️ Skipping invalid archive entry: " + entry);
-                        return false;
-                    }
-                    return usernameObj.equals(username);
-                })
-                .collect(Collectors.toList());
-        System.out.println("Loaded " + this.archives.size() + " archive entries for user " + username);
     }
 
     private void updatePlayerStats() {
@@ -345,13 +330,16 @@ public class LevelController {
         String elapsedTime = getElapsedTime();
         int score = correctCount;
 
+        System.out.println("Updating player stats for username: " + username + ", mode: " + mode + ", score: " + score + ", time: " + elapsedTime);
+
         PlayerStats currentPlayer = players.stream()
-                .filter(p -> p.username != null && p.username.equals(username))
+                .filter(p -> p.username != null && p.username.toLowerCase().equals(username))
                 .findFirst()
                 .orElseGet(() -> {
                     PlayerStats newPlayer = new PlayerStats();
-                    newPlayer.username = username;
+                    newPlayer.username = username; // Store in lowercase
                     players.add(newPlayer);
+                    System.out.println("Created new player entry for username: " + username);
                     return newPlayer;
                 });
 
@@ -393,6 +381,7 @@ public class LevelController {
                 case "bestTimeSequential" -> currentPlayer.bestTimeSequential = elapsedTime;
                 case "bestTimeRandom" -> currentPlayer.bestTimeRandom = elapsedTime;
             }
+            System.out.println("Updated " + scoreKey + "=" + score + ", " + timeKey + "=" + elapsedTime);
         } else if (score == currentBestScore) {
             if (compareTimes(elapsedTime, currentBestTime) < 0) {
                 switch (timeKey) {
@@ -400,12 +389,9 @@ public class LevelController {
                     case "bestTimeSequential" -> currentPlayer.bestTimeSequential = elapsedTime;
                     case "bestTimeRandom" -> currentPlayer.bestTimeRandom = elapsedTime;
                 }
+                System.out.println("Updated " + timeKey + "=" + elapsedTime + " (same score, better time)");
             }
         }
-
-        // Update total levels and correct choices
-        currentPlayer.totalLevelsPlayed += currentLevels.size();
-        currentPlayer.totalCorrectChoices += correctCount;
 
         try {
             Path dir = PLAYERS_FILE_PATH.getParent();
@@ -413,13 +399,72 @@ public class LevelController {
                 Files.createDirectories(dir);
             }
             try (OutputStream output = Files.newOutputStream(PLAYERS_FILE_PATH)) {
-                mapper.writeValue(output, players);
+                mapper.writerWithDefaultPrettyPrinter().writeValue(output, players);
                 System.out.println("Updated player stats for " + username + " in " + PLAYERS_FILE_PATH);
             }
         } catch (IOException e) {
             System.err.println("❌ Failed to update players.json: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void updateStats() {
+        ObjectMapper mapper = new ObjectMapper();
+        List<StatsData> stats = loadStats();
+        Duration duration = Duration.between(startTime, Instant.now());
+        double elapsedTimeSeconds = duration.toMillis() / 1000.0;
+
+        StatsData currentStats = stats.stream()
+                .filter(s -> s.username != null && s.username.toLowerCase().equals(username))
+                .findFirst()
+                .orElseGet(() -> {
+                    StatsData newStats = new StatsData();
+                    newStats.username = username; // Store in lowercase
+                    newStats.totalLevelsPlayed = 0;
+                    newStats.totalCorrectChoices = 0;
+                    newStats.averageTime = 0.0;
+                    stats.add(newStats);
+                    return newStats;
+                });
+
+        // Update stats
+        int previousLevels = currentStats.totalLevelsPlayed;
+        double previousTotalTime = currentStats.averageTime * previousLevels;
+        currentStats.totalLevelsPlayed += currentLevels.size();
+        currentStats.totalCorrectChoices += correctCount;
+        currentStats.averageTime = previousLevels > 0 ?
+                (previousTotalTime + elapsedTimeSeconds) / currentStats.totalLevelsPlayed :
+                elapsedTimeSeconds / currentStats.totalLevelsPlayed;
+
+        try {
+            Path dir = STATS_FILE_PATH.getParent();
+            if (dir != null) {
+                Files.createDirectories(dir);
+            }
+            try (OutputStream output = Files.newOutputStream(STATS_FILE_PATH)) {
+                mapper.writerWithDefaultPrettyPrinter().writeValue(output, stats);
+                System.out.println("Updated stats for " + username + " in " + STATS_FILE_PATH);
+            }
+        } catch (IOException e) {
+            System.err.println("❌ Failed to update stats.json: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private List<StatsData> loadStats() {
+        ObjectMapper mapper = new ObjectMapper();
+        List<StatsData> stats = new ArrayList<>();
+        try {
+            if (Files.exists(STATS_FILE_PATH)) {
+                try (InputStream input = Files.newInputStream(STATS_FILE_PATH)) {
+                    stats = mapper.readValue(input, new TypeReference<List<StatsData>>() {});
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("❌ Failed to load stats.json: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return stats;
     }
 
     private List<PlayerStats> loadPlayers() {
@@ -500,10 +545,11 @@ public class LevelController {
         try {
             saveArchives();
             updatePlayerStats();
+            updateStats();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Playmode.fxml"));
             Scene scene = new Scene(loader.load());
             PlaymodeController controller = loader.getController();
-            controller.setUsername(username);
+            controller.setUsername(username); // Pass lowercase username
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -528,8 +574,7 @@ public class LevelController {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class PlayerStats {
         public String username;
-        public int totalLevelsPlayed;
-        public int totalCorrectChoices;
+        public String lastLogin;
         public String bestTimeSingle;
         public String bestTimeSequential;
         public String bestTimeRandom;
@@ -538,5 +583,15 @@ public class LevelController {
         public int bestScoreRandom;
 
         public PlayerStats() {}
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class StatsData {
+        public String username;
+        public int totalLevelsPlayed;
+        public int totalCorrectChoices;
+        public double averageTime;
+
+        public StatsData() {}
     }
 }

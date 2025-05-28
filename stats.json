@@ -1,0 +1,11 @@
+[ {
+  "username" : "candace",
+  "totalLevelsPlayed" : 50,
+  "totalCorrectChoices" : 29,
+  "averageTime" : 1.6067600000000002
+}, {
+  "username" : "unknown",
+  "totalLevelsPlayed" : 10,
+  "totalCorrectChoices" : 5,
+  "averageTime" : 1.6140999999999999
+} ]

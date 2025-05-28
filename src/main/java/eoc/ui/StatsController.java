@@ -29,23 +29,18 @@ public class StatsController {
     @FXML private TextFlow progressFlow;
     @FXML private TextArea historyTextArea;
 
-    private static final String PLAYERS_JSON_PATH = "players.json";
+    private static final String STATS_JSON_PATH = "stats.json";
     private static final String ARCHIVE_JSON_PATH = "archive.json";
-    private static final Path PLAYERS_FILE_PATH = Paths.get("Echoes_of_Command", PLAYERS_JSON_PATH);
+    private static final Path STATS_FILE_PATH = Paths.get("Echoes_of_Command", STATS_JSON_PATH);
     private static final Path ARCHIVE_FILE_PATH = Paths.get("Echoes_of_Command", ARCHIVE_JSON_PATH);
     private String username;
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class PlayerData {
+    public static class StatsData {
         public String username;
         public int totalLevelsPlayed;
         public int totalCorrectChoices;
-        public String bestTimeSingle;
-        public String bestTimeSequential;
-        public String bestTimeRandom;
-        public int bestScoreSingle;
-        public int bestScoreSequential;
-        public int bestScoreRandom;
+        public double averageTime;
     }
 
     public static class ArchiveEntry {
@@ -64,23 +59,8 @@ public class StatsController {
         int correctLevels;
     }
 
-    // Initialize default player first
-    private PlayerData createDefaultPlayer() {
-        PlayerData player = new PlayerData();
-        player.username = username;
-        player.totalLevelsPlayed = 0;
-        player.totalCorrectChoices = 0;
-        player.bestScoreSingle = 0;
-        player.bestScoreSequential = 0;
-        player.bestScoreRandom = 0;
-        player.bestTimeSingle = "00:00";
-        player.bestTimeSequential = "00:00";
-        player.bestTimeRandom = "00:00";
-        return player;
-    }
-
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username.toLowerCase(); // Ensure lowercase
         loadStats();
     }
 
@@ -91,21 +71,28 @@ public class StatsController {
 
     private void loadStats() {
         try {
-            if (!Files.exists(PLAYERS_FILE_PATH) || !Files.exists(ARCHIVE_FILE_PATH)) {
+            if (!Files.exists(STATS_FILE_PATH) || !Files.exists(ARCHIVE_FILE_PATH)) {
                 historyTextArea.setText("No game data found");
                 return;
             }
 
             ObjectMapper mapper = new ObjectMapper();
-            List<PlayerData> players = mapper.readValue(
-                    Files.readAllBytes(PLAYERS_FILE_PATH),
-                    new TypeReference<List<PlayerData>>() {}
+            List<StatsData> stats = mapper.readValue(
+                    Files.readAllBytes(STATS_FILE_PATH),
+                    new TypeReference<List<StatsData>>() {}
             );
 
-            PlayerData playerData = players.stream()
-                    .filter(p -> username.equals(p.username))
+            StatsData playerData = stats.stream()
+                    .filter(p -> username.equals(p.username.toLowerCase()))
                     .findFirst()
-                    .orElseGet(this::createDefaultPlayer);
+                    .orElseGet(() -> {
+                        StatsData defaultStats = new StatsData();
+                        defaultStats.username = username;
+                        defaultStats.totalLevelsPlayed = 0;
+                        defaultStats.totalCorrectChoices = 0;
+                        defaultStats.averageTime = 0.0;
+                        return defaultStats;
+                    });
 
             Map<String, LeaderStats> leaderStats = calculateLeaderStats();
             updateUI(playerData, leaderStats);
@@ -123,7 +110,7 @@ public class StatsController {
         );
 
         return archives.stream()
-                .filter(entry -> username.equals(entry.username))
+                .filter(entry -> username.equals(entry.username.toLowerCase()))
                 .collect(Collectors.groupingBy(
                         entry -> entry.leader,
                         Collectors.collectingAndThen(
@@ -140,10 +127,10 @@ public class StatsController {
                 ));
     }
 
-    private void updateUI(PlayerData player, Map<String, LeaderStats> leaderStats) {
+    private void updateUI(StatsData player, Map<String, LeaderStats> leaderStats) {
         Platform.runLater(() -> {
             // Update metrics
-            avgTimeFlow.getChildren().setAll(makeStyledText(String.format("%.2f s", calculateAverageTime(player))));
+            avgTimeFlow.getChildren().setAll(makeStyledText(String.format("%.2f s", player.averageTime)));
             totalLevelsFlow.getChildren().setAll(makeStyledText(String.valueOf(player.totalLevelsPlayed)));
             progressFlow.getChildren().setAll(makeStyledText(
                     String.format("%.2f%%", player.totalLevelsPlayed > 0 ?
@@ -162,43 +149,12 @@ public class StatsController {
                     statsText.append(String.format("  Levels Completed: %d\n", stats.totalLevels));
                     statsText.append(String.format("  Correct Choices: %d (%.1f%%)\n\n",
                             stats.correctLevels,
-                            (stats.correctLevels * 100.0) / stats.totalLevels));
+                            stats.totalLevels > 0 ? (stats.correctLevels * 100.0) / stats.totalLevels : 0));
                 });
             }
 
             historyTextArea.setText(statsText.toString());
         });
-    }
-
-    private double calculateAverageTime(PlayerData player) {
-        int count = 0;
-        long totalMillis = 0;
-
-        if (!"00:00".equals(player.bestTimeSingle)) {
-            totalMillis += parseTime(player.bestTimeSingle);
-            count++;
-        }
-        if (!"00:00".equals(player.bestTimeSequential)) {
-            totalMillis += parseTime(player.bestTimeSequential);
-            count++;
-        }
-        if (!"00:00".equals(player.bestTimeRandom)) {
-            totalMillis += parseTime(player.bestTimeRandom);
-            count++;
-        }
-
-        return count > 0 ? totalMillis / (count * 1000.0) : 0;
-    }
-
-    private long parseTime(String time) {
-        try {
-            String[] parts = time.split(":");
-            int minutes = Integer.parseInt(parts[0]);
-            int seconds = Integer.parseInt(parts[1]);
-            return (minutes * 60L + seconds) * 1000L;
-        } catch (Exception e) {
-            return 0;
-        }
     }
 
     private Text makeStyledText(String value) {
@@ -234,7 +190,7 @@ public class StatsController {
             stage.setScene(new Scene(loader.load()));
 
             PlaymodeController controller = loader.getController();
-            controller.setUsername(username);
+            controller.setUsername(username); // Pass lowercase username
         } catch (IOException e) {
             showError("Failed to return to play mode: " + e.getMessage());
         }

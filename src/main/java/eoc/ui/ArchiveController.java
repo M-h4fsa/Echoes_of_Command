@@ -34,7 +34,8 @@ public class ArchiveController {
     private String username;
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username != null ? username.toLowerCase() : "unknown"; // Ensure lowercase
+        System.out.println("ArchiveController: Username set to " + this.username);
         loadArchiveData();
     }
 
@@ -46,7 +47,8 @@ public class ArchiveController {
     private void loadArchiveData() {
         try {
             if (!Files.exists(ARCHIVE_FILE_PATH)) {
-                resultArea.setText("No archive data found");
+                resultArea.setText("No archive data found at " + ARCHIVE_FILE_PATH);
+                System.err.println("❌ Archive file not found at: " + ARCHIVE_FILE_PATH);
                 return;
             }
 
@@ -55,18 +57,22 @@ public class ArchiveController {
                     Files.readAllBytes(ARCHIVE_FILE_PATH),
                     new TypeReference<List<ArchiveEntry>>() {}
             );
+            System.out.println("✅ Loaded " + archiveEntries.size() + " total archive entries for user " + username);
 
             displayAllEntries();
         } catch (IOException e) {
+            System.err.println("❌ Failed to load archive.json: " + e.getMessage());
             showError("Failed to load archive: " + e.getMessage());
         }
     }
 
     private void displayAllEntries() {
         List<ArchiveEntry> playerEntries = archiveEntries.stream()
-                .filter(entry -> username.equals(entry.username))
+                .filter(entry -> entry.username != null && username.equals(entry.username.toLowerCase()))
                 .sorted(Comparator.comparingInt(entry -> entry.levelNumber))
                 .collect(Collectors.toList());
+
+        System.out.println("Displaying " + playerEntries.size() + " archive entries for user " + username);
 
         StringBuilder archiveText = new StringBuilder();
         archiveText.append("=== COMPLETE GAME HISTORY ===\n\n");
@@ -106,6 +112,7 @@ public class ArchiveController {
 
     private void filterAndDisplay() {
         if (archiveEntries == null || archiveEntries.isEmpty()) {
+            resultArea.setText("No archive data available");
             return;
         }
 
@@ -119,10 +126,12 @@ public class ArchiveController {
         }
 
         List<ArchiveEntry> filtered = archiveEntries.stream()
-                .filter(entry -> username.equals(entry.username))
+                .filter(entry -> entry.username != null && username.equals(entry.username.toLowerCase()))
                 .filter(entry -> matchesKeyword(entry, keyword))
                 .sorted(Comparator.comparingInt(entry -> entry.levelNumber))
                 .collect(Collectors.toList());
+
+        System.out.println("Found " + filtered.size() + " archive entries matching keyword '" + keyword + "' for user " + username);
 
         if (filtered.isEmpty()) {
             filteredText.append("No results found for: '").append(keyword).append("'\n");
@@ -156,7 +165,7 @@ public class ArchiveController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Playmode.fxml"));
             Scene scene = new Scene(loader.load());
             PlaymodeController controller = loader.getController();
-            controller.setUsername(username);
+            controller.setUsername(username); // Pass lowercase username
 
             Stage stage = (Stage) backButton.getScene().getWindow();
             stage.setScene(scene);
