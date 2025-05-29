@@ -60,7 +60,7 @@ public class StatsController {
     }
 
     public void setUsername(String username) {
-        this.username = username.toLowerCase(); // Ensure lowercase
+        this.username = username.toLowerCase();
         loadStats();
     }
 

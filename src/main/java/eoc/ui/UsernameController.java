@@ -98,7 +98,7 @@ public class UsernameController {
             return;
         }
 
-        // Convert username to lowercase for case-insensitive handling
+        // Convert username to lowercase to avoid case sensitivity
         String username = usernameInput.toLowerCase();
 
         // Load existing players
@@ -116,7 +116,7 @@ public class UsernameController {
             }
         }
 
-        // Add new user if doesn't exist
+        // Add new user iff it doesn't exist
         if (lastLogin == null) {
             Map<String, Object> newPlayer = new HashMap<>();
             newPlayer.put("username", username); // Store in lowercase
@@ -141,7 +141,7 @@ public class UsernameController {
         ObjectMapper mapper = new ObjectMapper();
         List<Map<String, Object>> stats = loadStats();
         Map<String, Object> newStats = new HashMap<>();
-        newStats.put("username", username); // Store in lowercase
+        newStats.put("username", username);
         newStats.put("totalLevelsPlayed", 0);
         newStats.put("totalCorrectChoices", 0);
         newStats.put("averageTime", 0.0);
@@ -199,7 +199,7 @@ public class UsernameController {
             stage.setScene(new Scene(loader.load()));
             stage.setResizable(false);
             PlaymodeController controller = loader.getController();
-            controller.setUsername(username); // Pass lowercase username
+            controller.setUsername(username);
 
             stage.setTitle("Play Mode");
             stage.show();
@@ -231,7 +231,7 @@ public class UsernameController {
                     players = mapper.readValue(input, new TypeReference<List<Map<String, Object>>>() {});
                 }
             } else {
-                // Try loading from resources as a fallback
+                // Try loading from resources as a fallback (back up plan, we always need to be prepared)
                 try (InputStream input = getClass().getClassLoader().getResourceAsStream(PLAYERS_JSON_PATH)) {
                     if (input != null) {
                         players = mapper.readValue(input, new TypeReference<List<Map<String, Object>>>() {});

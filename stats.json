@@ -3,4 +3,9 @@
   "totalLevelsPlayed" : 10,
   "totalCorrectChoices" : 9,
   "averageTime" : 5.449
+}, {
+  "username" : "mohamed",
+  "totalLevelsPlayed" : 10,
+  "totalCorrectChoices" : 5,
+  "averageTime" : 1.7384
 } ]

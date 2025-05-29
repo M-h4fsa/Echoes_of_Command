@@ -54,7 +54,7 @@ public class LevelController {
 
     public void initializeGame(String mode, String leaderName, String username) {
         this.mode = mode;
-        this.username = username != null ? username.toLowerCase() : "unknown"; // Ensure lowercase
+        this.username = username != null ? username.toLowerCase() : "unknown";
         this.startTime = Instant.now();
         this.archives = new ArrayList<>();
         this.correctCount = 0; // Reset correct count

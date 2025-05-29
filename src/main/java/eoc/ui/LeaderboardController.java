@@ -28,7 +28,7 @@ public class LeaderboardController {
     private String username;
 
     public void setUsername(String username) {
-        this.username = username != null ? username.toLowerCase() : null; // Ensure lowercase
+        this.username = username != null ? username.toLowerCase() : null; // Ensure lowercase hence ignore case sensitivity
         System.out.println("LeaderboardController: Username set to " + this.username);
     }
 
@@ -51,7 +51,7 @@ public class LeaderboardController {
             List<PlayerData> players = mapper.readValue(Files.readAllBytes(PLAYERS_FILE_PATH), new TypeReference<List<PlayerData>>() {});
             System.out.println("✅ Loaded " + players.size() + " player entries");
 
-            // Debug: Log each player's data
+            // Log each player's data
             for (PlayerData p : players) {
                 System.out.println("Player: " + p.username + ", Single Score: " + p.bestScoreSingle + ", Single Time: " + p.bestTimeSingle +
                         ", Sequential Score: " + p.bestScoreSequential + ", Sequential Time: " + p.bestTimeSequential +

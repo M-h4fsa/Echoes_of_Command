@@ -20,7 +20,7 @@ public class WelcomeController {
     @FXML private MenuItem arabicMenuItem;
     @FXML private MenuItem aboutMenuItem;
 
-    private String username; // Store username
+    private String username;
 
     public void setUsername(String username) {
         this.username = username;
@@ -66,7 +66,7 @@ public class WelcomeController {
             popupStage.initOwner(startButton.getScene().getWindow());
             popupStage.setResizable(false);
 
-            // Inject the parent stage into the UsernameController
+            // call username controller
             UsernameController controller = loader.getController();
             controller.setWelcomeStage((Stage) startButton.getScene().getWindow());
             controller.setUsernameStage(popupStage);

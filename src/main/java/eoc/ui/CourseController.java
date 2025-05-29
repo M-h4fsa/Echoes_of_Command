@@ -27,7 +27,7 @@ public class CourseController {
     @FXML
     private TextArea courseTextArea;
 
-    private String username; // Store username
+    private String username;
 
     public void setUsername(String username) {
         this.username = username;
