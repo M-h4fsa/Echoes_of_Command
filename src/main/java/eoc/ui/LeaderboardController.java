@@ -149,6 +149,7 @@ public class LeaderboardController {
         // Close the modal stage and return to Welcome.fxml
         Stage stage = (Stage) backButton.getScene().getWindow();
         stage.close();
+        stage.setResizable(false);
     }
 
     private void showErrorAlert(String message) {

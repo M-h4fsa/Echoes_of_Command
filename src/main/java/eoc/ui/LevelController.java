@@ -552,6 +552,7 @@ public class LevelController {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
+            stage.setResizable(false);
             System.out.println("Returned to Playmode, username=" + username);
         } catch (IOException e) {
             System.err.println("❌ Failed to load Playmode.fxml: " + e.getMessage());

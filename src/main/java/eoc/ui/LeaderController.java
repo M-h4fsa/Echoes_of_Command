@@ -236,6 +236,7 @@ public class LeaderController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
+            stage.setResizable(false);
         } catch (IOException e) {
             System.err.println("❌ Failed to load Level.fxml: " + e.getMessage());
             showErrorAlert("Failed to start game. Please try again.");
@@ -252,6 +253,7 @@ public class LeaderController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
+            stage.setResizable(false);
         } catch (IOException e) {
             System.err.println("❌ Failed to load Playmode.fxml: " + e.getMessage());
             showErrorAlert("Failed to return to play mode selection. Please try again.");

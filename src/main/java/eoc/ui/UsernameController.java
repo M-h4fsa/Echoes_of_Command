@@ -197,7 +197,7 @@ public class UsernameController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Playmode.fxml"));
             Stage stage = new Stage(); // Create new stage
             stage.setScene(new Scene(loader.load()));
-
+            stage.setResizable(false);
             PlaymodeController controller = loader.getController();
             controller.setUsername(username); // Pass lowercase username
 

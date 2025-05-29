@@ -105,6 +105,7 @@ public class CourseController {
             Stage stage = (Stage) backButton.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
+            stage.setResizable(false);
         } catch (IOException e) {
             System.err.println("❌ Failed to load Playmode.fxml: " + e.getMessage());
         }

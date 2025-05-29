@@ -174,7 +174,7 @@ public class ArchiveController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/eoc/ui/Playmode.fxml"));
             Stage stage = (Stage) backButton.getScene().getWindow();
             stage.setScene(new Scene(loader.load()));
-
+            stage.setResizable(false);
             PlaymodeController controller = loader.getController();
             controller.setUsername(username);
         } catch (IOException e) {

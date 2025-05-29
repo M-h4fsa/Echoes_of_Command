@@ -113,6 +113,21 @@ public class WelcomeController {
             }
         });
     }
+    @FXML
+    private void onAboutMenuItemClick() {
+        String aboutMessage = "Quick Reference Guide:\n\n" +
+                "Start ▶ Enter your Username.\n\n" +
+                "Menu : Choose:\n\n" +
+                "Play – start a new game.\n" +
+                "Stats – view your overall performance.\n" +
+                "Archive – browse past levels.\n" +
+                "Leaderboard – see top players.\n" +
+                "Download – export course.\n" +
+                "Logout – end session.\n\n" +
+                "During Play 🎮 Finish a round → your score is saved, added to your archive, and updates the leaderboard.\n\n" +
+                "Next Time ⏭ Re-enter your Username to view stats/archive, or keep playing.";
+        showInfo("About Echoes of Command", aboutMessage);
+    }
 
     @FXML
     private void onEnglishMenuItemClick() {

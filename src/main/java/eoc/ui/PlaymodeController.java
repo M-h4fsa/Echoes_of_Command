@@ -119,6 +119,7 @@ public class PlaymodeController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
+            stage.setResizable(false);
             System.out.println("Launched game: mode=" + mode + ", leader=" + leaderName + ", username=" + username);
         } catch (IOException e) {
             System.err.println("❌ Failed to load Level.fxml: " + e.getMessage());
@@ -151,6 +152,7 @@ public class PlaymodeController {
             Stage stage = (Stage) node.getScene().getWindow();
             stage.setScene(scene);
             stage.show();
+            stage.setResizable(false);
         } catch (IOException e) {
             System.err.println("❌ Failed to load " + fxmlPath + ": " + e.getMessage());
             showErrorAlert("Failed to navigate to " + fxmlPath);
