@@ -8,7 +8,7 @@
         "description": "Operation Barbarossa 1941: The Germans have launched a surprise invasion. Cities burn, and chaos spreads. Reports flood in, but your generals hesitate, waiting for your command. How do you respond?",
         "choices": [
           {"text": "We hold our ground and mobilize immediately!", "isHistorical": true},
-          {"text": "This must be misinformation—wait before acting.", "isHistorical": false}
+          {"text": "This must be misinformation,wait before acting.", "isHistorical": false}
         ],
         "summary": "Stalin initially hesitated, believing the invasion was misinformation, but mobilization was the historical response that began the Soviet defense."
       },
@@ -17,7 +17,7 @@
         "description": "Scorched Earth policy 1941-1942: The Germans advance deeper into Soviet territory. We can retreat, but we cannot leave anything behind. How do we slow the enemy?",
         "choices": [
           {"text": "Burn the land, destroy the resources—let them starve!", "isHistorical": true},
-          {"text": "Leave the cities intact—we might reclaim them soon.", "isHistorical": false}
+          {"text": "Leave the cities intact!we might reclaim them soon.", "isHistorical": false}
         ],
         "summary": "Stalin ordered the scorched-earth policy, destroying resources to hinder the German advance."
       },
@@ -25,7 +25,7 @@
         "number": 3,
         "description": "Siege of Leningrad 1941-1944: Leningrad is surrounded. Millions of civilians are trapped. The winter is deadly. Your people look to you. What is your order?",
         "choices": [
-          {"text": "Evacuate and spare lives—Leningrad is lost.", "isHistorical": false},
+          {"text": "Evacuate and spare lives...Leningrad is lost.", "isHistorical": false},
           {"text": "No surrender! Hold the city at any cost!", "isHistorical": true}
         ],
         "summary": "Stalin ordered Leningrad to hold at all costs, leading to a prolonged and brutal siege but ultimately preserving Soviet morale."
@@ -35,7 +35,7 @@
         "description": "Moscow is in your hands 1941-1942: The enemy is at the gates of Moscow. Your capital is under threat. Some advise you to flee. What do you decide?",
         "choices": [
           {"text": "I stay in Moscow. If I run, the nation falls!", "isHistorical": true},
-          {"text": "Withdraw east—we will fight another day.", "isHistorical": false}
+          {"text": "Withdraw east...we will fight another day.", "isHistorical": false}
         ],
         "summary": "Stalin chose to stay in Moscow, boosting morale and leading to a successful defense of the capital."
       },
@@ -43,7 +43,7 @@
         "number": 5,
         "description": "Stalingrad counteroffensive 1942-1943: The battle for Stalingrad is brutal. The German army is overextended. How do you strike?",
         "choices": [
-          {"text": "Charge forward—we must push them out immediately!", "isHistorical": false},
+          {"text": "Charge forward!we must push them out immediately!", "isHistorical": false},
           {"text": "Encircle them! Cut off their supplies and starve them!", "isHistorical": true}
         ],
         "summary": "Stalin approved Operation Uranus, encircling the Germans at Stalingrad, leading to a major turning point in the war."
@@ -52,8 +52,8 @@
         "number": 6,
         "description": "Kursk Tank battle 1943: Hitler's forces launch an all-out tank offensive at Kursk. Your commanders propose different plans. What is your strategy?",
         "choices": [
-          {"text": "Let them come—our defenses will break them, then we strike!", "isHistorical": true},
-          {"text": "Charge first—attack before they are ready!", "isHistorical": false}
+          {"text": "Let them come!our defenses will break them, then we strike!", "isHistorical": true},
+          {"text": "Charge first!attack before they are ready!", "isHistorical": false}
         ],
         "summary": "Stalin opted for a defensive strategy at Kursk, allowing the Germans to exhaust themselves before launching a counteroffensive."
       },
@@ -61,8 +61,8 @@
         "number": 7,
         "description": "Soviet Partisan warfare 1941-1945: Behind enemy lines, Soviet partisans fight in forests and towns. What orders do you give?",
         "choices": [
-          {"text": "Stay hidden—avoid all contact until reinforcements arrive.", "isHistorical": false},
-          {"text": "Sabotage their supply lines—turn the land against them!", "isHistorical": true}
+          {"text": "Stay hidden...avoid all contact until reinforcements arrive.", "isHistorical": false},
+          {"text": "Sabotage their supply lines!turn the land against them!", "isHistorical": true}
         ],
         "summary": "Stalin supported partisan warfare, ordering sabotage that disrupted German supply lines and morale."
       },
@@ -70,7 +70,7 @@
         "number": 8,
         "description": "Tehran Conference 1943: You sit with Churchill and Roosevelt. The West delays opening a second front. You need them to act. What do you demand?",
         "choices": [
-          {"text": "No rush—we will handle Germany ourselves.", "isHistorical": false},
+          {"text": "No rush,we will handle Germany ourselves.", "isHistorical": false},
           {"text": "Open a Western Front now! The Red Army cannot fight alone!", "isHistorical": true}
         ],
         "summary": "Stalin demanded a second front, pressuring the Allies to act. Hint: The West hesitated, but the Red Army bled. A demand had to be made."
@@ -79,8 +79,8 @@
         "number": 9,
         "description": "Berlin's fate 1945: The Red Army is at the doorstep of Berlin. The Western Allies are close. Who gets there first is critical. What do you command?",
         "choices": [
-          {"text": "Storm the city—raise the Soviet flag over the Reichstag!", "isHistorical": true},
-          {"text": "Wait—let the Allies take Berlin first.", "isHistorical": false}
+          {"text": "Storm the city!raise the Soviet flag over the Reichstag!", "isHistorical": true},
+          {"text": "Wait...let the Allies take Berlin first.", "isHistorical": false}
         ],
         "summary": "Stalin ordered the Red Army to storm Berlin, raising the Soviet flag over the Reichstag in a symbolic victory. Hint: A race to the Reichstag, but..."
       },
@@ -88,8 +88,8 @@
         "number": 10,
         "description": "Yalta Conference 1945: The war is ending, but the world is changing. Churchill and Roosevelt want a say in Europe's future. What is your stance?",
         "choices": [
-          {"text": "We will work together—divide Europe fairly.", "isHistorical": false},
-          {"text": "The USSR must control Eastern Europe—we have sacrificed the most!", "isHistorical": true}
+          {"text": "We will work together!divide Europe fairly.", "isHistorical": false},
+          {"text": "The USSR must control Eastern Europe,we have sacrificed the most!", "isHistorical": true}
         ],
         "summary": "Stalin insisted on Soviet control over Eastern Europe, shaping the post-war landscape. Hint: Is victory lost at the negotiation table?"
       }
@@ -103,8 +103,8 @@
         "number": 1,
         "description": "The Fall of France 1940: Paris is lost. The government surrenders. But you refuse to give in. What do you do?",
         "choices": [
-          {"text": "Broadcast a call to arms—France must resist!", "isHistorical": true},
-          {"text": "Accept the Vichy government—survival is priority.", "isHistorical": false}
+          {"text": "Broadcast a call to arms...France must resist!", "isHistorical": true},
+          {"text": "Accept the Vichy government,survival is priority.", "isHistorical": false}
         ],
         "summary": "De Gaulle broadcasted a call to arms, rallying the French to resist and forming the Free French Forces."
       },
@@ -113,7 +113,7 @@
         "description": "Free French Forces 1940-1945: You lead in exile. Many doubt your legitimacy. How do you rally support?",
         "choices": [
           {"text": "Build an army, gain recognition, and prove them wrong!", "isHistorical": true},
-          {"text": "Wait until the war turns—then demand leadership.", "isHistorical": false}
+          {"text": "Wait until the war turns,then demand leadership.", "isHistorical": false}
         ],
         "summary": "De Gaulle built the Free French Forces, gaining recognition through persistent leadership and military action."
       },
@@ -121,7 +121,7 @@
         "number": 3,
         "description": "Tension with Churchill and Roosevelt 1940-1944: The Allies favor other French leaders. They exclude you from decisions. How do you respond?",
         "choices": [
-          {"text": "Stay silent—don’t risk losing their support.", "isHistorical": false},
+          {"text": "Stay silent,don’t risk losing their support.", "isHistorical": false},
           {"text": "I demand recognition! France must speak for itself!", "isHistorical": true}
         ],
         "summary": "De Gaulle demanded recognition, ensuring France’s voice was heard despite Allied resistance."
@@ -130,7 +130,7 @@
         "number": 4,
         "description": "Battle of Bir Hakeim 1942: Your Free French forces hold a key desert position. The enemy advances. What do you order?",
         "choices": [
-          {"text": "Retreat—better to fight another day.", "isHistorical": false},
+          {"text": "Retreat!better to fight another day.", "isHistorical": false},
           {"text": "Hold the line! Show them what Free France can do!", "isHistorical": true}
         ],
         "summary": "De Gaulle ordered his forces to hold Bir Hakeim, proving the Free French’s valor and boosting their reputation."
@@ -139,7 +139,7 @@
         "number": 5,
         "description": "Invasion of North Africa 1942: The Americans land in North Africa but ignore you. What is your next move?",
         "choices": [
-          {"text": "Negotiate, but remind them—we are the real France!", "isHistorical": true},
+          {"text": "Negotiate, but remind them...we are the real France!", "isHistorical": true},
           {"text": "Stay away—let them handle it without us.", "isHistorical": false}
         ],
         "summary": "De Gaulle negotiated with the Allies, asserting the Free French’s role in North Africa."
@@ -148,8 +148,8 @@
         "number": 6,
         "description": "French Resistance 1940-1945: Inside occupied France, resistance fighters risk their lives. What support do you provide?",
         "choices": [
-          {"text": "Supply them, organize them—turn France into a battlefield!", "isHistorical": true},
-          {"text": "Stay distant—avoid drawing too much attention.", "isHistorical": false}
+          {"text": "Supply them, organize them,turn France into a battlefield!", "isHistorical": true},
+          {"text": "Stay distant...avoid drawing too much attention.", "isHistorical": false}
         ],
         "summary": "De Gaulle supported the French Resistance, providing supplies and coordination to fight the occupation."
       },
@@ -158,7 +158,7 @@
         "description": "Liberation of Paris 1944: Paris is about to be liberated, but the Allies hesitate. Who enters first?",
         "choices": [
           {"text": "Let the Americans liberate Paris—it’s too risky.", "isHistorical": false},
-          {"text": "Order Free French forces into the city—France must free itself!", "isHistorical": true}
+          {"text": "Order Free French forces into the city,France must free itself!", "isHistorical": true}
         ],
         "summary": "De Gaulle ordered Free French forces to liberate Paris, ensuring a symbolic victory for France."
       },
@@ -184,7 +184,7 @@
         "number": 10,
         "description": "The end? 1946: France moves toward a new republic, but it is weak. Do you stay in power?",
         "choices": [
-          {"text": "I will not be a powerless leader—I step down!", "isHistorical": true},
+          {"text": "I will not be a powerless leader...I step down!", "isHistorical": true},
           {"text": "I will stay, even if it means compromising my values.", "isHistorical": false}
         ],
         "summary": "De Gaulle stepped down in 1946, unwilling to lead a weak government. Hint: To lead, but not to obey. A man of principle, or a man alone?"
@@ -235,7 +235,7 @@
         "number": 5,
         "description": "The Atlantic Charter 1941: You meet with Roosevelt, but America hesitates to join the war. What do you propose?",
         "choices": [
-          {"text": "Lend us your weapons and support—freedom must endure!", "isHistorical": true},
+          {"text": "Lend us your weapons and support!freedom must endure!", "isHistorical": true},
           {"text": "America should remain neutral; this is Europe's war.", "isHistorical": false}
         ],
         "summary": "Churchill proposed the Atlantic Charter, securing American support through the Lend-Lease program."
@@ -244,7 +244,7 @@
         "number": 6,
         "description": "The North African Front 1942: The Axis controls North Africa. The tides must turn. What is your move?",
         "choices": [
-          {"text": "We back General Montgomery—El Alamein will be their grave!", "isHistorical": true},
+          {"text": "We back General Montgomery,El Alamein will be their grave!", "isHistorical": true},
           {"text": "Retreat from Africa, focus on defending Britain.", "isHistorical": false}
         ],
         "summary": "Churchill supported Montgomery, leading to a decisive victory at El Alamein."
@@ -254,7 +254,7 @@
         "description": "The Invasion of Italy 1943: Italy is the soft underbelly of Europe. The decision is yours. Do we invade?",
         "choices": [
           {"text": "Yes! If we strike now, Mussolini will fall.", "isHistorical": true},
-          {"text": "No, the risk is too high—we must wait.", "isHistorical": false}
+          {"text": "No, the risk is too high,we must wait.", "isHistorical": false}
         ],
         "summary": "Churchill approved the invasion of Italy, leading to Mussolini’s fall and a new front in Europe."
       },
@@ -274,13 +274,13 @@
           {"text": "Delay the invasion—it’s too risky!", "isHistorical": false},
           {"text": "We go! Operation Overlord begins at dawn!", "isHistorical": true}
         ],
-        "summary": "Churchill approved Operation Overlord, launching D-Day and opening a crucial second front. Hint: A decision long in the making—failure at Gallipoli still lingers in memory."
+        "summary": "Churchill approved Operation Overlord, launching D-Day and opening a crucial second front. Hint: A decision long in the making,failure at Gallipoli still lingers in memory."
       },
       {
         "number": 10,
         "description": "The Yalta Conference 1945: Victory nears, but the Soviets grow powerful. What do you demand?",
         "choices": [
-          {"text": "Let Stalin have what he wants—we need peace at any cost.", "isHistorical": false},
+          {"text": "Let Stalin have what he wants...we need peace at any cost.", "isHistorical": false},
           {"text": "We must prevent Soviet domination of Eastern Europe!", "isHistorical": true}
         ],
         "summary": "Churchill sought to limit Soviet influence in Eastern Europe, foreseeing the Cold War. Hint: The war is ending, but the world order is shifting. Who truly holds the power?"
@@ -296,7 +296,7 @@
         "description": "Lend-Lease Act 1941: Britain is on the brink, pleading for support. Congress is hesitant. What do you do?",
         "choices": [
           {"text": "America stays neutral; this is not our war.", "isHistorical": false},
-          {"text": "We shall be the arsenal of democracy—send the aid!", "isHistorical": true}
+          {"text": "We shall be the arsenal of democracy!send the aid!", "isHistorical": true}
         ],
         "summary": "Roosevelt pushed through the Lend-Lease Act, providing critical support to Britain and the Allies."
       },
@@ -304,7 +304,7 @@
         "number": 2,
         "description": "Pearl Harbor 1941: Japan has struck. Thousands are dead. The nation demands action. What do you say?",
         "choices": [
-          {"text": "A date which will live in infamy—we declare war!", "isHistorical": true},
+          {"text": "A date which will live in infamy,we declare war!", "isHistorical": true},
           {"text": "We must negotiate with Japan before escalating further.", "isHistorical": false}
         ],
         "summary": "Roosevelt declared war on Japan, marking the U.S. entry into WWII after Pearl Harbor."
@@ -314,7 +314,7 @@
         "description": "War on Germany 1941: Germany and Italy declare war on the US. How do you respond?",
         "choices": [
           {"text": "Then we shall fight them on all fronts!", "isHistorical": true},
-          {"text": "Focus only on Japan—Europe must wait.", "isHistorical": false}
+          {"text": "Focus only on Japan...Europe must wait.", "isHistorical": false}
         ],
         "summary": "Roosevelt committed to fighting on all fronts, engaging both Germany and Japan."
       },
@@ -340,8 +340,8 @@
         "number": 6,
         "description": "D-Day Planning 1944: The invasion of France is crucial. Do you approve the operation?",
         "choices": [
-          {"text": "It's too risky—we need another strategy.", "isHistorical": false},
-          {"text": "It's time—give the order!", "isHistorical": true}
+          {"text": "It's too risky...we need another strategy.", "isHistorical": false},
+          {"text": "It's time!give the order!", "isHistorical": true}
         ],
         "summary": "Roosevelt approved D-Day, leading to the successful invasion of Normandy."
       },
@@ -358,8 +358,8 @@
         "number": 8,
         "description": "Fourth Term 1944: You run for an unprecedented fourth term. Do you continue?",
         "choices": [
-          {"text": "No, my health is failing—it's time to step down.", "isHistorical": false},
-          {"text": "Yes, the war isn't over—I must lead!", "isHistorical": true}
+          {"text": "No, my health is failing,it's time to step down.", "isHistorical": false},
+          {"text": "Yes, the war isn't over!I must lead!", "isHistorical": true}
         ],
         "summary": "Roosevelt ran for a fourth term, leading the U.S. through the war’s final stages. Hint: No president had ever served this long. A wartime leader is hard to replace."
       },
@@ -367,7 +367,7 @@
         "number": 9,
         "description": "The Yalta Conference 1945: Post-war plans are forming. Stalin is making demands. What is your stance?",
         "choices": [
-          {"text": "Give Stalin everything—peace is the priority.", "isHistorical": false},
+          {"text": "Give Stalin everything...peace is the priority.", "isHistorical": false},
           {"text": "We need Soviet support, but we must ensure democracy in Europe.", "isHistorical": true}
         ],
         "summary": "Roosevelt sought a balance, ensuring Soviet cooperation while advocating for democracy. Hint: One war is ending, another is on the horizon. Who can be trusted?"
@@ -377,7 +377,7 @@
         "description": "Is it really the end? 1945: You are gravely ill. The future of the war is out of your hands. What do you do?",
         "choices": [
           {"text": "Prepare Truman for the challenges ahead.", "isHistorical": true},
-          {"text": "Keep all decisions to myself—I must remain in control.", "isHistorical": false}
+          {"text": "Keep all decisions to myself,i must remain in control.", "isHistorical": false}
         ],
         "summary": "Roosevelt prepared Truman for leadership before his death in April 1945. Hint: A sudden change at the helm... but the war waits for no one."
       }
